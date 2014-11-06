@@ -1,6 +1,7 @@
 package model;
 
 import java.net.InetAddress;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
@@ -9,5 +10,67 @@ public class Player {
 	int port;
 	String name;
 	String publicKey;
-	Map<Army, Territory> armies; // mapping armies to the territories they are occupying
+	Map<Army, Territory> armies; // mapping armies to the territories they are
+									// occupying
+
+	public Player() {
+		this.armies = new HashMap<Army, Territory>();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public InetAddress getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(InetAddress ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPublicKey() {
+		return publicKey;
+	}
+
+	public void setPublicKey(String publicKey) {
+		this.publicKey = publicKey;
+	}
+
+	public Map<Army, Territory> getArmies() {
+		return armies;
+	}
+
+	public void addArmies(Army army, Territory territory) {
+		this.armies.put(army, territory);
+	}
+	
+	public Territory getArmiesTerritory(Army army) {
+		return this.armies.get(army);
+	}
+	
+	public boolean hasArmyInTerritory(Territory territory) {
+		return armies.containsValue(territory);
+	}
+
 }

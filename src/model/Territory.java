@@ -8,6 +8,54 @@ public class Territory {
 	Player owner;
 	Continent continent;
 	Territory[] neighbours;
-	LinkedList<Army> occupyingArmies;	//TODO: would an integer suffice?
-	
+	LinkedList<Army> occupyingArmies; // TODO: would an integer suffice?
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	public Continent getContinent() {
+		return continent;
+	}
+
+	public void setContinent(Continent continent) {
+		this.continent = continent;
+	}
+
+	public Territory[] getNeighbours() {
+		return neighbours;
+	}
+
+	public void setNeighbours(Territory[] neighbours) {
+		this.neighbours = neighbours;
+	}
+
+	public LinkedList<Army> getOccupyingArmies() {
+		return occupyingArmies;
+	}
+
+	public void setOccupyingArmies(LinkedList<Army> occupyingArmies) {
+		this.occupyingArmies = occupyingArmies;
+	}
+
 }

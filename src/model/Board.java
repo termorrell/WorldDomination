@@ -1,9 +1,41 @@
 package model;
 
 public class Board {
-	int id;
 	Continent[] continents;
 	Territory[] territories;
-	int numberOfContinent; //TODO: is this not obsolete?
-	int numberOfTerritories; //TODO: is this not obsolete?
+	int numberOfContinent;
+	int numberOfTerritories;
+
+	public Continent[] getContinents() {
+		return continents;
+	}
+
+	public void setContinents(Continent[] continents) {
+		this.continents = continents;
+	}
+
+	public Territory[] getTerritories() {
+		return territories;
+	}
+
+	public void setTerritories(Territory[] territories) {
+		this.territories = territories;
+	}
+
+	public int getNumberOfContinent() {
+		return numberOfContinent;
+	}
+
+	public void setNumberOfContinent(int numberOfContinent) {
+		this.numberOfContinent = numberOfContinent;
+	}
+
+	public int getNumberOfTerritories() {
+		return numberOfTerritories;
+	}
+
+	public void setNumberOfTerritories(int numberOfTerritories) {
+		this.numberOfTerritories = numberOfTerritories;
+	}
+
 }
