@@ -1,11 +1,21 @@
 package controller;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 import model.*;
 
 public class DieManager {
-
+	
+	/** Random number generator for basic game*/
+	static int generateRandomDiceRoll(){
+		int max =6;
+		int min =0;
+		Random rand = new Random();
+		int result = rand.nextInt((max-min)+1)+min;
+		System.out.println(result);
+		return result;
+	}
 	/** Calculates the amount of dice that need to be rolled when attacking*/
 	static int calculateAttackerDieNumber(Territory attacking_territory){
 		int die_number =0;
