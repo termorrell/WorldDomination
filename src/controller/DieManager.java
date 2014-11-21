@@ -13,7 +13,6 @@ public class DieManager {
 		int min =0;
 		Random rand = new Random();
 		int result = rand.nextInt((max-min)+1)+min;
-		System.out.println(result);
 		return result;
 	}
 	/** Calculates the amount of dice that need to be rolled when attacking*/
