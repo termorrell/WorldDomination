@@ -1,7 +1,9 @@
 package controller;
 
 import factories.BoardFactory;
+import factories.CardFactory;
 import view.IView;
+import model.Card;
 import model.Model;
 
 
@@ -28,7 +30,10 @@ public class Controller {
 		BoardFactory boardFactory = new BoardFactory();
 		model.getGameState().setBoard(boardFactory.getBoard());
 		
-		model.getGameState().getBoard().printBoard();
+		// Set cards based on board
+		CardFactory cardFactory = new CardFactory(model.getGameState().getBoard());
+		model.getGameState().setCards(cardFactory.getCards());
+		
 	}
 	
 }
