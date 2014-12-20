@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.BoardException;
+
 public class Board {
 	Continent[] continents;
 	Territory[] territories;
@@ -16,6 +18,15 @@ public class Board {
 
 	public Territory[] getTerritories() {
 		return territories;
+	}
+	
+	public Territory getTerritoriesById(int id) throws BoardException {
+		for (Territory territory: territories) {
+			if(territory.getId() == id) {
+				return territory;
+			}
+		}
+		throw new BoardException();
 	}
 
 	public void setTerritories(Territory[] territories) {
