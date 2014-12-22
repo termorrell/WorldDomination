@@ -4,6 +4,12 @@ public class Continent {
 	int id;
 	String name;
 	Territory[] territories;
+	
+	public Continent(int id, String name, Territory[] territories) {
+		this.id = id;
+		this.name = name;
+		this.territories = territories;
+	}
 
 	public int getId() {
 		return id;
