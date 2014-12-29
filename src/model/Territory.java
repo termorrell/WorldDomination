@@ -10,6 +10,12 @@ public class Territory {
 	Territory[] neighbours;
 	LinkedList<Army> occupyingArmies; // TODO: would an integer suffice?
 
+	public Territory(int id, String name, Continent continent) {
+		this.id = id;
+		this.name = name;
+		this.continent = continent;
+	}
+
 	public int getId() {
 		return id;
 	}
