@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.Scanner;
+import java.util.UUID;
 import model.*;
 
 public class Lobby {
@@ -8,30 +9,37 @@ public class Lobby {
     /** Generate the lobby asking player initialisation questions
      * human vs ai*/
     static void generateLobby(){
-        boolean ai_utilised = false;
         Scanner input = new Scanner(System.in);
         Player user = new Player();
+        UUID uniqueID;
+        user.setId(uniqueID = UUID.randomUUID());
         System.out.println("Welcome to Risk!");
         System.out.println("What username would you like to play with?");
         user.setName(input.nextLine());
-        generateOpposition(input,ai_utilised);
-
+        System.out.println("What port would you like to play on?");
+        user.setPort(input.nextInt());
+        input.nextLine(); // Skips over new line char
+        System.out.println("What is your public key?");
+        user.setPublicKey(input.nextLine()); //THIS NEEDS ALTERED
+        generateOpposition(input);
     }
-    static boolean generateOpposition(Scanner input, boolean ai_utilised){
+
+    static void generateOpposition(Scanner input){
         System.out.println("Would you like to play against an AI or Human?(A/H)");
         String response = input.nextLine();
         if(response.toLowerCase().equals("a")){
+            System.out.println("AI Opponent Selected");
             //Player has selected to use AI
-            ai_utilised = true;
             //TODO Method to call ai?
         }else if(response.toLowerCase().equals("h")){
+            System.out.println("Human Opponent Selected");
             // Player has selected to play against other humans
-            ai_utilised = false;
+            //TODO Continue with networking
         }else{
             //Player entered a wrong result, restart method
             System.out.println("ERROR:Invalid response");
-            generateOpposition(input,ai_utilised);
+            generateOpposition(input);
         }
-        return ai_utilised;
+        input.close();
     }
 }
