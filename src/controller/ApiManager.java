@@ -1,9 +1,5 @@
 package controller;
 
-import java.*;
-/**
- * Created by Maria on 27/11/14.
- */
 abstract class ApiManager implements ApiMethods {
 
 
@@ -48,7 +44,7 @@ abstract class ApiManager implements ApiMethods {
         } else if (serverResponse.contains("win")) {
             winReceived(serverResponse);
         } else {
-
+            unrecognisedResponse(serverResponse);
         }
     }
 }

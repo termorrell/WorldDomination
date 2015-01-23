@@ -19,7 +19,7 @@ public interface ApiMethods {
     public void attackWonReceived(String json);
     public void fortifyReceived(String json);
     public void winReceived(String json);
-
+    public void unrecognisedResponse(String json);
 
 
 }
