@@ -2,6 +2,7 @@ package controller;
 
 import factories.BoardFactory;
 import factories.CardFactory;
+import model.Player;
 import view.IView;
 import model.Card;
 import model.Model;
@@ -29,6 +30,7 @@ public class Controller {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		try{
+			Player player = new Player();
 			// Set player name
 			model.getPlayerInfo().setUserName(view.getInput("Please enter your name:", reader));
 		
@@ -41,10 +43,12 @@ public class Controller {
 			//model.getGameState().setCards(cardFactory.getCards());
 
 			// Set port number and validates it
-			model.getPlayerInfo().setPort(view.getPort("Please enter the port number: ", reader));
+			player.setPort(view.getPort("Please enter the port number: ", reader));
 
 			// Set public Key
-			//model.getPlayerInfo().setKey
+			player.setPublicKey(view.getInput("Please enter your public key: ", reader));
+
+
 			reader.close();
 		} catch (IOException e) {
 			System.err.println("A problem occurred reading input from the console.");
