@@ -10,23 +10,30 @@ import model.Player;
 import model.Territory;
 
 public class Moves {
+
+/*
+ * REINFORCE
+ * 
+ * Reinforcing can be used both when the territories are initially claimed and in the reinforce stage of every move.
+ */
 	
-	public void reinforce(Player player, GameState gameState, int territoryId, int numberOfArmies) throws BoardException, IllegalMoveException {
+	public static void reinforce(Player player, GameState gameState, int territoryId, int numberOfArmies) throws BoardException, IllegalMoveException {
 		// TODO: check whether it is this players turn
 	
 		Territory territory = gameState.getBoard().getTerritoriesById(territoryId);
 		
 		if(checkTerritoryCanBeReinforced(territory, player)){
 			for (int i = 0; i < numberOfArmies; i++) {
-				Army army = new Army();
-				// TODO: add armies to board
+				Army army = new Army(player, territory);
+				player.addArmies(army, territory);
+				territory.addOccupyingArmy(army);
 			}
 		} else {
 			throw new IllegalMoveException();
 		}
 	}
 	
-	private boolean checkTerritoryCanBeReinforced(Territory territory, Player player) {
+	private static boolean checkTerritoryCanBeReinforced(Territory territory, Player player) {
 		boolean playerOwnsTerritory = false;
 		
 		// check if player owns territory
@@ -39,7 +46,7 @@ public class Moves {
 		
 		// the player owns the territory and has at least one army in it
 		if(playerOwnsTerritory && territory.getOwner().equals(player)) {
-			if(territory.getOccupyingArmies().size() > 1) {
+			if(territory.getOccupyingArmies().size() >= 1) {
 				return true;
 			}
 		}
