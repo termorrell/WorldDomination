@@ -8,7 +8,7 @@ public class Lobby {
 
     /**
      * Generate the lobby asking player initialisation questions
-     * human vs ai
+     * Eventually to be replaced by UI
      */
     static void generateLobby() {
         Scanner input = new Scanner(System.in);
