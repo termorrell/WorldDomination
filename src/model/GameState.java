@@ -2,11 +2,18 @@ package model;
 
 import java.util.LinkedList;
 
+import factories.BoardFactory;
+
 public class GameState {
 	Board board;
 	Player[] players;
 	int numberOfCards;
 	LinkedList<Card> cards;
+	
+	public GameState() {
+		BoardFactory factory = new BoardFactory();
+		this.board = factory.getBoard();
+	}
 
 	public Board getBoard() {
 		return board;

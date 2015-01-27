@@ -2,6 +2,8 @@ package model;
 
 import java.util.LinkedList;
 
+import exceptions.IllegalMoveException;
+
 public class Territory {
 	int id;
 	String name;
@@ -14,6 +16,7 @@ public class Territory {
 		this.id = id;
 		this.name = name;
 		this.continent = continent;
+		this.occupyingArmies = new LinkedList<>();
 	}
 
 	public int getId() {
@@ -60,8 +63,15 @@ public class Territory {
 		return occupyingArmies;
 	}
 
-	public void setOccupyingArmies(LinkedList<Army> occupyingArmies) {
-		this.occupyingArmies = occupyingArmies;
+	public void addOccupyingArmy(Army army) throws IllegalMoveException {
+		if(this.owner == null) {
+			this.owner = army.getPlayer();
+		}
+		if(this.owner.equals(army.getPlayer())) {
+			this.occupyingArmies.add(army);
+		} else {
+			throw new IllegalMoveException();
+		}
 	}
 
 }
