@@ -1,9 +1,7 @@
 package model;
 
 import java.net.InetAddress;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class Player {
 	static int nextId = 0;
@@ -82,6 +80,12 @@ public class Player {
 	
 	public Territory getArmiesTerritory(Army army) {
 		return this.armies.get(army);
+	}
+
+	public ArrayList<Territory> getTerritories() {
+
+		// Need to return the list of territories
+		return new ArrayList<Territory>();
 	}
 	
 	public boolean hasArmyInTerritory(Territory territory) {

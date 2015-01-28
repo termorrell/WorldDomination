@@ -59,7 +59,13 @@ public class Controller {
 
 			}
 			model.getGameState().setPlayers(allPlayers);
+
+			// Allow each player to assign themself territories
 			claimTerritories(reader, allPlayers);
+
+			// Begin game play
+			beginGamePlay(reader);
+
 			reader.close();
 		} catch (IOException e) {
 			System.err.println("A problem occurred reading input from the console.");
@@ -90,6 +96,31 @@ public class Controller {
 			}
 		}
 		return true;
+	}
+
+	public void beginGamePlay(BufferedReader reader) {
+
+		// Check to see whether the game has finished
+		while(checkForWinner()) {
+
+			// Loop through players giving each player in turn a go
+			for (Player player : model.getGameState().getPlayers()) {
+
+				boolean playersTurnIsValid = true;
+
+				// Allow each player to select what move they would like to make
+				while (playersTurnIsValid) {
+					// Ask the player what move they would like to perform
+
+					// Check whether the player would like an additional turn
+				}
+
+				// Check whether the player has finished their move
+				if (player.getTerritories().size() == 0) {
+					// Remove the player from the list of players
+				}
+			}
+		}
 	}
 	
 }
