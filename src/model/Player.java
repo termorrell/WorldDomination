@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class Player {
+	static int nextId = 0;
+	
 	int id;
 	InetAddress ipAddress;
 	int port;
@@ -16,6 +18,8 @@ public class Player {
 
 	public Player() {
 		this.armies = new HashMap<Army, Territory>();
+		this.id = this.nextId;
+		this.nextId++;
 	}
 
 	public int getId() {
