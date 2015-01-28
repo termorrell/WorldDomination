@@ -59,18 +59,19 @@ public class Controller {
 
 			}
 			model.getGameState().setPlayers(allPlayers);
-			claimTerritories(reader);
+			claimTerritories(reader, allPlayers);
 			reader.close();
 		} catch (IOException e) {
 			System.err.println("A problem occurred reading input from the console.");
 		}
 	}
-	public boolean claimTerritories(BufferedReader reader){
+	public boolean claimTerritories(BufferedReader reader, Player[] allPlayers){
 		boolean allTerritoriesClaimed = false;
+
 		//ASSUMES PLAYER ARRAY IS ALTERED!
 		while(!allTerritoriesClaimed) {
-			for (int i = 0; i < model.getGameState().getNumberOfPlayers(); i++) {
-				String territory = view.getInput("What territory would you like to claim: ", reader);
+			for (int i = 0; i < allPlayers.length; i++) {
+				String territory = view.getInput(allPlayers[i].getName() + " what territory would you like to claim: ", reader);
 				territory.toLowerCase();
 				//call reinforce method using player etc
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
