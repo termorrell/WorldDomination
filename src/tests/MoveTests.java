@@ -1,11 +1,11 @@
 package tests;
 
-import static org.junit.Assert.*;
 import model.Model;
 import model.Player;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import controller.Moves;
 import exceptions.BoardException;
