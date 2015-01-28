@@ -14,7 +14,7 @@ public class CardFactory {
 	public CardFactory(Board board) {
 		this.board = board;
 		numOfCards = numOfWildCards + board.getNumberOfTerritories();
-		this.cards = new LinkedList<>();
+		this.cards = new LinkedList<Card>();
 	}
 	
 	private void initCards() {
