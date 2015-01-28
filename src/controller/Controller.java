@@ -41,14 +41,17 @@ public class Controller {
 			model.getGameState().setCards(cardFactory.getCards());
 
 			// Set port number and validates it
-			//player.setPort(view.getPort("Please enter the port number: ", reader));
+			//player.setNumber(view.getPort("Please enter the port number: ", reader));
 
 			// Set public Key
 			//player.setPublicKey(view.getInput("Please enter your public key: ", reader));
 
-			// Player numbers,
-			model.getGameState().setNumberOfPlayers(view.getPort("Please enter the number of players: ", reader));
-			int playerNo = model.getGameState().getNumberOfPlayers();
+			int playerNo = 0;
+			//Checks positive amount of players is entered
+			while(playerNo<=0) {
+				model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players: ", reader));
+				playerNo = model.getGameState().getNumberOfPlayers();
+			}
 			Player[] allPlayers = new Player[playerNo];
 			for(int i=0; i< playerNo; i++){
 				Player player = new Player();
