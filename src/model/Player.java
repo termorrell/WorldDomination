@@ -14,6 +14,16 @@ public class Player {
 	Map<Army, Territory> armies; // mapping armies to the territories they are occupying
 	LinkedList<Card> cards;
 
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+
+	String colour;
+
 	public Player() {
 		this.armies = new HashMap<Army, Territory>();
 	}
