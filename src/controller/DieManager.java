@@ -3,7 +3,8 @@ package controller;
 import java.util.LinkedList;
 import java.util.Random;
 
-import model.*;
+import model.Army;
+import model.Territory;
 
 public class DieManager {
 	
@@ -39,5 +40,15 @@ public class DieManager {
 			die_number =1;
 		}
 		return die_number;
+	}
+	
+	static int[] diceRoll ( int faces, int rolls){
+		int[] result = new int[rolls];
+		Random random = new Random();
+		for (int i=0; i < rolls; i++) {
+			result[i] = random.nextInt(faces);
+			result[i]--;
+		}
+		return result;
 	}
 }
