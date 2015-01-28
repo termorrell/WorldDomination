@@ -6,7 +6,7 @@
 
 # IntelliJ Files
 *.idea
-*.iml
+WorldDomination.iml
 
 # Package Files #
 *.jar
