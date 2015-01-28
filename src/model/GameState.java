@@ -15,6 +15,16 @@ public class GameState {
 		this.board = factory.getBoard();
 	}
 
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
+	}
+
+	int numberOfPlayers;
+
 	public Board getBoard() {
 		return board;
 	}
