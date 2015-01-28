@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class Card {
 	private int id;
 	private Territory territory;
+
 	
 	public Card(int id, Territory territory) {
 		this.id = id;
@@ -26,7 +27,7 @@ public class Card {
 	public void setTerritory(Territory territory) {
 		this.territory = territory;
 	}
-	
+
 	public static void printCards(LinkedList<Card> cards) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < cards.size(); i++) {
