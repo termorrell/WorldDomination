@@ -3,6 +3,7 @@ package controller;
 import factories.BoardFactory;
 import factories.CardFactory;
 import model.Player;
+import model.Territory;
 import view.IView;
 import model.Card;
 import model.Model;
@@ -47,8 +48,9 @@ public class Controller {
 
 			// Player numbers,
 			model.getGameState().setNumberOfPlayers(view.getPort("Please enter the number of players: ", reader));
-			Player[] allPlayers = new Player[model.getGameState().getNumberOfPlayers()];
-			for(int i=0; i< model.getGameState().getNumberOfPlayers(); i++){
+			int playerNo = model.getGameState().getNumberOfPlayers();
+			Player[] allPlayers = new Player[playerNo];
+			for(int i=0; i< playerNo; i++){
 				Player player = new Player();
 				// Set player name
 				player.setName(view.getInput("Please enter your name:", reader));
@@ -57,10 +59,36 @@ public class Controller {
 
 			}
 			model.getGameState().setPlayers(allPlayers);
+			claimTerritories(reader);
 			reader.close();
 		} catch (IOException e) {
 			System.err.println("A problem occurred reading input from the console.");
 		}
+	}
+	public boolean claimTerritories(BufferedReader reader){
+		boolean allTerritoriesClaimed = false;
+		//ASSUMES PLAYER ARRAY IS ALTERED!
+		while(!allTerritoriesClaimed) {
+			for (int i = 0; i < model.getGameState().getNumberOfPlayers(); i++) {
+				String territory = view.getInput("What territory would you like to claim: ", reader);
+				territory.toLowerCase();
+				//call reinforce method using player etc
+				allTerritoriesClaimed = checkForUnclaimedTerritories();
+			}
+		}
+		return true;
+	}
+
+	public boolean checkForUnclaimedTerritories(){
+		int noTerritory = model.getGameState().getBoard().getNumberOfTerritories();
+		Territory[] territories = model.getGameState().getBoard().getTerritories();
+		for(int i =0; i< noTerritory;i++){
+			//Check if territory has an owner
+			if (territories[i].getOwner()==null){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 }
