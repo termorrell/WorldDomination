@@ -40,16 +40,18 @@ public class Controller {
 			CardFactory cardFactory = new CardFactory(model.getGameState().getBoard());
 			model.getGameState().setCards(cardFactory.getCards());
 
-			// Set port number and validates it
-			//player.setNumber(view.getPort("Please enter the port number: ", reader));
-
+			//int portNo=0;
+			// Set port number
+			//while(portNo<=0) {
+				//player.setNumber(view.getNumber("Please enter the port number: ", reader));
+			//}
 			// Set public Key
 			//player.setPublicKey(view.getInput("Please enter your public key: ", reader));
 
 			int playerNo = 0;
 			//Checks positive amount of players is entered
-			while(playerNo<=0) {
-				model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players: ", reader));
+			while(playerNo< 3 || playerNo>6) {
+				model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players between 3 and 6: ", reader));
 				playerNo = model.getGameState().getNumberOfPlayers();
 			}
 			Player[] allPlayers = new Player[playerNo];
