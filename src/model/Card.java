@@ -6,12 +6,14 @@ public class Card {
 	private int id;
 	private Territory territory;
 	private String type;
+	private boolean assigned;
 
 	
-	public Card(int id, Territory territory, String type) {
+	public Card(int id, Territory territory, String type, boolean assigned) {
 		this.id = id;
 		this.territory = territory;
 		this.type = type;
+		this.assigned = assigned;
 	}
 
 	public int getId() {
@@ -38,19 +40,14 @@ public class Card {
 		this.type = type;
 	}
 
-	public static void printCards(LinkedList<Card> cards) {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < cards.size(); i++) {
-			builder.append(cards.get(i).getId());
-			builder.append(". ");
-			if(cards.get(i).getTerritory() == null) {
-				builder.append("Wild card");
-			} else {
-				builder.append(cards.get(i).getTerritory().name);
-			}
-			builder.append("\n");
-		}
-		System.out.println(builder.toString());
+	public boolean isAssigned() {
+		return assigned;
 	}
+
+	public void setAssigned(boolean assigned) {
+		this.assigned = assigned;
+	}
+
+
 
 }

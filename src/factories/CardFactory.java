@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import model.Board;
 import model.Card;
+import model.GameState;
 
 public class CardFactory {
     LinkedList<Card> cards;
@@ -28,7 +29,7 @@ public class CardFactory {
                     || territoryName.equals("East Africa") || territoryName.equals("Afghanistan")
                     || territoryName.equals("Ural") || territoryName.equals("Siberia")
                     || territoryName.equals("Central America") || territoryName.equals("Argentina")) {
-                cards.add(new Card(i,board.getTerritories()[i],"Infantry"));
+                cards.add(new Card(i,board.getTerritories()[i],"Infantry", false));
 
                 //Create cavalry cards
             } else if (territoryName.equals("Peru") || territoryName.equals("New Guinea")
@@ -38,7 +39,7 @@ public class CardFactory {
                     || territoryName.equals("India") || territoryName.equals("Japan")
                     || territoryName.equals("Mongolia") || territoryName.equals("Thailand")
                     || territoryName.equals("Greenland") || territoryName.equals("Siam")) {
-                cards.add(new Card(i,board.getTerritories()[i],"Cavalry"));
+                cards.add(new Card(i,board.getTerritories()[i],"Cavalry",false));
 
                 // Create artillery cards
             } else if (territoryName.equals("Venezuela") || territoryName.equals("Western Australia")
@@ -49,14 +50,14 @@ public class CardFactory {
                     || territoryName.equals("Irkutsk") || territoryName.equals("Ontario")
                     || territoryName.equals("Quebec") || territoryName.equals("Kamchatka")
                     || territoryName.equals("Yakutsk")) {
-                cards.add(new Card(i,board.getTerritories()[i],"Artillery"));
+                cards.add(new Card(i,board.getTerritories()[i],"Artillery",false));
 
             } else {
                 System.out.println("Invalid territory " + territoryName);
             }
         }
         for(int i = board.getNumberOfTerritories(); i<numOfCards; i++){
-            cards.add(new Card(i, null, "Wild"));
+            cards.add(new Card(i, null, "Wild",false));
         }
     }
 

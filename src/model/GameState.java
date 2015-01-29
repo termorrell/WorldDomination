@@ -9,6 +9,7 @@ public class GameState {
 	Player[] players;
 	int numberOfCards;
 	LinkedList<Card> cards;
+	int cardsTradedIn;
 	
 	public GameState() {
 		BoardFactory factory = new BoardFactory();
@@ -47,6 +48,22 @@ public class GameState {
 
 	public void setCards(LinkedList<Card> cards) {
 		this.cards = cards;
+	}
+
+	public int getNumberOfCards() {
+		return numberOfCards;
+	}
+
+	public void setNumberOfCards(int numberOfCards) {
+		this.numberOfCards = numberOfCards;
+	}
+
+	public int getCardsTradedIn() {
+		return cardsTradedIn;
+	}
+
+	public void setCardsTradedIn(int cardsTradedIn) {
+		this.cardsTradedIn = cardsTradedIn;
 	}
 
 }
