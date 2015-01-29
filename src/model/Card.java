@@ -5,11 +5,13 @@ import java.util.LinkedList;
 public class Card {
 	private int id;
 	private Territory territory;
+	private String type;
 
 	
-	public Card(int id, Territory territory) {
+	public Card(int id, Territory territory, String type) {
 		this.id = id;
 		this.territory = territory;
+		this.type = type;
 	}
 
 	public int getId() {
@@ -26,6 +28,14 @@ public class Card {
 
 	public void setTerritory(Territory territory) {
 		this.territory = territory;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public static void printCards(LinkedList<Card> cards) {
