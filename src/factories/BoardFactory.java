@@ -81,21 +81,21 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[2],
 				defaultBoard.getTerritories()[3],
 				defaultBoard.getTerritories()[4] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours1);
+		defaultBoard.getTerritories()[1].setNeighbours(neighbours1);
 
 		// Greenland
 		Territory[] neighbours2 = { defaultBoard.getTerritories()[1],
 				defaultBoard.getTerritories()[4],
 				defaultBoard.getTerritories()[5],
 				defaultBoard.getTerritories()[13] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours2);
+		defaultBoard.getTerritories()[2].setNeighbours(neighbours2);
 
 		// Alberta
 		Territory[] neighbours3 = { defaultBoard.getTerritories()[0],
 				defaultBoard.getTerritories()[1],
 				defaultBoard.getTerritories()[4],
 				defaultBoard.getTerritories()[6] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours3);
+		defaultBoard.getTerritories()[3].setNeighbours(neighbours3);
 
 		// Ontario
 		Territory[] neighbours4 = { defaultBoard.getTerritories()[1],
@@ -103,70 +103,70 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[3],
 				defaultBoard.getTerritories()[6],
 				defaultBoard.getTerritories()[7] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours4);
+		defaultBoard.getTerritories()[4].setNeighbours(neighbours4);
 
 		// Quebec
 		Territory[] neighbours5 = { defaultBoard.getTerritories()[2],
 				defaultBoard.getTerritories()[4],
 				defaultBoard.getTerritories()[7] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours5);
+		defaultBoard.getTerritories()[5].setNeighbours(neighbours5);
 		
 		// Western United States
 		Territory[] neighbours6 = { defaultBoard.getTerritories()[3],
 				defaultBoard.getTerritories()[4],
 				defaultBoard.getTerritories()[7],
 				defaultBoard.getTerritories()[8] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours6);
+		defaultBoard.getTerritories()[6].setNeighbours(neighbours6);
 		
 		// Eastern United States
 		Territory[] neighbours7 = { defaultBoard.getTerritories()[4],
 				defaultBoard.getTerritories()[5],
 				defaultBoard.getTerritories()[6],
 				defaultBoard.getTerritories()[8] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours7);
+		defaultBoard.getTerritories()[7].setNeighbours(neighbours7);
 		
 		// Central America
 		Territory[] neighbours8 = { defaultBoard.getTerritories()[6],
 				defaultBoard.getTerritories()[7],
 				defaultBoard.getTerritories()[9] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours8);
+		defaultBoard.getTerritories()[8].setNeighbours(neighbours8);
 		
 		// Venezuela
 		Territory[] neighbours9 = { defaultBoard.getTerritories()[8],
 				defaultBoard.getTerritories()[10],
 				defaultBoard.getTerritories()[11] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours9);
+		defaultBoard.getTerritories()[9].setNeighbours(neighbours9);
 		
 		// Peru
 		Territory[] neighbours10 = { defaultBoard.getTerritories()[9],
 				defaultBoard.getTerritories()[11],
 				defaultBoard.getTerritories()[12] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours10);
+		defaultBoard.getTerritories()[10].setNeighbours(neighbours10);
 		
 		// Brazil
 		Territory[] neighbours11 = { defaultBoard.getTerritories()[9],
 				defaultBoard.getTerritories()[10],
 				defaultBoard.getTerritories()[12],
 				defaultBoard.getTerritories()[20] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours11);
+		defaultBoard.getTerritories()[11].setNeighbours(neighbours11);
 		
 		// Argentina
 		Territory[] neighbours12 = { defaultBoard.getTerritories()[10],
 				defaultBoard.getTerritories()[11] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours12);
+		defaultBoard.getTerritories()[12].setNeighbours(neighbours12);
 		
 		// Iceland
 		Territory[] neighbours13 = { defaultBoard.getTerritories()[2],
 				defaultBoard.getTerritories()[14],
 				defaultBoard.getTerritories()[16] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours13);
+		defaultBoard.getTerritories()[13].setNeighbours(neighbours13);
 		
 		// Scandinavia
 		Territory[] neighbours14 = { defaultBoard.getTerritories()[13],
 				defaultBoard.getTerritories()[15],
 				defaultBoard.getTerritories()[16],
 				defaultBoard.getTerritories()[17] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours14);
+		defaultBoard.getTerritories()[14].setNeighbours(neighbours14);
 		
 		// Ukraine
 		Territory[] neighbours15 = { defaultBoard.getTerritories()[14],
@@ -175,14 +175,14 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[26],
 				defaultBoard.getTerritories()[33],
 				defaultBoard.getTerritories()[35] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours15);
+		defaultBoard.getTerritories()[15].setNeighbours(neighbours15);
 		
 		// Great Britain 
 		Territory[] neighbours16 = { defaultBoard.getTerritories()[13],
 				defaultBoard.getTerritories()[14],
 				defaultBoard.getTerritories()[17],
 				defaultBoard.getTerritories()[18] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours16);
+		defaultBoard.getTerritories()[16].setNeighbours(neighbours16);
 		
 		// Northern Europe
 		Territory[] neighbours17 = { defaultBoard.getTerritories()[14],
@@ -190,14 +190,14 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[16],
 				defaultBoard.getTerritories()[18],
 				defaultBoard.getTerritories()[19] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours17);
+		defaultBoard.getTerritories()[17].setNeighbours(neighbours17);
 		
 		// Western Europe
 		Territory[] neighbours18 = { defaultBoard.getTerritories()[16],
 				defaultBoard.getTerritories()[17],
 				defaultBoard.getTerritories()[19],
 				defaultBoard.getTerritories()[20] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours18);
+		defaultBoard.getTerritories()[18].setNeighbours(neighbours18);
 		
 		// Southern Europe
 		Territory[] neighbours19 = { defaultBoard.getTerritories()[15],
@@ -206,7 +206,7 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[20],
 				defaultBoard.getTerritories()[21],
 				defaultBoard.getTerritories()[35] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours19);
+		defaultBoard.getTerritories()[19].setNeighbours(neighbours19);
 		
 		// Northern Africa
 		Territory[] neighbours20 = { defaultBoard.getTerritories()[11],
@@ -215,20 +215,20 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[21],
 				defaultBoard.getTerritories()[22],
 				defaultBoard.getTerritories()[23] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours20);
+		defaultBoard.getTerritories()[20].setNeighbours(neighbours20);
 		
 		// Egypt
 		Territory[] neighbours21 = { defaultBoard.getTerritories()[19],
 				defaultBoard.getTerritories()[20],
 				defaultBoard.getTerritories()[23],
 				defaultBoard.getTerritories()[35] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours21);
+		defaultBoard.getTerritories()[21].setNeighbours(neighbours21);
 		
 		// Congo
 		Territory[] neighbours22 = { defaultBoard.getTerritories()[20],
 				defaultBoard.getTerritories()[23],
 				defaultBoard.getTerritories()[24] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours22);
+		defaultBoard.getTerritories()[22].setNeighbours(neighbours22);
 		
 		// East Africa
 		Territory[] neighbours23 = { defaultBoard.getTerritories()[20],
@@ -237,25 +237,25 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[24],
 				defaultBoard.getTerritories()[25],
 				defaultBoard.getTerritories()[35] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours23);
+		defaultBoard.getTerritories()[23].setNeighbours(neighbours23);
 		
 		// South Africa
 		Territory[] neighbours24 = { defaultBoard.getTerritories()[22],
 				defaultBoard.getTerritories()[23],
 				defaultBoard.getTerritories()[25] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours24);
+		defaultBoard.getTerritories()[24].setNeighbours(neighbours24);
 		
 		// Madagaskar
 		Territory[] neighbours25 = { defaultBoard.getTerritories()[23],
 				defaultBoard.getTerritories()[24] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours25);
+		defaultBoard.getTerritories()[25].setNeighbours(neighbours25);
 		
 		// Ural
 		Territory[] neighbours26 = { defaultBoard.getTerritories()[15],
 				defaultBoard.getTerritories()[27],
 				defaultBoard.getTerritories()[33],
 				defaultBoard.getTerritories()[34] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours26);
+		defaultBoard.getTerritories()[26].setNeighbours(neighbours26);
 		
 		// Siberia
 		Territory[] neighbours27 = { defaultBoard.getTerritories()[26],
@@ -263,13 +263,13 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[30],
 				defaultBoard.getTerritories()[31],
 				defaultBoard.getTerritories()[34] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours27);
+		defaultBoard.getTerritories()[27].setNeighbours(neighbours27);
 		
 		// Yakutsk
 		Territory[] neighbours28 = { defaultBoard.getTerritories()[27],
 				defaultBoard.getTerritories()[29],
 				defaultBoard.getTerritories()[30] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours28);
+		defaultBoard.getTerritories()[28].setNeighbours(neighbours28);
 		
 		// Kamichatka
 		Territory[] neighbours29 = { defaultBoard.getTerritories()[0],
@@ -277,7 +277,7 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[30],
 				defaultBoard.getTerritories()[31],
 				defaultBoard.getTerritories()[32] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours29);
+		defaultBoard.getTerritories()[29].setNeighbours(neighbours29);
 		
 		// Irkutsk
 		Territory[] neighbours30 = { defaultBoard.getTerritories()[27],
@@ -285,7 +285,7 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[29],
 				defaultBoard.getTerritories()[31],
 				defaultBoard.getTerritories()[32] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours30);
+		defaultBoard.getTerritories()[30].setNeighbours(neighbours30);
 		
 		// Mongolia
 		Territory[] neighbours31 = { defaultBoard.getTerritories()[27],
@@ -293,12 +293,12 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[30],
 				defaultBoard.getTerritories()[32],
 				defaultBoard.getTerritories()[34] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours31);
+		defaultBoard.getTerritories()[31].setNeighbours(neighbours31);
 		
 		// Japan
 		Territory[] neighbours32 = { defaultBoard.getTerritories()[29],
 				defaultBoard.getTerritories()[31] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours32);
+		defaultBoard.getTerritories()[32].setNeighbours(neighbours32);
 		
 		// Afghanistan
 		Territory[] neighbours33 = { defaultBoard.getTerritories()[15],
@@ -306,7 +306,7 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[34],
 				defaultBoard.getTerritories()[35],
 				defaultBoard.getTerritories()[36] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours33);
+		defaultBoard.getTerritories()[33].setNeighbours(neighbours33);
 		
 		// China
 		Territory[] neighbours34 = { defaultBoard.getTerritories()[26],
@@ -315,7 +315,7 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[33],
 				defaultBoard.getTerritories()[36],
 				defaultBoard.getTerritories()[37] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours34);
+		defaultBoard.getTerritories()[34].setNeighbours(neighbours34);
 		
 		// Middle East
 		Territory[] neighbours35 = { defaultBoard.getTerritories()[15],
@@ -324,43 +324,43 @@ public class BoardFactory {
 				defaultBoard.getTerritories()[23],
 				defaultBoard.getTerritories()[33],
 				defaultBoard.getTerritories()[36] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours35);
+		defaultBoard.getTerritories()[35].setNeighbours(neighbours35);
 		
 		// India
 		Territory[] neighbours36 = { defaultBoard.getTerritories()[33],
 				defaultBoard.getTerritories()[34],
 				defaultBoard.getTerritories()[35],
 				defaultBoard.getTerritories()[37] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours36);
+		defaultBoard.getTerritories()[36].setNeighbours(neighbours36);
 		
 		// Siam
 		Territory[] neighbours37 = { defaultBoard.getTerritories()[34],
 				defaultBoard.getTerritories()[35],
 				defaultBoard.getTerritories()[38] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours37);
+		defaultBoard.getTerritories()[37].setNeighbours(neighbours37);
 
 		// Indonisia	
 		Territory[] neighbours38 = { defaultBoard.getTerritories()[37],
 				defaultBoard.getTerritories()[39],
 				defaultBoard.getTerritories()[40] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours38);
+		defaultBoard.getTerritories()[38].setNeighbours(neighbours38);
 		
 		// New Guinea
 		Territory[] neighbours39 = { defaultBoard.getTerritories()[38],
 				defaultBoard.getTerritories()[40],
 				defaultBoard.getTerritories()[41] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours39);
+		defaultBoard.getTerritories()[39].setNeighbours(neighbours39);
 		
 		// Western Australia
 		Territory[] neighbours40 = { defaultBoard.getTerritories()[38],
 				defaultBoard.getTerritories()[39],
 				defaultBoard.getTerritories()[41] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours40);
+		defaultBoard.getTerritories()[40].setNeighbours(neighbours40);
 		
 		// Eastern Australia
 		Territory[] neighbours41 = { defaultBoard.getTerritories()[39],
 				defaultBoard.getTerritories()[40] };
-		defaultBoard.getTerritories()[0].setNeighbours(neighbours41);
+		defaultBoard.getTerritories()[41].setNeighbours(neighbours41);
 		
 	}
 }

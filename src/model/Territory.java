@@ -62,6 +62,15 @@ public class Territory {
 	public LinkedList<Army> getOccupyingArmies() {
 		return occupyingArmies;
 	}
+	
+	public boolean isNeighbouringTerritory(Territory otherTerritory) {
+		for (int i = 0; i < neighbours.length; i++) {
+			if(neighbours[i].equals(otherTerritory)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void addOccupyingArmy(Army army) throws IllegalMoveException {
 		if(this.owner == null) {
