@@ -7,7 +7,7 @@ import factories.BoardFactory;
 public class GameState {
 	Board board;
 	Player[] players;
-	int numberOfCards;
+	//int numberOfCards;
 	LinkedList<Card> cards;
 	int cardsTradedIn;
 	
@@ -50,13 +50,7 @@ public class GameState {
 		this.cards = cards;
 	}
 
-	public int getNumberOfCards() {
-		return numberOfCards;
-	}
 
-	public void setNumberOfCards(int numberOfCards) {
-		this.numberOfCards = numberOfCards;
-	}
 
 	public int getCardsTradedIn() {
 		return cardsTradedIn;
@@ -66,4 +60,19 @@ public class GameState {
 		this.cardsTradedIn = cardsTradedIn;
 	}
 
+
+	public static void printAllCards(LinkedList<Card> cards) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < cards.size(); i++) {
+			builder.append(cards.get(i).getId());
+			builder.append(". ");
+			if(cards.get(i).getTerritory() == null) {
+				builder.append("Wild card");
+			} else {
+				builder.append((i+1)+ " " + cards.get(i).getTerritory().name +": " + cards.get(i).getType());
+			}
+			builder.append("\n");
+		}
+		System.out.println(builder.toString());
+	}
 }

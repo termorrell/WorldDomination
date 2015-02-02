@@ -100,7 +100,7 @@ public class Controller {
 	//Called at end of each turn
 	// TODO SHUFFLE CARDS?
 	public void collectCard(Player activePlayer){
-		for(int i =0; i<model.getGameState().getNumberOfCards();i++){
+		for(int i =0; i<model.getGameState().getCards().size();i++){
 			if(!model.getGameState().getCards().get(i).isAssigned()){
 				activePlayer.getCards().add(model.getGameState().getCards().get(i));
 				model.getGameState().getCards().get(i).setAssigned(true);
@@ -114,7 +114,6 @@ public class Controller {
 	public void tradeInCards(Player activePlayer, BufferedReader reader){
 		//Force player to trade in cards
 		if(activePlayer.getNoCards()>=5){
-
 			System.out.println("You have to trade in some of your cards");
 			activePlayer.printCards(activePlayer.getCards());
 			cardTrader(activePlayer, reader);
