@@ -1,7 +1,12 @@
+*.DS_Store
 *.class
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+# IntelliJ Files
+*.idea
+WorldDomination.iml
 
 # Package Files #
 *.jar

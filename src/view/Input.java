@@ -18,25 +18,23 @@ public class Input implements IView {
 		return input;
 	}
 
-	public int getPort(String message, BufferedReader reader) {
+	public int getNumber(String message, BufferedReader reader) {
 		System.out.println(message);
-		int port = 0;
-		String input = null;
+		int number = 0;
+		String input;
 		try{
 			input = reader.readLine();
 			try {
-				port = Integer.parseInt(input);
-				if (port <= 0) {
-					getPort("Please enter the port number: ", reader);
-				}
+				number = Integer.parseInt(input);
+
 			}catch(NumberFormatException e){
-				getPort("Please enter a number: ", reader);
+				getNumber("Please enter a number: ", reader);
 			}
 
 		} catch (IOException e) {
 			System.err.println("A problem occurred reading input from the console.");
 		}
 
-		return port;
+		return number;
 	}
 }
