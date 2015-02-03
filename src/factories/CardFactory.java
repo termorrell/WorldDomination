@@ -37,12 +37,12 @@ public class CardFactory {
                     || territoryName.equals("Northern Europe") || territoryName.equals("Iceland")
                     || territoryName.equals("Egypt") || territoryName.equals("Northwest territory")
                     || territoryName.equals("India") || territoryName.equals("Japan")
-                    || territoryName.equals("Mongolia") || territoryName.equals("Kamchatka")
-                    || territoryName.equals("Greenland") || territoryName.equals("Siam")) {
+                    || territoryName.equals("Mongolia") || territoryName.equals("Greenland")
+                    || territoryName.equals("Siam") ||territoryName.equals("Venezuela") ) {
                 cards.add(new Card(i,board.getTerritories()[i],"Cavalry",false));
 
                 // Create artillery cards
-            } else if (territoryName.equals("Venezuela") || territoryName.equals("Western Australia")
+            } else if (territoryName.equals("Western Australia") || territoryName.equals("Kamchatka")
                     || territoryName.equals("Congo") || territoryName.equals("South Africa")
                     || territoryName.equals("Middle East") || territoryName.equals("China")
                     || territoryName.equals("Alaska") || territoryName.equals("Alberta")
