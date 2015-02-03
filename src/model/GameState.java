@@ -1,10 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class GameState {
 	Board board;
-	Player[] players;
+	ArrayList<Player> players = new ArrayList<Player>();
 	int numberOfCards;
 	LinkedList<Card> cards;
 
@@ -26,12 +27,12 @@ public class GameState {
 		this.board = board;
 	}
 
-	public Player[] getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(Player[] players) {
-		this.players = players;
+	public void setPlayers(ArrayList<Player> allPlayers) {
+		this.players = allPlayers;
 	}
 
 	public LinkedList<Card> getCards() {
