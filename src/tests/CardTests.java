@@ -43,7 +43,7 @@ public class CardTests {
         int count = 0;
         LinkedList<Card> cards = model.getGameState().getCards();
         for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getType() == "Infantry") {
+            if (cards.get(i).getType().equals("Infantry")) {
                 count++;
             }
         }
@@ -58,7 +58,7 @@ public class CardTests {
         int cavalryCount = 0;
         LinkedList<Card> cards = model.getGameState().getCards();
         for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getType() == "Cavalry") {
+            if (cards.get(i).getType().equals("Cavalry")) {
                 cavalryCount++;
             }
         }
@@ -73,7 +73,7 @@ public class CardTests {
         int count = 0;
         LinkedList<Card> cards = model.getGameState().getCards();
         for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getType() == "Artillery") {
+            if (cards.get(i).getType().equals("Artillery")) {
                 count++;
             }
         }
@@ -92,12 +92,11 @@ public class CardTests {
     /**
      * Check player can't collect an assigned card
      */
+    @Test
     public void checkAssignedCollectCards(){
         model.getGameState().getCards().get(0).setAssigned(true);
         controller.CardMethods.collectCard(model.getGameState().getPlayers()[0],model);
-        assertTrue(model.getGameState().getPlayers()[0].getCards().contains(model.getGameState().getCards().get(0)));
+        assertTrue(model.getGameState().getPlayers()[0].getCards().contains(model.getGameState().getCards().get(1)));
     }
-
-
 
 }
