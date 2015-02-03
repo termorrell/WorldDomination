@@ -67,6 +67,103 @@ public class Moves {
 	}
 
 	/*
+	 * ATTACK
+	 * 
+	 * Allows to attack a neighbouring country with up to 3 armies. No changes
+	 * to the game state are necessary as the defence needs to be chosen before
+	 * the move can be calculated.
+	 */
+	public static void attack(Player player, GameState gameState,
+			int attackingTerritoryId, int defendingTerritoryId,
+			int numberOfArmies) throws BoardException, IllegalMoveException {
+
+		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(
+				attackingTerritoryId);
+		Territory defendingTerritory = gameState.getBoard().getTerritoriesById(
+				defendingTerritoryId);
+		Player defendingPlayer = defendingTerritory.getOwner();
+
+		if (!checkAttackIsLegal(player, defendingPlayer, gameState,
+				attackingTerritory, defendingTerritory, numberOfArmies)) {
+			throw new IllegalMoveException();
+		}
+
+	}
+
+	private static boolean checkAttackIsLegal(Player player,
+			Player defendingPlayer, GameState gameState,
+			Territory attackingTerritory, Territory defendingTerritory,
+			int numberOfArmies) {
+
+		boolean legal = true;
+
+		if (player.equals(defendingPlayer)) {
+			legal = false;
+		}
+		if (!attackingTerritory.isNeighbouringTerritory(defendingTerritory)
+				|| !defendingTerritory
+						.isNeighbouringTerritory(attackingTerritory)) {
+			legal = false;
+		}
+		if (attackingTerritory.getOccupyingArmies().size() < 2) {
+			legal = false;
+		}
+		if (attackingTerritory.getOccupyingArmies().size() <= numberOfArmies) {
+			legal = false;
+		}
+		if (numberOfArmies < 1 || numberOfArmies > 3) {
+			legal = false;
+		}
+
+		return legal;
+	}
+
+	/*
+	 * DEFEND
+	 * 
+	 * Checks that a defence is legal and plays attack-defend scenario.
+	 */
+
+	public static void defend(Player attacker, GameState gameState,
+			int attackingTerritoryId, int defendingTerritoryId,
+			int numberOfAttackingArmies, int numberOfDefendingArmies)
+			throws BoardException, IllegalMoveException {
+
+		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(
+				attackingTerritoryId);
+		Territory defendingTerritory = gameState.getBoard().getTerritoriesById(
+				defendingTerritoryId);
+		Player defendingPlayer = defendingTerritory.getOwner();
+		
+		if (checkDefendIsLegal(attacker, defendingPlayer, gameState,
+				attackingTerritory, defendingTerritory,
+				numberOfAttackingArmies, numberOfDefendingArmies)) {
+			
+			// TODO dice roll and find winner
+			
+		} else {
+			throw new IllegalMoveException();
+		}
+	}
+
+	private static boolean checkDefendIsLegal(Player attacker,
+			Player defendingPlayer, GameState gameState,
+			Territory attackingTerritory, Territory defendingTerritory,
+			int numberOfAttackingArmies, int numberOfDefendingArmies) {
+		
+		boolean legal = true;
+		
+		if(numberOfDefendingArmies > 2) {
+			legal = false;
+		}
+		if(numberOfDefendingArmies > defendingTerritory.getOccupyingArmies().size()) {
+			legal = false;
+		}
+		
+		return legal;
+	}
+	
+	/*
 	 * FORTIFY
 	 * 
 	 * Allows to move armies from one territory to another in the fortify stage
@@ -75,9 +172,11 @@ public class Moves {
 	public static void fortify(Player player, GameState gameState,
 			int originTerritoryId, int destinationTerritoryId,
 			int numberOfArmies) throws BoardException, IllegalMoveException {
-		
-		Territory originTerritory = gameState.getBoard().getTerritoriesById(originTerritoryId);
-		Territory destinationTerritory = gameState.getBoard().getTerritoriesById(destinationTerritoryId);
+
+		Territory originTerritory = gameState.getBoard().getTerritoriesById(
+				originTerritoryId);
+		Territory destinationTerritory = gameState.getBoard()
+				.getTerritoriesById(destinationTerritoryId);
 
 		if (checkFortifyIsLegal(player, originTerritory, destinationTerritory,
 				numberOfArmies)) {
