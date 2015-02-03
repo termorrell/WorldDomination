@@ -19,8 +19,6 @@ public class CardTests {
         model  = new Model();
         Player[] players = {new Player(),new Player(), new Player()};
         model.getGameState().setPlayers(players);
-        //IView view = new Input();
-        //Controller controller = new Controller(model,view);
         CardFactory cardFactory = new CardFactory(model.getGameState().getBoard());
         model.getGameState().setCards(cardFactory.getCards());
     }

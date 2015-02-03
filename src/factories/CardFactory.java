@@ -37,7 +37,7 @@ public class CardFactory {
                     || territoryName.equals("Northern Europe") || territoryName.equals("Iceland")
                     || territoryName.equals("Egypt") || territoryName.equals("Northwest territory")
                     || territoryName.equals("India") || territoryName.equals("Japan")
-                    || territoryName.equals("Mongolia") || territoryName.equals("Thailand")
+                    || territoryName.equals("Mongolia") || territoryName.equals("Kamchatka")
                     || territoryName.equals("Greenland") || territoryName.equals("Siam")) {
                 cards.add(new Card(i,board.getTerritories()[i],"Cavalry",false));
 
@@ -48,8 +48,7 @@ public class CardFactory {
                     || territoryName.equals("Alaska") || territoryName.equals("Alberta")
                     || territoryName.equals("Western United States") || territoryName.equals("Eastern United States")
                     || territoryName.equals("Irkutsk") || territoryName.equals("Ontario")
-                    || territoryName.equals("Quebec") || territoryName.equals("Kamchatka")
-                    || territoryName.equals("Yakutsk")) {
+                    || territoryName.equals("Quebec") || territoryName.equals("Yakutsk")) {
                 cards.add(new Card(i,board.getTerritories()[i],"Artillery",false));
 
             } else {
