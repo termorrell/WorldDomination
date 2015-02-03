@@ -23,6 +23,7 @@ public class Player {
 		this.id = this.nextId;
 		this.nextId++;
 		this.noCards = 0;
+		this.cards = new LinkedList<Card>();
 	}
 
 	public static void printCards(LinkedList<Card> cards) {
