@@ -1,14 +1,17 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import factories.BoardFactory;
 
 public class GameState {
 	Board board;
-	Player[] players;
+	ArrayList<Player> players = new ArrayList<Player>();
 	int numberOfCards;
 	LinkedList<Card> cards;
+	int cardsTradedIn;
+	int numberOfPlayers;
 	
 	public GameState() {
 		BoardFactory factory = new BoardFactory();
@@ -23,7 +26,7 @@ public class GameState {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	int numberOfPlayers;
+
 
 	public Board getBoard() {
 		return board;
@@ -33,12 +36,12 @@ public class GameState {
 		this.board = board;
 	}
 
-	public Player[] getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(Player[] players) {
-		this.players = players;
+	public void setPlayers(ArrayList<Player> allPlayers) {
+		this.players = allPlayers;
 	}
 
 	public LinkedList<Card> getCards() {
@@ -49,4 +52,29 @@ public class GameState {
 		this.cards = cards;
 	}
 
+
+
+	public int getCardsTradedIn() {
+		return cardsTradedIn;
+	}
+
+	public void setCardsTradedIn(int cardsTradedIn) {
+		this.cardsTradedIn = cardsTradedIn;
+	}
+
+
+	public static void printAllCards(LinkedList<Card> cards) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < cards.size(); i++) {
+			builder.append(cards.get(i).getId());
+			builder.append(". ");
+			if(cards.get(i).getTerritory() == null) {
+				builder.append("Wild card");
+			} else {
+				builder.append((i+1)+ " " + cards.get(i).getTerritory().name +": " + cards.get(i).getType());
+			}
+			builder.append("\n");
+		}
+		System.out.println(builder.toString());
+	}
 }
