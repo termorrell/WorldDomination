@@ -5,6 +5,7 @@
 .mtj.tmp/
 
 # IntelliJ Files
+.idea/
 WorldDomination.iml
 
 # Package Files #
