@@ -91,7 +91,7 @@ public class Controller {
 		}
 	}
 	
-	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers)throws BoardException, IllegalMoveException {
+	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers) {
 		boolean allTerritoriesClaimed = false;
 
 		//ASSUMES PLAYER ARRAY IS ALTERED!
@@ -99,7 +99,13 @@ public class Controller {
 			for (int i = 0; i < allPlayers.size(); i++) {
 				model.getGameState().getBoard().printAvailableTerritories();
 				int territory = view.getNumber(allPlayers.get(i).getName() + " please enter the territory ID you would like to claim: ", reader);
-				Moves.reinforce(allPlayers.get(i), model.getGameState(), territory, 1);
+				try {
+					Moves.reinforce(allPlayers.get(i), model.getGameState(), territory, 1);
+				} catch (IllegalMoveException e) {
+					e.printStackTrace();
+				} catch (BoardException e) {
+					e.printStackTrace();
+				}
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
 			}
 		}

@@ -50,12 +50,9 @@ public class Input implements IView {
 			System.err.println("A problem occurred reading input from the console.");
 		}
 
-		Move returnMove;
+		Move returnMove = Move.ATTACK;
 
-		if (input.equalsIgnoreCase("attack")) {
-
-			returnMove = Move.ATTACK;
-		} else if (input.equalsIgnoreCase("fortify")) {
+		if (input.equalsIgnoreCase("fortify")) {
 
 			returnMove = Move.FORTIFY;
 		} else if (input.equalsIgnoreCase("defend")) {
