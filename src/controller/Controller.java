@@ -5,12 +5,8 @@ import exceptions.BoardException;
 import exceptions.IllegalMoveException;
 import factories.BoardFactory;
 import factories.CardFactory;
-import model.Player;
-import model.Territory;
+import model.*;
 import view.IView;
-import model.Card;
-import model.GameState;
-import model.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -114,6 +110,34 @@ public class Controller {
 		return true;
 	}
 
+	public boolean attackTerritory(Player player, BufferedReader reader) {
+
+		int territory = view.getNumber(player.getName() + " please enter the territory ID you would like to attack: ", reader);
+		try {
+			//Moves.attack(player, model.getGameState(), territory);
+		} catch (IllegalMoveException e) {
+			e.printStackTrace();
+		} catch (BoardException e) {
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
+	public boolean fortifyTerritory(Player player, BufferedReader reader) {
+
+		int territory = view.getNumber(player.getName() + " please enter the territory ID you would like to fortify: ", reader);
+		try {
+			//Moves.attack(player, model.getGameState(), territory);
+		} catch (IllegalMoveException e) {
+			e.printStackTrace();
+		} catch (BoardException e) {
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
 	public boolean checkForUnclaimedTerritories(){
 		int noTerritory = model.getGameState().getBoard().getNumberOfTerritories();
 		Territory[] territories = model.getGameState().getBoard().getTerritories();
@@ -144,8 +168,13 @@ public class Controller {
 			while (playersTurnIsValid) {
 
 				// Ask the player what move they would like to perform
-				// TODO: Need to be able to pass in the available moves for a point in the game flow
-				view.getMove(player.getName() + ", what move would you like to perform? (Attack/Reinforce)", reader);
+				// TODO: Need to be able to pass in the available moves for a point in the game flow, so that one of two options is returned
+				Move chosenMove = view.getMove(player.getName() + ", what move would you like to perform? (Attack/Fortify)", reader);
+				if (chosenMove == Move.ATTACK) {
+					attackTerritory(player, reader);
+				} else if (chosenMove == Move.FORTIFY) {
+					fortifyTerritory(player, reader);
+				}
 
 				// Check whether the player would like an additional turn
 				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)", reader);
