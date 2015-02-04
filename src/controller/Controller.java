@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Controller {
@@ -127,25 +128,34 @@ public class Controller {
 
 	public void beginGamePlay(BufferedReader reader) {
 
+		ArrayList<Player> players = model.getGameState().getPlayers();
+		Iterator playerIterator = players.iterator();
 		// Check to see whether the game has finished
 		while(!checkWinnerExists()) {
 
 			// Loop through players giving each player in turn a go
-			for (Player player : model.getGameState().getPlayers()) {
+			Player player = (Player)playerIterator.next();
 
-				boolean playersTurnIsValid = true;
+			boolean playersTurnIsValid = true;
+			// Allow each player to select what move they would like to make
+			while (playersTurnIsValid) {
+				// Ask the player what move they would like to perform
 
-				// Allow each player to select what move they would like to make
-				while (playersTurnIsValid) {
-					// Ask the player what move they would like to perform
+				// Check whether the player would like an additional turn
+				playersTurnIsValid = view.getBoolean("Would you like to continue your turn? (Yes/No)", reader);
+			}
 
-					// Check whether the player would like an additional turn
-				}
+			// Check whether the player has lost the game
+			if (player.getTerritories().size() == 0) {
+				// Remove the player from the list of players
+				model.getGameState().getPlayers().remove(player);
+			}
 
-				// Check whether the player has finished their move
-				if (player.getTerritories().size() == 0) {
-					// Remove the player from the list of players
-				}
+			// Check whether end of player list has been reached
+			if (!playerIterator.hasNext()) {
+
+				// Reset the iterator
+				playerIterator = players.iterator();
 			}
 		}
 	}
