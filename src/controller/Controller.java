@@ -142,7 +142,7 @@ public class Controller {
 				// Ask the player what move they would like to perform
 
 				// Check whether the player would like an additional turn
-				playersTurnIsValid = view.getBoolean("Would you like to continue your turn? (Yes/No)", reader);
+				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)", reader);
 			}
 
 			// Check whether the player has lost the game

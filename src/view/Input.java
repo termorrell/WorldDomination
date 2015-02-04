@@ -40,6 +40,29 @@ public class Input implements IView {
 		return number;
 	}
 
+	public boolean getBoolean(String message, BufferedReader reader) {
+		System.out.println(message);
+		int number = 0;
+		String input;
+		boolean responseBoolean = false;
+		boolean validInput = false;
+		while (!validInput) {
+			try {
+				input = reader.readLine();
+				if (input.equalsIgnoreCase("yes")) {
+					responseBoolean = true;
+					validInput = true;
+				} else if (input.equalsIgnoreCase("no")) {
+					validInput = true;
+				}
+			} catch (IOException e) {
+				System.err.println("A problem occurred reading input from the console.");
+			}
+		}
+
+		return responseBoolean;
+	}
+
 	public Move getMove(String message, BufferedReader reader) {
 		System.out.println(message);
 
