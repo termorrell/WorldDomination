@@ -1,6 +1,8 @@
 package controller;
 
 
+import exceptions.BoardException;
+import exceptions.IllegalMoveException;
 import model.*;
 import view.IView;
 
@@ -27,7 +29,7 @@ public class CardMethods {
     }
 
     //Called at beginning of turn
-    public static void  tradeInCards(Player activePlayer, BufferedReader reader, IView view, Model model){
+    public static void  tradeInCards(Player activePlayer, BufferedReader reader, IView view, Model model)throws BoardException, IllegalMoveException{
         //Force player to trade in cards
         if(activePlayer.getNoCards()>=5){
             System.out.println("You have to trade in some of your cards");
@@ -45,8 +47,8 @@ public class CardMethods {
         }
     }
 
-    public static void cardTrader(Player activePlayer, BufferedReader reader, IView view, Model model) {
-        Card[] selectedCards = new Card[2];
+    public static void cardTrader(Player activePlayer, BufferedReader reader, IView view, Model model)throws BoardException, IllegalMoveException {
+        Card[] selectedCards = new Card[3];
 
         // Gather selected cards
         for (int i = 0; i < 3; i++) {
@@ -63,7 +65,6 @@ public class CardMethods {
     }
 
     public static boolean verifyCardTrade(Card[] selectedCards) {
-        String currentType = null;
         if(checkOneWildCard(selectedCards)){
             return true;
         }else if(checkAllSameType(selectedCards)){
@@ -76,7 +77,6 @@ public class CardMethods {
         return false;
 
     }
-
     public static boolean checkOneWildCard(Card[] selectedCards){
         int wildCardNo =0;
         for(int i=0;i<selectedCards.length;i++){
@@ -91,9 +91,11 @@ public class CardMethods {
         return selectedCards[0].getType().equals(selectedCards[1].getType())
                 && selectedCards[0].getType().equals(selectedCards[2].getType());
     }
-
     public static boolean checkAllDifferentType(Card[] selectedCards){
         String cardType = selectedCards[0].getType();
+        if(checkOneWildCard(selectedCards)){
+            return false;
+        }
         if(!cardType.equals(selectedCards[1].getType()) && !cardType.equals(selectedCards[2].getType())){
             if(!selectedCards[2].getType().equals(selectedCards[1].getType())){
                 return true;
@@ -102,34 +104,11 @@ public class CardMethods {
         return false;
     }
 
-    public static void awardArmies(Model model, Player activePlayer, Card[] selectedCards, IView view, BufferedReader reader){
-        int armiesAwarded = 0;
+    public static void awardArmies(Model model, Player activePlayer, Card[] selectedCards, IView view, BufferedReader reader)throws BoardException, IllegalMoveException {
         int selectedArmies;
         Territory selectedTerritory;
-        String playerTerritorySelection = null;
-
-        int cardsTraded = model.getGameState().getCardsTradedIn();
-        if (cardsTraded == 0) {
-            armiesAwarded = 4;
-        } else if (cardsTraded == 1) {
-            armiesAwarded = 6;
-        } else if (cardsTraded == 2) {
-            armiesAwarded = 8;
-        } else if (cardsTraded == 3) {
-            armiesAwarded = 10;
-        } else if (cardsTraded == 4) {
-            armiesAwarded = 12;
-        } else if (cardsTraded == 5) {
-            armiesAwarded = 15;
-        } else if (cardsTraded == 6) {
-            armiesAwarded = 20;
-        } else if (cardsTraded == 7) {
-            armiesAwarded = 25;
-        } else if (cardsTraded == 8) {
-            armiesAwarded = 30;
-        }
-        cardsTraded++;
-        model.getGameState().setCardsTradedIn(cardsTraded);
+        int playerTerritorySelection;
+        int armiesAwarded = calculateArmiesAwarded(model);
         for (int i = 0; i < 3; i++) {
             if (activePlayer.getArmies().containsValue(selectedCards[i].getTerritory().getName())) {
                 armiesAwarded += 2;
@@ -138,12 +117,30 @@ public class CardMethods {
             }
         }
         while(armiesAwarded>= 0) {
-            playerTerritorySelection = view.getInput("What territory would you like to put your armies in?", reader);
+            model.getGameState().getBoard().printAvailableTerritories();
+            playerTerritorySelection = view.getNumber("What territory would you like to put your armies in?", reader);
             selectedArmies = view.getNumber("How many armies would you like to put on this territory? ", reader);
             if(armiesAwarded<=selectedArmies) {
                 armiesAwarded = armiesAwarded - selectedArmies;
-                //call reinforce method
+                Moves.reinforce(activePlayer,model.getGameState(),playerTerritorySelection,selectedArmies);
             }
         }
+    }
+
+    public static int calculateArmiesAwarded(Model model){
+        int armiesAwarded =2;
+        int cardsTraded = model.getGameState().getCardsTradedIn();
+        for(int i=0; i<=cardsTraded;i++){
+            if(i<=4){
+                armiesAwarded+= 2;
+            }else if(i ==5){
+                armiesAwarded +=3;
+            }else if(i>5){
+                armiesAwarded+=5;
+            }
+        }
+        cardsTraded++;
+        model.getGameState().setCardsTradedIn(cardsTraded);
+        return armiesAwarded;
     }
 }

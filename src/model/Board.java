@@ -82,5 +82,19 @@ public class Board {
 		}
 		System.out.println(builder.toString());
 	}
+
+	public void printAvailableTerritories(){
+		StringBuilder builder = new StringBuilder();
+		for(int i=0; i<numberOfTerritories;i++){
+			if(territories[i].getOwner() != null) {
+				builder.append(territories[i].getId());
+				builder.append(": ");
+			    builder.append(territories[i].getName() +": " + territories[i].getContinent()+": " + territories[i].getOwner());
+				}
+				builder.append("\n");
+		}
+		System.out.println(builder.toString());
+		}
+	}
 	
-}
+
