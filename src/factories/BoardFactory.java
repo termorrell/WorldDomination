@@ -37,11 +37,11 @@ public class BoardFactory {
 		initContinent(2, "Europe", europeanTerritoryNames, 13, defaultBoard);
 
 		String[] africanTerritoryNames = { "North Africa", "Egypt", "Congo",
-				"East Africa", "South Africa", "Madagaskar" };
+				"East Africa", "South Africa", "Madagascar" };
 		initContinent(3, "Africa", africanTerritoryNames, 20, defaultBoard);
 
 		String[] asianTerritoryNames = { "Ural", "Siberia", "Yakutsk",
-				"Kamichatka", "Irkutsk", "Mongolia", "Japan", "Afghanistan",
+				"Kamchatka", "Irkutsk", "Mongolia", "Japan", "Afghanistan",
 				"China", "Middle East", "India", "Siam" };
 		initContinent(4, "Asia", asianTerritoryNames, 26, defaultBoard);
 
