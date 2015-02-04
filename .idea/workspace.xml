@@ -36,8 +36,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controller/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6683047" vertical-offset="2353" max-vertical-offset="3210">
-              <caret line="175" column="53" selection-start-line="175" selection-start-column="53" selection-end-line="175" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.8083538" vertical-offset="736" max-vertical-offset="3210">
+              <caret line="71" column="12" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#574#575#0" expanded="true" />
@@ -680,7 +680,7 @@
       <updated>1422379417355</updated>
       <workItem from="1422379425557" duration="2325000" />
       <workItem from="1422453035456" duration="6613000" />
-      <workItem from="1423081599178" duration="4564000" />
+      <workItem from="1423081599178" duration="4606000" />
     </task>
     <task id="LOCAL-00001" summary="Added the JUnit library to the project">
       <created>1422457440883</created>
@@ -736,11 +736,17 @@
       <option name="project" value="LOCAL" />
       <updated>1423086214558</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Corrected the game flow to let a user keep choosing to attack until Fortify is chosen">
+      <created>1423086602856</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1423086602856</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13802000" />
+    <option name="totallyTimeSpent" value="13844000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="817" extended-state="6" />
@@ -799,7 +805,8 @@
     <MESSAGE value="Added tha ability to continue a turn indefinitely" />
     <MESSAGE value="Added the functionality to print a players name" />
     <MESSAGE value="Updated the flow to allow a user to make a move" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the flow to allow a user to make a move" />
+    <MESSAGE value="Corrected the game flow to let a user keep choosing to attack until Fortify is chosen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected the game flow to let a user keep choosing to attack until Fortify is chosen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1208,8 +1215,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6683047" vertical-offset="2353" max-vertical-offset="3210">
-          <caret line="175" column="53" selection-start-line="175" selection-start-column="53" selection-end-line="175" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.8083538" vertical-offset="736" max-vertical-offset="3210">
+          <caret line="71" column="12" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#574#575#0" expanded="true" />

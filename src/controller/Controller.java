@@ -69,7 +69,7 @@ public class Controller {
 			model.getGameState().setPlayers(allPlayers);
 
 			// Allow each player to assign themself territories
-			//claimTerritories(reader, allPlayers);
+			claimTerritories(reader, allPlayers);
 
 			// Begin game play
 			beginGamePlay(reader);
