@@ -169,6 +169,21 @@ public class CardTests {
         assertFalse(controller.CardMethods.checkAllSameType(wildCardList));
     }
 
-
+/**
+ * Check armies awarded calculated correctly
+ */
+    @Test
+    public void checkArmiesAwarded(){
+        model.getGameState().setCardsTradedIn(0);
+        assertEquals(controller.CardMethods.calculateArmiesAwarded(model),4);
+        model.getGameState().setCardsTradedIn(4);
+        assertEquals(controller.CardMethods.calculateArmiesAwarded(model),12);
+        model.getGameState().setCardsTradedIn(5);
+        assertEquals(controller.CardMethods.calculateArmiesAwarded(model),15);
+        model.getGameState().setCardsTradedIn(6);
+        assertEquals(controller.CardMethods.calculateArmiesAwarded(model),20);
+        model.getGameState().setCardsTradedIn(9);
+        assertEquals(controller.CardMethods.calculateArmiesAwarded(model),35);
+    }
 
 }

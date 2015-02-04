@@ -11,6 +11,7 @@ public class GameState {
 	int numberOfCards;
 	LinkedList<Card> cards;
 	int cardsTradedIn;
+	int numberOfPlayers;
 	
 	public GameState() {
 		BoardFactory factory = new BoardFactory();
@@ -25,7 +26,7 @@ public class GameState {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	int numberOfPlayers;
+
 
 	public Board getBoard() {
 		return board;
