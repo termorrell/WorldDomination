@@ -91,7 +91,7 @@ public class Board {
 				builder.append(": ");
 			    builder.append(territories[i].getName() +": " + territories[i].getContinent()+": " + territories[i].getOwner());
 			} else {
-				builder.append(territories[i].getName() +": AVAILABLE");
+				builder.append("id: " + i + " - " + territories[i].getName() +": AVAILABLE");
 			}
 			builder.append("\n");
 		}
