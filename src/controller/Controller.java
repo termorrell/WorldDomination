@@ -5,17 +5,15 @@ import exceptions.BoardException;
 import exceptions.IllegalMoveException;
 import factories.BoardFactory;
 import factories.CardFactory;
-import model.Player;
-import model.Territory;
+import model.*;
 import view.IView;
-import model.Card;
-import model.GameState;
-import model.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Controller {
@@ -69,21 +67,29 @@ public class Controller {
 
 			}
 			model.getGameState().setPlayers(allPlayers);
+
+			// Allow each player to assign themself territories
+			claimTerritories(reader, allPlayers);
+
+			// Begin game play
+			beginGamePlay(reader);
+
 			reader.close();
 		} catch (IOException e) {
 			System.err.println("A problem occurred reading input from the console.");
 		}
 	}
-	public void checkForWinner() {
-		int i;
-		for (i = 0; i < model.getGameState().getPlayers().size(); i++) {
-			if (i < 2 && i > 0){
-				System.out.println("The game has finished. We have a winner");
-			}
+	public boolean checkWinnerExists() {
+		int numberOfPlayersRemaining = model.getGameState().getPlayers().size();
+		if (numberOfPlayersRemaining < 2 && numberOfPlayersRemaining > 0){
+			System.out.println("The game has finished. We have a winner");
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
-	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers)throws BoardException, IllegalMoveException {
+	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers) {
 		boolean allTerritoriesClaimed = false;
 
 		//ASSUMES PLAYER ARRAY IS ALTERED!
@@ -91,10 +97,44 @@ public class Controller {
 			for (int i = 0; i < allPlayers.size(); i++) {
 				model.getGameState().getBoard().printAvailableTerritories();
 				int territory = view.getNumber(allPlayers.get(i).getName() + " please enter the territory ID you would like to claim: ", reader);
-				Moves.reinforce(allPlayers.get(i), model.getGameState(), territory, 1);
+				try {
+					Moves.reinforce(allPlayers.get(i), model.getGameState(), territory, 1);
+				} catch (IllegalMoveException e) {
+					e.printStackTrace();
+				} catch (BoardException e) {
+					e.printStackTrace();
+				}
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
 			}
 		}
+		return true;
+	}
+
+	public boolean attackTerritory(Player player, BufferedReader reader) {
+
+		int territory = view.getNumber(player.getName() + " please enter the territory ID you would like to attack: ", reader);
+		try {
+			//Moves.attack(player, model.getGameState(), territory);
+		} catch (IllegalMoveException e) {
+			e.printStackTrace();
+		} catch (BoardException e) {
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
+	public boolean fortifyTerritory(Player player, BufferedReader reader) {
+
+		int territory = view.getNumber(player.getName() + " please enter the territory ID you would like to fortify: ", reader);
+		try {
+			//Moves.attack(player, model.getGameState(), territory);
+		} catch (IllegalMoveException e) {
+			e.printStackTrace();
+		} catch (BoardException e) {
+			e.printStackTrace();
+		}
+
 		return true;
 	}
 
@@ -110,4 +150,59 @@ public class Controller {
 		return true;
 	}
 
+
+	public void beginGamePlay(BufferedReader reader) {
+
+		ArrayList<Player> players = model.getGameState().getPlayers();
+		Iterator playerIterator = players.iterator();
+		// Check to see whether the game has finished
+		while(!checkWinnerExists()) {
+
+			// Loop through players giving each player in turn a go
+			Player player = (Player)playerIterator.next();
+
+			collectArmies(player, reader);
+
+			boolean playersTurnIsValid = true;
+			// Allow each player to select what move they would like to make
+			while (playersTurnIsValid) {
+
+				// Ask the player what move they would like to perform
+				// TODO: Need to be able to pass in the available moves for a point in the game flow, so that one of two options is returned
+				Move chosenMove = view.getMove(player.getName() + ", what move would you like to perform? (Attack/Fortify)", reader);
+				if (chosenMove == Move.ATTACK) {
+					attackTerritory(player, reader);
+				} else if (chosenMove == Move.FORTIFY) {
+					fortifyTerritory(player, reader);
+				}
+
+				// Check whether the player would like an additional turn
+				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)", reader);
+			}
+
+			// Check whether the player has lost the game
+			if (player.getTerritories().size() == 0) {
+				// Remove the player from the list of players
+				model.getGameState().getPlayers().remove(player);
+
+
+				// TODO: Need to maintain the position in the iterator, implement players and active players array list
+				// Reset the iterator
+				playerIterator = players.iterator();
+			}
+
+			// Check whether end of player list has been reached
+			if (!playerIterator.hasNext()) {
+
+				// Reset the iterator
+				playerIterator = players.iterator();
+			}
+		}
+	}
+
+
+	public void collectArmies(Player player, BufferedReader reader) {
+
+		// This needs to be implemented
+	}
 }

@@ -90,8 +90,12 @@ public class Board {
 				builder.append(territories[i].getId());
 				builder.append(": ");
 			    builder.append(territories[i].getName() +": " + territories[i].getContinent()+": " + territories[i].getOwner());
-				}
-				builder.append("\n");
+			} else {
+				builder.append(territories[i].getId());
+				builder.append(": ");
+				builder.append(territories[i].getName() +": AVAILABLE");
+			}
+			builder.append("\n");
 		}
 		System.out.println(builder.toString());
 		}
