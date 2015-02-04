@@ -89,12 +89,10 @@ public class Controller {
 		//ASSUMES PLAYER ARRAY IS ALTERED!
 		while(!allTerritoriesClaimed) {
 			for (int i = 0; i < allPlayers.size(); i++) {
-				String territory = view.getInput(allPlayers.get(i).getName() + " what territory would you like to claim: ", reader);
-				territory.toLowerCase();
-				//TODO TERRITORY FROM NAME
-				Moves.reinforce(allPlayers.get(i), model.getGameState(), 1, 1);
+				model.getGameState().getBoard().printAvailableTerritories();
+				int territory = view.getNumber(allPlayers.get(i).getName() + " please enter the territory ID you would like to claim: ", reader);
+				Moves.reinforce(allPlayers.get(i), model.getGameState(), territory, 1);
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
-
 			}
 		}
 		return true;

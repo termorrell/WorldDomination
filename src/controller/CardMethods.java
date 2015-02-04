@@ -77,7 +77,6 @@ public class CardMethods {
         return false;
 
     }
-
     public static boolean checkOneWildCard(Card[] selectedCards){
         int wildCardNo =0;
         for(int i=0;i<selectedCards.length;i++){
@@ -108,7 +107,7 @@ public class CardMethods {
     public static void awardArmies(Model model, Player activePlayer, Card[] selectedCards, IView view, BufferedReader reader)throws BoardException, IllegalMoveException {
         int selectedArmies;
         Territory selectedTerritory;
-        String playerTerritorySelection = null;
+        int playerTerritorySelection;
         int armiesAwarded = calculateArmiesAwarded(model);
         for (int i = 0; i < 3; i++) {
             if (activePlayer.getArmies().containsValue(selectedCards[i].getTerritory().getName())) {
@@ -118,12 +117,12 @@ public class CardMethods {
             }
         }
         while(armiesAwarded>= 0) {
-            playerTerritorySelection = view.getInput("What territory would you like to put your armies in?", reader);
+            model.getGameState().getBoard().printAvailableTerritories();
+            playerTerritorySelection = view.getNumber("What territory would you like to put your armies in?", reader);
             selectedArmies = view.getNumber("How many armies would you like to put on this territory? ", reader);
             if(armiesAwarded<=selectedArmies) {
                 armiesAwarded = armiesAwarded - selectedArmies;
-                Moves.reinforce(activePlayer,model.getGameState(),1,selectedArmies);
-                //call reinforce method
+                Moves.reinforce(activePlayer,model.getGameState(),playerTerritorySelection,selectedArmies);
             }
         }
     }
