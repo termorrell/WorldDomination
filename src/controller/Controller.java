@@ -71,7 +71,7 @@ public class Controller {
 			model.getGameState().setPlayers(allPlayers);
 
 			// Allow each player to assign themself territories
-			claimTerritories(reader, allPlayers);
+			//claimTerritories(reader, allPlayers);
 
 			// Begin game play
 			beginGamePlay(reader);
@@ -81,7 +81,7 @@ public class Controller {
 			System.err.println("A problem occurred reading input from the console.");
 		}
 	}
-	public boolean checkForWinner() {
+	public boolean checkWinnerExists() {
 		int numberOfPlayersRemaining = model.getGameState().getPlayers().size();
 		if (numberOfPlayersRemaining < 2 && numberOfPlayersRemaining > 0){
 			System.out.println("The game has finished. We have a winner");
@@ -128,7 +128,7 @@ public class Controller {
 	public void beginGamePlay(BufferedReader reader) {
 
 		// Check to see whether the game has finished
-		while(checkForWinner()) {
+		while(!checkWinnerExists()) {
 
 			// Loop through players giving each player in turn a go
 			for (Player player : model.getGameState().getPlayers()) {

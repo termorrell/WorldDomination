@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="Corrected the merge conflict">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Board.java" afterPath="$PROJECT_DIR$/src/model/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorldDomination.iml" afterPath="$PROJECT_DIR$/WorldDomination.iml" />
+    <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controller/Controller.java" afterPath="$PROJECT_DIR$/src/controller/Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WorldDomination.iws" />
@@ -37,11 +36,12 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controller/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33169532" vertical-offset="345" max-vertical-offset="2370">
-              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.33660933" vertical-offset="1183" max-vertical-offset="2370">
+              <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#615#616#0" expanded="true" />
+                <element signature="e#628#629#0" expanded="true" />
                 <element signature="e#1719#1727#0" expanded="true" />
               </folding>
             </state>
@@ -702,7 +702,7 @@
       <updated>1422379417355</updated>
       <workItem from="1422379425557" duration="2325000" />
       <workItem from="1422453035456" duration="6613000" />
-      <workItem from="1423081599178" duration="1437000" />
+      <workItem from="1423081599178" duration="1589000" />
     </task>
     <task id="LOCAL-00001" summary="Added the JUnit library to the project">
       <created>1422457440883</created>
@@ -728,11 +728,17 @@
       <option name="project" value="LOCAL" />
       <updated>1423081942210</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Corrected the game flow for the setup">
+      <created>1423083057321</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1423083057321</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10675000" />
+    <option name="totallyTimeSpent" value="10827000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="817" extended-state="6" />
@@ -786,7 +792,8 @@
     <MESSAGE value="Stubbed out the methods for the game play and added a convenience method signature for the territories a player has" />
     <MESSAGE value="Changed the way available territories are displayed to the user" />
     <MESSAGE value="Added the id's for each continent" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added the id's for each continent" />
+    <MESSAGE value="Corrected the game flow for the setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected the game flow for the setup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -797,8 +804,20 @@
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/Controller.java</url>
+          <line>84</line>
+          <properties />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/Controller.java</url>
+          <line>85</line>
+          <properties />
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="10" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -814,6 +833,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
             <element signature="e#1719#1727#0" expanded="true" />
           </folding>
         </state>
@@ -926,6 +946,7 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
             <element signature="e#1719#1727#0" expanded="true" />
           </folding>
         </state>
@@ -1163,14 +1184,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/Moves.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="930">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/program/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
@@ -1179,13 +1192,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/Moves.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="930">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33169532" vertical-offset="345" max-vertical-offset="2370">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.33660933" vertical-offset="1183" max-vertical-offset="2370">
+          <caret line="88" column="16" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
             <element signature="e#1719#1727#0" expanded="true" />
           </folding>
         </state>
