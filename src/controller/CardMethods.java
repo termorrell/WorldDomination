@@ -1,6 +1,8 @@
 package controller;
 
 
+import exceptions.BoardException;
+import exceptions.IllegalMoveException;
 import model.*;
 import view.IView;
 
@@ -27,7 +29,7 @@ public class CardMethods {
     }
 
     //Called at beginning of turn
-    public static void  tradeInCards(Player activePlayer, BufferedReader reader, IView view, Model model){
+    public static void  tradeInCards(Player activePlayer, BufferedReader reader, IView view, Model model)throws BoardException, IllegalMoveException{
         //Force player to trade in cards
         if(activePlayer.getNoCards()>=5){
             System.out.println("You have to trade in some of your cards");
@@ -45,7 +47,7 @@ public class CardMethods {
         }
     }
 
-    public static void cardTrader(Player activePlayer, BufferedReader reader, IView view, Model model) {
+    public static void cardTrader(Player activePlayer, BufferedReader reader, IView view, Model model)throws BoardException, IllegalMoveException {
         Card[] selectedCards = new Card[3];
 
         // Gather selected cards
@@ -103,7 +105,7 @@ public class CardMethods {
         return false;
     }
 
-    public static void awardArmies(Model model, Player activePlayer, Card[] selectedCards, IView view, BufferedReader reader){
+    public static void awardArmies(Model model, Player activePlayer, Card[] selectedCards, IView view, BufferedReader reader)throws BoardException, IllegalMoveException {
         int selectedArmies;
         Territory selectedTerritory;
         String playerTerritorySelection = null;
@@ -120,7 +122,7 @@ public class CardMethods {
             selectedArmies = view.getNumber("How many armies would you like to put on this territory? ", reader);
             if(armiesAwarded<=selectedArmies) {
                 armiesAwarded = armiesAwarded - selectedArmies;
-
+                Moves.reinforce(activePlayer,model.getGameState(),1,selectedArmies);
                 //call reinforce method
             }
         }

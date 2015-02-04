@@ -1,6 +1,8 @@
 package controller;
 
 import com.sun.xml.internal.bind.v2.TODO;
+import exceptions.BoardException;
+import exceptions.IllegalMoveException;
 import factories.BoardFactory;
 import factories.CardFactory;
 import model.Player;
@@ -81,7 +83,7 @@ public class Controller {
 		}
 	}
 	
-	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers){
+	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers)throws BoardException, IllegalMoveException {
 		boolean allTerritoriesClaimed = false;
 
 		//ASSUMES PLAYER ARRAY IS ALTERED!
@@ -89,7 +91,8 @@ public class Controller {
 			for (int i = 0; i < allPlayers.size(); i++) {
 				String territory = view.getInput(allPlayers.get(i).getName() + " what territory would you like to claim: ", reader);
 				territory.toLowerCase();
-				//call reinforce method using player etc
+				//TODO TERRITORY FROM NAME
+				Moves.reinforce(allPlayers.get(i), model.getGameState(), 1, 1);
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
 
 			}
