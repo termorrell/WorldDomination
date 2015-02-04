@@ -19,7 +19,7 @@ public class MoveTests {
 	@Before
 	public void setUp() throws Exception {
 		model = new Model();
-		ArrayList<Player> players = new ArrayList<>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		players.add(new Player());
 		players.add(new Player());
 		players.add(new Player());

@@ -91,6 +91,7 @@ public class Controller {
 				territory.toLowerCase();
 				//call reinforce method using player etc
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
+
 			}
 		}
 		return true;

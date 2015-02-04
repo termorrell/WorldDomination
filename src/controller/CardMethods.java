@@ -57,19 +57,16 @@ public class CardMethods {
         if(verifyCardTrade(selectedCards)){
             awardArmies(model,activePlayer,selectedCards,view,reader);
         }else{
-            // TODO ERROR
+            System.out.println("Those cards can't be traded");
+            cardTrader(activePlayer,reader,view,model);
         }
     }
 
     public static boolean verifyCardTrade(Card[] selectedCards) {
         String currentType = null;
-        for (int i = 0; i < selectedCards.length; i++) {
-            //If they own any Wild Card player can trade cards
-            if (selectedCards[i].getType() == "Wild") {
-                return true;
-            }
-        }
-        if(checkAllSameType(selectedCards)){
+        if(checkOneWildCard(selectedCards)){
+            return true;
+        }else if(checkAllSameType(selectedCards)){
             return true;
         }else if(checkAllDifferentType(selectedCards)){
             return true;
@@ -80,12 +77,19 @@ public class CardMethods {
 
     }
 
-    public static boolean checkAllSameType(Card[] selectedCards){
-        if(selectedCards[0].getType().equals(selectedCards[1].getType())
-                && selectedCards[0].getType().equals(selectedCards[2].getType())){
-            return true;
+    public static boolean checkOneWildCard(Card[] selectedCards){
+        int wildCardNo =0;
+        for(int i=0;i<selectedCards.length;i++){
+            if(selectedCards[i].getType().equals("Wild")){
+                wildCardNo++;
+            }
         }
-        return false;
+        return wildCardNo == 1;
+    }
+    public static boolean checkAllSameType(Card[] selectedCards){
+
+        return selectedCards[0].getType().equals(selectedCards[1].getType())
+                && selectedCards[0].getType().equals(selectedCards[2].getType());
     }
 
     public static boolean checkAllDifferentType(Card[] selectedCards){
