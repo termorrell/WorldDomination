@@ -72,7 +72,7 @@ public class MoveTests {
 	 */
 	@Test
 	public void fortifyMoveOneArmy() throws BoardException, IllegalMoveException {
-		Player territoryOwner = model.getGameState().getPlayers()[1];
+		Player territoryOwner = model.getGameState().getPlayers().get(1);
 		int originTerritory = 1;
 		int destinationTerritory = 3;
 		Moves.reinforce(territoryOwner, model.getGameState(), originTerritory, 2);
@@ -90,7 +90,7 @@ public class MoveTests {
 	 */
 	@Test
 	public void fortifyMoveTwoArmies() throws BoardException, IllegalMoveException {
-		Player territoryOwner = model.getGameState().getPlayers()[1];
+		Player territoryOwner = model.getGameState().getPlayers().get(1);
 		int originTerritory = 3;
 		int destinationTerritory = 1;
 		Moves.reinforce(territoryOwner, model.getGameState(), originTerritory, 3);
@@ -109,8 +109,8 @@ public class MoveTests {
 	@Test(expected = IllegalMoveException.class)
 	public void fortifyTerriotryOfOtherPlayer() throws BoardException,
 			IllegalMoveException {
-		Player fortifier = model.getGameState().getPlayers()[0];
-		Player territoryOwner = model.getGameState().getPlayers()[1];
+		Player fortifier = model.getGameState().getPlayers().get(0);
+		Player territoryOwner = model.getGameState().getPlayers().get(1);
 		int originTerritory = 11;
 		int destinationTerritory = 12;
 		Moves.reinforce(fortifier, model.getGameState(), originTerritory, 2);
@@ -124,7 +124,7 @@ public class MoveTests {
 	@Test(expected = IllegalMoveException.class)
 	public void fortifyAllArmies() throws BoardException,
 			IllegalMoveException {
-		Player territoryOwner = model.getGameState().getPlayers()[1];
+		Player territoryOwner = model.getGameState().getPlayers().get(1);	
 		int originTerritory = 11;
 		int destinationTerritory = 12;
 		Moves.reinforce(territoryOwner, model.getGameState(), originTerritory, 2);
@@ -138,7 +138,7 @@ public class MoveTests {
 	@Test(expected = IllegalMoveException.class)
 	public void fortifyNotBetweenNeighbouringArmies() throws BoardException,
 			IllegalMoveException {
-		Player territoryOwner = model.getGameState().getPlayers()[1];
+		Player territoryOwner = model.getGameState().getPlayers().get(1);
 		int originTerritory = 12;
 		int destinationTerritory = 23;
 		Moves.reinforce(territoryOwner, model.getGameState(), originTerritory, 2);
