@@ -106,13 +106,12 @@ public class CardMethods {
 
     public static void awardArmies(Model model, Player activePlayer, Card[] selectedCards, IView view, BufferedReader reader)throws BoardException, IllegalMoveException {
         int selectedArmies;
-        Territory selectedTerritory;
         int playerTerritorySelection;
         int armiesAwarded = calculateArmiesAwarded(model);
         for (int i = 0; i < 3; i++) {
             if (activePlayer.getArmies().containsValue(selectedCards[i].getTerritory().getName())) {
-                armiesAwarded += 2;
-                selectedTerritory = selectedCards[i].getTerritory();
+                playerTerritorySelection = selectedCards[i].getTerritory().getId();
+                Moves.reinforce(activePlayer,model.getGameState(),playerTerritorySelection,2);
                 break;
             }
         }
