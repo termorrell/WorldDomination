@@ -15,6 +15,7 @@ import model.Model;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -136,10 +137,15 @@ public class Controller {
 			// Loop through players giving each player in turn a go
 			Player player = (Player)playerIterator.next();
 
+			collectArmies(player, reader);
+
 			boolean playersTurnIsValid = true;
 			// Allow each player to select what move they would like to make
 			while (playersTurnIsValid) {
+
 				// Ask the player what move they would like to perform
+				// TODO: Need to be able to pass in the available moves for a point in the game flow
+				view.getMove(player.getName() + ", what move would you like to perform? (Attack/Reinforce)", reader);
 
 				// Check whether the player would like an additional turn
 				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)", reader);
@@ -149,6 +155,11 @@ public class Controller {
 			if (player.getTerritories().size() == 0) {
 				// Remove the player from the list of players
 				model.getGameState().getPlayers().remove(player);
+
+
+				// TODO: Need to maintain the position in the iterator, implement players and active players array list
+				// Reset the iterator
+				playerIterator = players.iterator();
 			}
 
 			// Check whether end of player list has been reached
@@ -158,5 +169,11 @@ public class Controller {
 				playerIterator = players.iterator();
 			}
 		}
+	}
+
+
+	public void collectArmies(Player player, BufferedReader reader) {
+
+		// This needs to be implemented
 	}
 }

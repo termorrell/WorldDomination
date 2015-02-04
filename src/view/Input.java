@@ -75,7 +75,11 @@ public class Input implements IView {
 
 		Move returnMove = Move.ATTACK;
 
-		if (input.equalsIgnoreCase("fortify")) {
+
+		if (input.equalsIgnoreCase("attack")) {
+
+			returnMove = Move.ATTACK;
+		} else if (input.equalsIgnoreCase("fortify")) {
 
 			returnMove = Move.FORTIFY;
 		} else if (input.equalsIgnoreCase("defend")) {
@@ -84,6 +88,9 @@ public class Input implements IView {
 		} else if (input.equalsIgnoreCase("reinforce")) {
 
 			returnMove = Move.REINFORCE;
+		} else {
+
+			// TODO: Need to throw an exception for an invalid move type
 		}
 
 		return returnMove;
