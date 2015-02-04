@@ -122,6 +122,9 @@ public class CardTests {
             }
         }
         assertTrue(controller.CardMethods.checkAllSameType(sameTypeCards));
+        assertFalse(controller.CardMethods.checkOneWildCard(sameTypeCards));
+        assertFalse(controller.CardMethods.checkAllDifferentType(sameTypeCards));
+
     }
 
     /**
@@ -140,6 +143,8 @@ public class CardTests {
             }
         }
         assertTrue(controller.CardMethods.checkAllDifferentType(difTypeCards));
+        assertFalse(controller.CardMethods.checkAllSameType(difTypeCards));
+        assertFalse(controller.CardMethods.checkOneWildCard(difTypeCards));
     }
 
     /**
@@ -160,6 +165,8 @@ public class CardTests {
             }
         }
         assertTrue(controller.CardMethods.checkOneWildCard(wildCardList));
+        assertFalse(controller.CardMethods.checkAllDifferentType(wildCardList));
+        assertFalse(controller.CardMethods.checkAllSameType(wildCardList));
     }
 
 

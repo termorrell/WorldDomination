@@ -94,6 +94,9 @@ public class CardMethods {
 
     public static boolean checkAllDifferentType(Card[] selectedCards){
         String cardType = selectedCards[0].getType();
+        if(checkOneWildCard(selectedCards)){
+            return false;
+        }
         if(!cardType.equals(selectedCards[1].getType()) && !cardType.equals(selectedCards[2].getType())){
             if(!selectedCards[2].getType().equals(selectedCards[1].getType())){
                 return true;
