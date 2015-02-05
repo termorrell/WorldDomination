@@ -7,8 +7,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class Input implements IView {
+	
+	BufferedReader reader;
+	
+	public Input(BufferedReader reader) {
+		this.reader = reader;
+	}
 
-	public String getInput(String message, BufferedReader reader) {
+	public String getInput(String message) {
 		System.out.println(message);
 
 		String input = null;
@@ -20,7 +26,7 @@ public class Input implements IView {
 		return input;
 	}
 
-	public int getNumber(String message, BufferedReader reader) {
+	public int getNumber(String message) {
 		System.out.println(message);
 		int number = 0;
 		String input;
@@ -30,7 +36,7 @@ public class Input implements IView {
 				number = Integer.parseInt(input);
 
 			}catch(NumberFormatException e){
-				getNumber("Please enter a number: ", reader);
+				return getNumber("Please enter a number: ");
 			}
 
 		} catch (IOException e) {
@@ -40,7 +46,7 @@ public class Input implements IView {
 		return number;
 	}
 
-	public boolean getBoolean(String message, BufferedReader reader) {
+	public boolean getBoolean(String message) {
 		System.out.println(message);
 		int number = 0;
 		String input;
@@ -63,7 +69,7 @@ public class Input implements IView {
 		return responseBoolean;
 	}
 
-	public Move getMove(String message, BufferedReader reader) {
+	public Move getMove(String message) {
 		System.out.println(message);
 
 		String input = null;

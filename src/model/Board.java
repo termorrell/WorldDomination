@@ -55,6 +55,27 @@ public class Board {
 	public void setNumberOfTerritories(int numberOfTerritories) {
 		this.numberOfTerritories = numberOfTerritories;
 	}
+	
+	public int getContinentBonus(Player player) {
+		int bonus = 0;
+		
+		for (Continent continent : continents) {
+			if(playerOwnsContinent(player, continent)) {
+				bonus += continent.getReinforcementArmies();
+			}
+		}
+		
+		return bonus;
+	}
+	
+	private boolean playerOwnsContinent(Player player, Continent continent) {
+		for (Territory territory : continent.getTerritories()) {
+			if(!territory.getOwner().equals(player)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public void printBoard() {
 		StringBuilder builder = new StringBuilder();
@@ -89,7 +110,7 @@ public class Board {
 			if(territories[i].getOwner() != null) {
 				builder.append(territories[i].getId());
 				builder.append(": ");
-			    builder.append(territories[i].getName() +": " + territories[i].getContinent()+": " + territories[i].getOwner());
+			    builder.append(territories[i].getName() +": " + territories[i].getContinent().getName() +": " + territories[i].getOwner().getName());
 			} else {
 				builder.append(territories[i].getId());
 				builder.append(": ");

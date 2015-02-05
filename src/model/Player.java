@@ -93,9 +93,9 @@ public class Player {
 	}
 
 	public ArrayList<Territory> getTerritories() {
-
-		// Need to return the list of territories
-		return new ArrayList<Territory>();
+		Collection<Territory> territories = armies.values();
+		HashSet<Territory> confinedTerritories = new HashSet<>(territories);
+		return new ArrayList<Territory>(confinedTerritories);
 	}
 	
 	public boolean hasArmyInTerritory(Territory territory) {

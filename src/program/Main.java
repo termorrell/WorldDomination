@@ -1,5 +1,8 @@
 package program;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import controller.Controller;
 import view.IView;
 import view.Input;
@@ -10,9 +13,11 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Model model = new Model();
-		IView view = new Input();
-		Controller controller = new Controller(model, view);
 		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		IView view = new Input(reader);
+		
+		Controller controller = new Controller(model, view);
 		controller.run();
 		
 	}

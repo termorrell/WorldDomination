@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
 import factories.BoardFactory;
@@ -8,13 +7,11 @@ import factories.CardFactory;
 import model.*;
 import view.IView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
-
+import java.util.Map;
 
 public class Controller {
 
@@ -30,58 +27,44 @@ public class Controller {
 		init();
 	}
 
+	// assign, name of territory and player - return boolean
 	private void init() {
-	//assign, name of territory and player - return boolean
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		try{
+		// Set board
+		BoardFactory boardFactory = new BoardFactory();
+		model.getGameState().setBoard(boardFactory.getBoard());
 
-			// Set board
-			BoardFactory boardFactory = new BoardFactory();
-			model.getGameState().setBoard(boardFactory.getBoard());
+		// Set cards based on board
+		CardFactory cardFactory = new CardFactory(model.getGameState().getBoard());
+		model.getGameState().setCards(cardFactory.getCards());
 
-			// Set cards based on board
-			CardFactory cardFactory = new CardFactory(model.getGameState().getBoard());
-			model.getGameState().setCards(cardFactory.getCards());
-
-			//int portNo=0;
-			// Set port number
-			//while(portNo<=0) {
-				//player.setNumber(view.getNumber("Please enter the port number: ", reader));
-			//}
-			// Set public Key
-			//player.setPublicKey(view.getInput("Please enter your public key: ", reader));
-			// Player numbers,
-			int playerNo = 0;
-			//Checks positive amount of players is entered
-			while(playerNo< 3 || playerNo>6) {
-				model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players between 3 and 6: ", reader));
-				playerNo = model.getGameState().getNumberOfPlayers();
-			}
-			ArrayList<Player> allPlayers = new ArrayList<Player>(model.getGameState().getPlayers());
-			for(int i=0; i< playerNo; i++){
-				Player player = new Player();
-				// Set player name
-				player.setName(view.getInput("Please enter your name:", reader));
-				player.setColour(view.getInput("What colour would you like to be: ", reader));
-				allPlayers.add(player);
-
-			}
-			model.getGameState().setPlayers(allPlayers);
-
-			// Allow each player to assign themself territories
-			claimTerritories(reader, allPlayers);
-
-			// Begin game play
-			beginGamePlay(reader);
-
-			reader.close();
-		} catch (IOException e) {
-			System.err.println("A problem occurred reading input from the console.");
+		// Number of players are entered
+		int playerNo = 0;
+		while (playerNo < 3 || playerNo > 6) {
+			model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players between 3 and 6: "));
+			playerNo = model.getGameState().getNumberOfPlayers();
 		}
+
+		// Player details are entered
+		ArrayList<Player> allPlayers = new ArrayList<Player>();
+		for (int i = 0; i < playerNo; i++) {
+			Player player = new Player();
+			// Set player name
+			player.setName(view.getInput("Please enter your name:"));
+			player.setColour(view.getInput("What colour would you like to be: "));
+			allPlayers.add(player);
+		}
+		model.getGameState().setPlayers(allPlayers);
+
+		// Allow each player to assign themself territories
+		distributeInitialArmies();
+		
+		// Begin game play
+		beginGamePlay();
 	}
+
 	public boolean checkWinnerExists() {
 		int numberOfPlayersRemaining = model.getGameState().getPlayers().size();
-		if (numberOfPlayersRemaining < 2 && numberOfPlayersRemaining > 0){
+		if (numberOfPlayersRemaining < 2 && numberOfPlayersRemaining > 0) {
 			System.out.println("The game has finished. We have a winner");
 			return true;
 		} else {
@@ -89,16 +72,67 @@ public class Controller {
 		}
 	}
 	
-	public boolean claimTerritories(BufferedReader reader, ArrayList<Player> allPlayers) {
+	private void distributeInitialArmies() { 
+		claimTerritories();
+		Map<Player, Integer> remainingArmies = new HashMap<>();
+		for (Player player : model.getGameState().getPlayers()) {
+			remainingArmies.put(player, calclulateNumberOfArmies() - player.getArmies().size());
+		}
+		
+		boolean allPlaced = allArmiesPlaced(remainingArmies.values());
+		while(!allPlaced) {
+			for (Player player : model.getGameState().getPlayers()) {
+				if(remainingArmies.get(player) > 0){
+					int destinationTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to deploy an army to: ");
+					try {
+						Moves.reinforce(player, model.getGameState(), destinationTerritoryId, 1);
+					} catch (BoardException e) {
+						System.err.println("A problem with the board occured.");
+					} catch (IllegalMoveException e) {
+						System.err.println("An illegal move was attempted. Please try again.");
+					}
+				}
+			}
+			allPlaced = allArmiesPlaced(remainingArmies.values());
+		}
+	}
+	
+	private boolean allArmiesPlaced(Collection<Integer> numberOfArmies) {
+		for (int i : numberOfArmies) {
+			if(i > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private int calclulateNumberOfArmies() {
+		switch(model.getGameState().getNumberOfPlayers()) {
+		case 3:
+			return 35;
+		case 4:
+			return 30;
+		case 5:
+			return 25;
+		case 6:
+			return 20;
+		default:
+			System.out.println("Wrong number of players.");
+			break;
+		}
+		return -1;
+	}
+
+	public void claimTerritories() {
 		boolean allTerritoriesClaimed = false;
 
-		//ASSUMES PLAYER ARRAY IS ALTERED!
-		while(!allTerritoriesClaimed) {
-			for (int i = 0; i < allPlayers.size(); i++) {
+		// ASSUMES PLAYER ARRAY IS ALTERED!
+		while (!allTerritoriesClaimed) {
+			for (int i = 0; i < model.getGameState().getPlayers().size(); i++) {
 				model.getGameState().getBoard().printAvailableTerritories();
-				int territory = view.getNumber(allPlayers.get(i).getName() + " please enter the territory ID you would like to claim: ", reader);
+				int territory = view.getNumber(model.getGameState().getPlayers().get(i).getName() + " please enter the territory ID you would like to claim: ");
 				try {
-					Moves.reinforce(allPlayers.get(i), model.getGameState(), territory, 1);
+					Moves.reinforce(model.getGameState().getPlayers().get(i), model.getGameState(), territory, 1);
 				} catch (IllegalMoveException e) {
 					e.printStackTrace();
 				} catch (BoardException e) {
@@ -107,14 +141,18 @@ public class Controller {
 				allTerritoriesClaimed = checkForUnclaimedTerritories();
 			}
 		}
-		return true;
 	}
 
-	public boolean attackTerritory(Player player, BufferedReader reader) {
+	public boolean attackTerritory(Player player) {
 
-		int territory = view.getNumber(player.getName() + " please enter the territory ID you would like to attack: ", reader);
+		int attackingTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to attack from: ");
+		int defendingTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to attack: ");
+		int numberOfAttackingArmies = view.getNumber(player.getName() + " please enter the number of armies you would like attack with: ");
+
 		try {
-			//Moves.attack(player, model.getGameState(), territory);
+			Moves.attack(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies);
+			int numberOfDefendingArmies = view.getNumber(model.getGameState().getBoard().getTerritoriesById(defendingTerritoryId).getOwner().getName() + " please enter the number of armies you would like defend with: ");
+			Moves.defend(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies, numberOfDefendingArmies);
 		} catch (IllegalMoveException e) {
 			e.printStackTrace();
 		} catch (BoardException e) {
@@ -124,11 +162,14 @@ public class Controller {
 		return true;
 	}
 
-	public boolean fortifyTerritory(Player player, BufferedReader reader) {
+	public boolean fortifyTerritory(Player player) {
 
-		int territory = view.getNumber(player.getName() + " please enter the territory ID you would like to fortify: ", reader);
+		int originTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to move your armies from: ");
+		int destinationTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to fortify: ");
+		int numberOfArmies = view.getNumber(player.getName() + " please enter the number of armies you would like to move: ");
+
 		try {
-			//Moves.attack(player, model.getGameState(), territory);
+			Moves.fortify(player, model.getGameState(), originTerritoryId, destinationTerritoryId, numberOfArmies);
 		} catch (IllegalMoveException e) {
 			e.printStackTrace();
 		} catch (BoardException e) {
@@ -138,46 +179,47 @@ public class Controller {
 		return true;
 	}
 
-	public boolean checkForUnclaimedTerritories(){
+	public boolean checkForUnclaimedTerritories() {
 		int noTerritory = model.getGameState().getBoard().getNumberOfTerritories();
 		Territory[] territories = model.getGameState().getBoard().getTerritories();
-		for(int i =0; i< noTerritory;i++){
-			//Check if territory has an owner
-			if (territories[i].getOwner()==null){
+		for (int i = 0; i < noTerritory; i++) {
+			// Check if territory has an owner
+			if (territories[i].getOwner() == null) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-
-	public void beginGamePlay(BufferedReader reader) {
+	public void beginGamePlay() {
 
 		ArrayList<Player> players = model.getGameState().getPlayers();
-		Iterator playerIterator = players.iterator();
+		Iterator<Player> playerIterator = players.iterator();
 		// Check to see whether the game has finished
-		while(!checkWinnerExists()) {
+		while (!checkWinnerExists()) {
 
 			// Loop through players giving each player in turn a go
-			Player player = (Player)playerIterator.next();
+			Player player = playerIterator.next();
 
-			collectArmies(player, reader);
+			collectArmies(player);
 
 			boolean playersTurnIsValid = true;
 			// Allow each player to select what move they would like to make
 			while (playersTurnIsValid) {
 
 				// Ask the player what move they would like to perform
-				// TODO: Need to be able to pass in the available moves for a point in the game flow, so that one of two options is returned
-				Move chosenMove = view.getMove(player.getName() + ", what move would you like to perform? (Attack/Fortify)", reader);
+				// TODO: Need to be able to pass in the available moves for a
+				// point in the game flow, so that one of two options is
+				// returned
+				Move chosenMove = view.getMove(player.getName() + ", what move would you like to perform? (Attack/Fortify)");
 				if (chosenMove == Move.ATTACK) {
-					attackTerritory(player, reader);
+					attackTerritory(player);
 				} else if (chosenMove == Move.FORTIFY) {
-					fortifyTerritory(player, reader);
+					fortifyTerritory(player);
 				}
 
 				// Check whether the player would like an additional turn
-				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)", reader);
+				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)");
 			}
 
 			// Check whether the player has lost the game
@@ -185,8 +227,8 @@ public class Controller {
 				// Remove the player from the list of players
 				model.getGameState().getPlayers().remove(player);
 
-
-				// TODO: Need to maintain the position in the iterator, implement players and active players array list
+				// TODO: Need to maintain the position in the iterator,
+				// implement players and active players array list
 				// Reset the iterator
 				playerIterator = players.iterator();
 			}
@@ -200,9 +242,36 @@ public class Controller {
 		}
 	}
 
+	public void collectArmies(Player player) {
+		int numberOfArmies = calculateNumberOfArmies(player, model.getGameState());
+		while (numberOfArmies > 0) {
+			int destinationTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to deploy armies to: ");
+			int numberOfArmiesToBeDeploied = view.getNumber(player.getName() + " please enter the number of armies you would like to deploy: ");
+			if(numberOfArmiesToBeDeploied <= numberOfArmies) {
+				try {
+					Moves.reinforce(player, model.getGameState(), destinationTerritoryId, numberOfArmiesToBeDeploied);
+				} catch (BoardException e) {
+					System.err.println("A problem with the board occured.");
+				} catch (IllegalMoveException e) {
+					System.err.println("An illegal move was attempted. Please try again.");
+				}
+				numberOfArmies -= numberOfArmiesToBeDeploied;
+			} else {
+				System.out.println("Sorry, you don't have that many armies.");
+			}
+		}
+	}
 
-	public void collectArmies(Player player, BufferedReader reader) {
+	private int calculateNumberOfArmies(Player player, GameState gameState) {
+		int numberOfArmies = 0;
 
-		// This needs to be implemented
+		if (player.getTerritories().size() < 9) {
+			numberOfArmies += 3;
+		} else {
+			numberOfArmies += Math.floor(player.getTerritories().size() / 3);
+		}
+
+		numberOfArmies += gameState.getBoard().getContinentBonus(player);
+		return numberOfArmies;
 	}
 }

@@ -23,42 +23,42 @@ public class BoardFactory {
 				"Northwest territory", "Greenland", "Alberta", "Ontario",
 				"Quebec", "Western United States", "Eastern United States",
 				"Central America" };
-		initContinent(0, "North America", northAmericanTerritoryNames, 0,
+		initContinent(0, "North America", northAmericanTerritoryNames, 5, 0,
 				defaultBoard);
 
 		String[] southAmericanTerritoryNames = { "Venezuela", "Peru", "Brazil",
 				"Argentina" };
-		initContinent(1, "South America", southAmericanTerritoryNames, 9,
+		initContinent(1, "South America", southAmericanTerritoryNames, 2, 9,
 				defaultBoard);
 
 		String[] europeanTerritoryNames = { "Iceland", "Scandinavia",
 				"Ukraine", "Great Britain", "Northern Europe",
 				"Western Europe", "Southern Europe" };
-		initContinent(2, "Europe", europeanTerritoryNames, 13, defaultBoard);
+		initContinent(2, "Europe", europeanTerritoryNames, 5, 13, defaultBoard);
 
 		String[] africanTerritoryNames = { "North Africa", "Egypt", "Congo",
 				"East Africa", "South Africa", "Madagascar" };
-		initContinent(3, "Africa", africanTerritoryNames, 20, defaultBoard);
+		initContinent(3, "Africa", africanTerritoryNames, 3, 20, defaultBoard);
 
 		String[] asianTerritoryNames = { "Ural", "Siberia", "Yakutsk",
 				"Kamchatka", "Irkutsk", "Mongolia", "Japan", "Afghanistan",
 				"China", "Middle East", "India", "Siam" };
-		initContinent(4, "Asia", asianTerritoryNames, 26, defaultBoard);
+		initContinent(4, "Asia", asianTerritoryNames, 7, 26, defaultBoard);
 
 		String[] australianTerritoryNames = { "Indonesia", "New Guinea",
 				"Western Australia", "Eastern Australia" };
-		initContinent(5, "Australia", australianTerritoryNames, 38,
+		initContinent(5, "Australia", australianTerritoryNames, 2, 38,
 				defaultBoard);
 
 		setNeighbouringTerritories();
 	}
 
 	private void initContinent(int continentId, String name,
-			String[] territories, int firstTerritoryId, Board board) {
+			String[] territories, int reinforcementArmies, int firstTerritoryId, Board board) {
 
 		int numberOfTerritories = territories.length;
 		board.getContinents()[continentId] = new Continent(continentId, name,
-				new Territory[numberOfTerritories]);
+				new Territory[numberOfTerritories], reinforcementArmies);
 
 		for (int i = 0; i < territories.length; i++) {
 			board.getTerritories()[i + firstTerritoryId] = new Territory(i
