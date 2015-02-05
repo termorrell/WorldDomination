@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map.Entry;
 
 import exceptions.BoardException;
@@ -8,6 +12,7 @@ import model.Army;
 import model.GameState;
 import model.Player;
 import model.Territory;
+import controller.DieManager;
 
 public class Moves {
 
@@ -139,10 +144,39 @@ public class Moves {
 				attackingTerritory, defendingTerritory,
 				numberOfAttackingArmies, numberOfDefendingArmies)) {
 			
-			// TODO dice roll and find winner
+			List<Integer> attackerDie = DieManager.diceRoll(6, numberOfAttackingArmies);
+			Collections.sort(attackerDie, Collections.reverseOrder());
+			List<Integer> defenderDie = DieManager.diceRoll(6, numberOfDefendingArmies);
+			Collections.sort(defenderDie, Collections.reverseOrder());
+			
+			for (int i = 0; i < defenderDie.size() && i < attackerDie.size(); i++) {
+				if(attackerDie.get(i) > defenderDie.get(i)) {
+					removeArmyFromTerritory(defendingTerritory);
+				} else {
+					removeArmyFromTerritory(attackingTerritory);
+				}
+			}
+			
+			if(defendingTerritory.getOccupyingArmies().size() == 0) {
+				for (int i = 0; i < numberOfAttackingArmies; i++) {
+					removeArmyFromTerritory(defendingTerritory);
+					Army army = new Army(attacker, defendingTerritory);
+					attacker.addArmies(army, defendingTerritory);
+					defendingTerritory.addOccupyingArmy(army);
+				}
+				defendingTerritory.setOwner(attacker);
+			}
 			
 		} else {
 			throw new IllegalMoveException();
+		}
+	}
+	
+	private static void removeArmyFromTerritory(Territory lostTerritory) {
+		if(lostTerritory.getOccupyingArmies().size() > 0) {
+			Army lostArmy =  lostTerritory.getOccupyingArmies().getLast();
+			lostTerritory.getOccupyingArmies().remove(lostArmy);
+			lostTerritory.getOwner().getArmies().remove(lostArmy);
 		}
 	}
 
