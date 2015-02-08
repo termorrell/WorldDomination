@@ -30,12 +30,10 @@ public class Controller {
 	// assign, name of territory and player - return boolean
 	private void init() {
 		// Set board
-		BoardFactory boardFactory = new BoardFactory();
-		model.getGameState().setBoard(boardFactory.getBoard());
+		model.getGameState().setBoard(DataManager.getBoard());
 
 		// Set cards based on board
-		CardFactory cardFactory = new CardFactory(model.getGameState().getBoard());
-		model.getGameState().setCards(cardFactory.getCards());
+		model.getGameState().setCards(DataManager.getCards(model.getGameState().getBoard()));
 
 		// Number of players are entered
 		int playerNo = 0;
