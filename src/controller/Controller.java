@@ -144,6 +144,8 @@ public class Controller {
 	}
 
 	public boolean attackTerritory(Player player) {
+		
+		boolean capturedTerritory = false;
 
 		int attackingTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to attack from: ");
 		int defendingTerritoryId = view.getNumber(player.getName() + " please enter the territory ID you would like to attack: ");
@@ -152,14 +154,14 @@ public class Controller {
 		try {
 			Moves.attack(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies);
 			int numberOfDefendingArmies = view.getNumber(model.getGameState().getBoard().getTerritoriesById(defendingTerritoryId).getOwner().getName() + " please enter the number of armies you would like defend with: ");
-			Moves.defend(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies, numberOfDefendingArmies);
+			capturedTerritory = Moves.defend(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies, numberOfDefendingArmies);
 		} catch (IllegalMoveException e) {
 			e.printStackTrace();
 		} catch (BoardException e) {
 			e.printStackTrace();
 		}
 
-		return true;
+		return capturedTerritory;
 	}
 
 	public boolean fortifyTerritory(Player player) {
@@ -202,7 +204,8 @@ public class Controller {
 			Player player = playerIterator.next();
 
 			collectArmies(player);
-
+			
+			boolean capturedTerritory = false;
 			boolean playersTurnIsValid = true;
 			// Allow each player to select what move they would like to make
 			while (playersTurnIsValid) {
@@ -213,13 +216,17 @@ public class Controller {
 				// returned
 				Move chosenMove = view.getMove(player.getName() + ", what move would you like to perform? (Attack/Fortify)");
 				if (chosenMove == Move.ATTACK) {
-					attackTerritory(player);
+					capturedTerritory |= attackTerritory(player);
 				} else if (chosenMove == Move.FORTIFY) {
 					fortifyTerritory(player);
 				}
 
 				// Check whether the player would like an additional turn
 				playersTurnIsValid = view.getBoolean(player.getName() + ", would you like to continue your turn? (Yes/No)");
+			}
+			
+			if(capturedTerritory) {
+				// TODO do card stuff here
 			}
 
 			// Check whether the player has lost the game

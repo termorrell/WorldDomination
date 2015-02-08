@@ -129,10 +129,12 @@ public class Moves {
 	 * Checks that a defence is legal and plays attack-defend scenario.
 	 */
 
-	public static void defend(Player attacker, GameState gameState,
+	public static boolean defend(Player attacker, GameState gameState,
 			int attackingTerritoryId, int defendingTerritoryId,
 			int numberOfAttackingArmies, int numberOfDefendingArmies)
 			throws BoardException, IllegalMoveException {
+		
+		boolean captured = false;
 
 		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(
 				attackingTerritoryId);
@@ -158,6 +160,7 @@ public class Moves {
 			}
 			
 			if(defendingTerritory.getOccupyingArmies().size() == 0) {
+				captured = true;
 				for (int i = 0; i < numberOfAttackingArmies; i++) {
 					removeArmyFromTerritory(defendingTerritory);
 					Army army = new Army(attacker, defendingTerritory);
@@ -170,6 +173,8 @@ public class Moves {
 		} else {
 			throw new IllegalMoveException();
 		}
+		
+		return captured;
 	}
 	
 	private static void removeArmyFromTerritory(Territory lostTerritory) {
