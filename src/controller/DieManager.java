@@ -10,7 +10,7 @@ public class DieManager {
 		List<Integer> result = new ArrayList<>();
 		Random random = new Random();
 		for (int i=0; i < rolls; i++) {
-			result.add(random.nextInt(faces) - 1);
+			result.add(random.nextInt(faces - 1));
 		}
 		return result;
 	}

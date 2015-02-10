@@ -3,46 +3,57 @@ package view;
 import model.Move;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Input implements IView {
-	
+
 	BufferedReader reader;
-	
+
 	public Input(BufferedReader reader) {
 		this.reader = reader;
+	}
+
+	private String readNextLine() {
+		String line = null;
+		try {
+			line = reader.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (line == null) {
+			reader = new BufferedReader(new InputStreamReader(System.in));
+			try {
+				line = reader.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return line;
 	}
 
 	public String getInput(String message) {
 		System.out.println(message);
 
-		String input = null;
-		try {
-			input = reader.readLine();
-		} catch (IOException e) {
-			System.err.println("A problem occurred reading input from the console.");
-		}
+		String input = readNextLine();
+
 		return input;
 	}
 
 	public int getNumber(String message) {
 		System.out.println(message);
 		int number = 0;
-		String input;
-		try{
-			input = reader.readLine();
-			try {
-				number = Integer.parseInt(input);
+		String input = readNextLine();
+		try {
+			number = Integer.parseInt(input);
 
-			}catch(NumberFormatException e){
-				return getNumber("Please enter a number: ");
-			}
-
-		} catch (IOException e) {
-			System.err.println("A problem occurred reading input from the console.");
+		} catch (NumberFormatException e) {
+			return getNumber("Please enter a number: ");
 		}
-
 		return number;
 	}
 
@@ -53,34 +64,23 @@ public class Input implements IView {
 		boolean responseBoolean = false;
 		boolean validInput = false;
 		while (!validInput) {
-			try {
-				input = reader.readLine();
-				if (input.equalsIgnoreCase("yes")) {
-					responseBoolean = true;
-					validInput = true;
-				} else if (input.equalsIgnoreCase("no")) {
-					validInput = true;
-				}
-			} catch (IOException e) {
-				System.err.println("A problem occurred reading input from the console.");
+			input = readNextLine();
+			if (input.equalsIgnoreCase("yes")) {
+				responseBoolean = true;
+				validInput = true;
+			} else if (input.equalsIgnoreCase("no")) {
+				validInput = true;
 			}
 		}
-
 		return responseBoolean;
 	}
 
 	public Move getMove(String message) {
 		System.out.println(message);
 
-		String input = null;
-		try {
-			input = reader.readLine();
-		} catch (IOException e) {
-			System.err.println("A problem occurred reading input from the console.");
-		}
+		String input = readNextLine();
 
 		Move returnMove = Move.ATTACK;
-
 
 		if (input.equalsIgnoreCase("attack")) {
 

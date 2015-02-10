@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.util.LinkedList;
 
 import factories.BoardFactory;
@@ -18,4 +19,5 @@ public class DataManager {
 		CardFactory cardFactory = new CardFactory(board);
 		return cardFactory.getCards();
 	}
+	
 }

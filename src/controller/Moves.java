@@ -23,13 +23,10 @@ public class Moves {
 	 * and in the reinforce stage of every move.
 	 */
 
-	public static void reinforce(Player player, GameState gameState,
-			int territoryId, int numberOfArmies) throws BoardException,
-			IllegalMoveException {
+	public static void reinforce(Player player, GameState gameState, int territoryId, int numberOfArmies) throws BoardException, IllegalMoveException {
 		// TODO: check whether it is this players turn
 
-		Territory territory = gameState.getBoard().getTerritoriesById(
-				territoryId);
+		Territory territory = gameState.getBoard().getTerritoriesById(territoryId);
 
 		if (checkTerritoryCanBeReinforced(territory, player)) {
 			for (int i = 0; i < numberOfArmies; i++) {
@@ -42,8 +39,7 @@ public class Moves {
 		}
 	}
 
-	private static boolean checkTerritoryCanBeReinforced(Territory territory,
-			Player player) {
+	private static boolean checkTerritoryCanBeReinforced(Territory territory, Player player) {
 		boolean playerOwnsTerritory = false;
 
 		// check if player owns territory
@@ -78,36 +74,26 @@ public class Moves {
 	 * to the game state are necessary as the defence needs to be chosen before
 	 * the move can be calculated.
 	 */
-	public static void attack(Player player, GameState gameState,
-			int attackingTerritoryId, int defendingTerritoryId,
-			int numberOfArmies) throws BoardException, IllegalMoveException {
+	public static void attack(Player player, GameState gameState, int attackingTerritoryId, int defendingTerritoryId, int numberOfArmies) throws BoardException, IllegalMoveException {
 
-		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(
-				attackingTerritoryId);
-		Territory defendingTerritory = gameState.getBoard().getTerritoriesById(
-				defendingTerritoryId);
+		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(attackingTerritoryId);
+		Territory defendingTerritory = gameState.getBoard().getTerritoriesById(defendingTerritoryId);
 		Player defendingPlayer = defendingTerritory.getOwner();
 
-		if (!checkAttackIsLegal(player, defendingPlayer, gameState,
-				attackingTerritory, defendingTerritory, numberOfArmies)) {
+		if (!checkAttackIsLegal(player, defendingPlayer, gameState, attackingTerritory, defendingTerritory, numberOfArmies)) {
 			throw new IllegalMoveException();
 		}
 
 	}
 
-	private static boolean checkAttackIsLegal(Player player,
-			Player defendingPlayer, GameState gameState,
-			Territory attackingTerritory, Territory defendingTerritory,
-			int numberOfArmies) {
+	private static boolean checkAttackIsLegal(Player player, Player defendingPlayer, GameState gameState, Territory attackingTerritory, Territory defendingTerritory, int numberOfArmies) {
 
 		boolean legal = true;
 
 		if (player.equals(defendingPlayer)) {
 			legal = false;
 		}
-		if (!attackingTerritory.isNeighbouringTerritory(defendingTerritory)
-				|| !defendingTerritory
-						.isNeighbouringTerritory(attackingTerritory)) {
+		if (!attackingTerritory.isNeighbouringTerritory(defendingTerritory) || !defendingTerritory.isNeighbouringTerritory(attackingTerritory)) {
 			legal = false;
 		}
 		if (attackingTerritory.getOccupyingArmies().size() < 2) {
@@ -129,99 +115,83 @@ public class Moves {
 	 * Checks that a defence is legal and plays attack-defend scenario.
 	 */
 
-	public static boolean defend(Player attacker, GameState gameState,
-			int attackingTerritoryId, int defendingTerritoryId,
-			int numberOfAttackingArmies, int numberOfDefendingArmies)
-			throws BoardException, IllegalMoveException {
-		
+	public static boolean defend(Player attacker, GameState gameState, int attackingTerritoryId, int defendingTerritoryId, int numberOfAttackingArmies, int numberOfDefendingArmies) throws BoardException, IllegalMoveException {
+
 		boolean captured = false;
 
-		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(
-				attackingTerritoryId);
-		Territory defendingTerritory = gameState.getBoard().getTerritoriesById(
-				defendingTerritoryId);
+		Territory attackingTerritory = gameState.getBoard().getTerritoriesById(attackingTerritoryId);
+		Territory defendingTerritory = gameState.getBoard().getTerritoriesById(defendingTerritoryId);
 		Player defendingPlayer = defendingTerritory.getOwner();
-		
-		if (checkDefendIsLegal(attacker, defendingPlayer, gameState,
-				attackingTerritory, defendingTerritory,
-				numberOfAttackingArmies, numberOfDefendingArmies)) {
-			
+
+		if (checkDefendIsLegal(attacker, defendingPlayer, gameState, attackingTerritory, defendingTerritory, numberOfAttackingArmies, numberOfDefendingArmies)) {
+
 			List<Integer> attackerDie = DieManager.diceRoll(6, numberOfAttackingArmies);
 			Collections.sort(attackerDie, Collections.reverseOrder());
 			List<Integer> defenderDie = DieManager.diceRoll(6, numberOfDefendingArmies);
 			Collections.sort(defenderDie, Collections.reverseOrder());
-			
+
 			for (int i = 0; i < defenderDie.size() && i < attackerDie.size(); i++) {
-				if(attackerDie.get(i) > defenderDie.get(i)) {
+				if (attackerDie.get(i) > defenderDie.get(i)) {
 					removeArmyFromTerritory(defendingTerritory);
 				} else {
 					removeArmyFromTerritory(attackingTerritory);
 				}
 			}
-			
-			if(defendingTerritory.getOccupyingArmies().size() == 0) {
+
+			if (defendingTerritory.getOccupyingArmies().size() == 0) {
 				captured = true;
+				defendingTerritory.setOwner(attacker);
 				for (int i = 0; i < numberOfAttackingArmies; i++) {
-					removeArmyFromTerritory(defendingTerritory);
+					removeArmyFromTerritory(attackingTerritory);
 					Army army = new Army(attacker, defendingTerritory);
 					attacker.addArmies(army, defendingTerritory);
 					defendingTerritory.addOccupyingArmy(army);
 				}
-				defendingTerritory.setOwner(attacker);
 			}
-			
+
 		} else {
 			throw new IllegalMoveException();
 		}
-		
+
 		return captured;
 	}
-	
+
 	private static void removeArmyFromTerritory(Territory lostTerritory) {
-		if(lostTerritory.getOccupyingArmies().size() > 0) {
-			Army lostArmy =  lostTerritory.getOccupyingArmies().getLast();
+		if (lostTerritory.getOccupyingArmies().size() > 0) {
+			Army lostArmy = lostTerritory.getOccupyingArmies().getLast();
 			lostTerritory.getOccupyingArmies().remove(lostArmy);
 			lostTerritory.getOwner().getArmies().remove(lostArmy);
 		}
 	}
 
-	private static boolean checkDefendIsLegal(Player attacker,
-			Player defendingPlayer, GameState gameState,
-			Territory attackingTerritory, Territory defendingTerritory,
-			int numberOfAttackingArmies, int numberOfDefendingArmies) {
-		
+	private static boolean checkDefendIsLegal(Player attacker, Player defendingPlayer, GameState gameState, Territory attackingTerritory, Territory defendingTerritory, int numberOfAttackingArmies, int numberOfDefendingArmies) {
+
 		boolean legal = true;
-		
-		if(numberOfDefendingArmies > 2) {
+
+		if (numberOfDefendingArmies > 2) {
 			legal = false;
 		}
-		if(numberOfDefendingArmies > defendingTerritory.getOccupyingArmies().size()) {
+		if (numberOfDefendingArmies > defendingTerritory.getOccupyingArmies().size()) {
 			legal = false;
 		}
-		
+
 		return legal;
 	}
-	
+
 	/*
 	 * FORTIFY
 	 * 
 	 * Allows to move armies from one territory to another in the fortify stage
 	 * of a move.
 	 */
-	public static void fortify(Player player, GameState gameState,
-			int originTerritoryId, int destinationTerritoryId,
-			int numberOfArmies) throws BoardException, IllegalMoveException {
+	public static void fortify(Player player, GameState gameState, int originTerritoryId, int destinationTerritoryId, int numberOfArmies) throws BoardException, IllegalMoveException {
 
-		Territory originTerritory = gameState.getBoard().getTerritoriesById(
-				originTerritoryId);
-		Territory destinationTerritory = gameState.getBoard()
-				.getTerritoriesById(destinationTerritoryId);
+		Territory originTerritory = gameState.getBoard().getTerritoriesById(originTerritoryId);
+		Territory destinationTerritory = gameState.getBoard().getTerritoriesById(destinationTerritoryId);
 
-		if (checkFortifyIsLegal(player, originTerritory, destinationTerritory,
-				numberOfArmies)) {
+		if (checkFortifyIsLegal(player, originTerritory, destinationTerritory, numberOfArmies)) {
 			for (int i = 0; i < numberOfArmies; i++) {
-				Army movingArmy = originTerritory.getOccupyingArmies()
-						.getLast();
+				Army movingArmy = originTerritory.getOccupyingArmies().getLast();
 				originTerritory.getOccupyingArmies().remove(movingArmy);
 				try {
 					destinationTerritory.addOccupyingArmy(movingArmy);
@@ -235,16 +205,10 @@ public class Moves {
 
 	}
 
-	private static boolean checkFortifyIsLegal(Player player,
-			Territory originTerritory, Territory destinationTerritory,
-			int numberOfArmies) {
-		if (originTerritory.getOwner().equals(player)
-				&& destinationTerritory.getOwner().equals(player)) {
+	private static boolean checkFortifyIsLegal(Player player, Territory originTerritory, Territory destinationTerritory, int numberOfArmies) {
+		if (originTerritory.getOwner().equals(player) && destinationTerritory.getOwner().equals(player)) {
 			if (originTerritory.getOccupyingArmies().size() > numberOfArmies) {
-				if (originTerritory
-						.isNeighbouringTerritory(destinationTerritory)
-						&& destinationTerritory
-								.isNeighbouringTerritory(originTerritory)) {
+				if (originTerritory.isNeighbouringTerritory(destinationTerritory) && destinationTerritory.isNeighbouringTerritory(originTerritory)) {
 					return true;
 				}
 			}
