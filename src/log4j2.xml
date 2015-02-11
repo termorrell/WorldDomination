@@ -16,6 +16,9 @@
     <Logger name="controller.Moves" level="info" additivity="false">
       <AppenderRef ref="File"/>
     </Logger>
+    <Logger name="controller.CardMethods" level="info" additivity="false">
+      <AppenderRef ref="File"/>
+    </Logger>
     <Root level="error">
       <AppenderRef ref="File"/>
     </Root>
