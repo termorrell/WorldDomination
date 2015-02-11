@@ -147,7 +147,7 @@ public class Controller {
 		return true;
 	}
 
-	private int calculateNumberOfArmies() {
+	public int calculateNumberOfArmies() {
 		switch (model.getGameState().getNumberOfPlayers()) {
 		case 3:
 			return 35;
@@ -234,7 +234,7 @@ public class Controller {
 		}
 	}
 
-	private int calculateNumberOfArmies(Player player, GameState gameState) {
+	public int calculateNumberOfArmies(Player player, GameState gameState) {
 		int numberOfArmies = 0;
 
 		if (player.getTerritories().size() < 9) {

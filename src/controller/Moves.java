@@ -33,9 +33,10 @@ public class Moves {
 				Army army = new Army(player, territory);
 				player.addArmies(army, territory);
 				territory.addOccupyingArmy(army);
+
 			}
 		} else {
-			log.error("Illegal Move Detected in reinforce by " + player.getName().toString());
+			log.error("Illegal Move Detected in reinforce");
 			throw new IllegalMoveException();
 		}
 	}
