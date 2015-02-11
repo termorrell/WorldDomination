@@ -126,7 +126,7 @@ public class Controller {
 						Moves.reinforce(player, model.getGameState(), destinationTerritoryId, 1);
 						remainingArmies.put(player, remainingArmies.get(player) - 1);
 					} catch (BoardException e) {
-						System.err.println("A problem with the board occured.");
+						System.err.println("A problem with the board occurred.");
 					} catch (IllegalMoveException e) {
 						System.err.println("An illegal move was attempted. Please try again.");
 					}
@@ -181,7 +181,13 @@ public class Controller {
 			boolean playersTurnIsValid = true;
 			// Allow each player to select what move they would like to make
 			while (playersTurnIsValid) {
-
+				try {
+					CardMethods.tradeInCards(player, view, model);
+				}catch(IllegalMoveException e){
+						e.getStackTrace();
+				}catch(BoardException e){
+					e.getStackTrace();
+				}
 				// Ask the player what move they would like to perform
 				// TODO: Need to be able to pass in the available moves for a
 				// point in the game flow, so that one of two options is
@@ -201,8 +207,7 @@ public class Controller {
 			}
 
 			if (capturedTerritory) {
-				
-				// TODO do card stuff here
+				CardMethods.collectCard(player,model);
 			}
 
 			// Check whether the player has lost the game
@@ -291,17 +296,17 @@ public class Controller {
 		while (numberOfArmies > 0) {
 			System.out.println("\n");
 			model.getGameState().getBoard().printAvailableTerritories();
-			int destinationTerritoryId = view.getNumber(player.getName() + " , you have " + numberOfArmies + " armies. Please enter the territory ID you would like to deploy armies to: ");
-			int numberOfArmiesToBeDeploied = view.getNumber(player.getName() + " please enter the number of armies you would like to deploy: ");
-			if (numberOfArmiesToBeDeploied <= numberOfArmies) {
+			int destinationTerritoryId = view.getNumber(player.getName() + ", you have " + numberOfArmies + " armies. Please enter the territory ID you would like to deploy armies to: ");
+			int numberOfArmiesToBeDeployed = view.getNumber(player.getName() + " please enter the number of armies you would like to deploy: ");
+			if (numberOfArmiesToBeDeployed <= numberOfArmies) {
 				try {
-					Moves.reinforce(player, model.getGameState(), destinationTerritoryId, numberOfArmiesToBeDeploied);
+					Moves.reinforce(player, model.getGameState(), destinationTerritoryId, numberOfArmiesToBeDeployed);
 				} catch (BoardException e) {
-					System.err.println("A problem with the board occured.");
+					System.err.println("A problem with the board occurred.");
 				} catch (IllegalMoveException e) {
 					System.err.println("An illegal move was attempted. Please try again.");
 				}
-				numberOfArmies -= numberOfArmiesToBeDeploied;
+				numberOfArmies -= numberOfArmiesToBeDeployed;
 			} else {
 				System.out.println("Sorry, you don't have that many armies.");
 			}

@@ -32,7 +32,7 @@ public class Player {
 			if(cards.get(i).getTerritory() == null) {
 				builder.append("Wild card");
 			} else {
-				builder.append((i+1)+ " " + cards.get(i).getTerritory().name +": " + cards.get(i).getType());
+				builder.append(" " + cards.get(i).getTerritory().name +": " + cards.get(i).getType());
 			}
 			builder.append("\n");
 		}
@@ -94,7 +94,7 @@ public class Player {
 
 	public ArrayList<Territory> getTerritories() {
 		Collection<Territory> territories = armies.values();
-		HashSet<Territory> confinedTerritories = new HashSet<>(territories);
+		HashSet<Territory> confinedTerritories = new HashSet<Territory>(territories);
 		return new ArrayList<Territory>(confinedTerritories);
 	}
 	

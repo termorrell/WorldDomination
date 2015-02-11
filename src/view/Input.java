@@ -46,7 +46,7 @@ public class Input implements IView {
 
 	public int getNumber(String message) {
 		System.out.println(message);
-		int number = 0;
+		int number;
 		String input = readNextLine();
 		try {
 			number = Integer.parseInt(input);
@@ -59,7 +59,6 @@ public class Input implements IView {
 
 	public boolean getBoolean(String message) {
 		System.out.println(message);
-		int number = 0;
 		String input;
 		boolean responseBoolean = false;
 		boolean validInput = false;

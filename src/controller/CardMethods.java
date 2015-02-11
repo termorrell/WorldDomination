@@ -21,13 +21,14 @@ public class CardMethods {
 				int playerCards = activePlayer.getNoCards();
 				playerCards++;
 				activePlayer.setNoCards(playerCards);
+				System.out.println(activePlayer.getName()+ ", you have gained a "+ model.getGameState().getCards().get(i).getType()+" card");
 				break;
 			}
 		}
 	}
 
 	// Called at beginning of turn
-	public static void tradeInCards(Player activePlayer, BufferedReader reader, IView view, Model model) throws BoardException, IllegalMoveException {
+	public static void tradeInCards(Player activePlayer, IView view, Model model) throws BoardException, IllegalMoveException {
 		// Force player to trade in cards
 		if (activePlayer.getNoCards() >= 5) {
 			System.out.println("You have to trade in some of your cards");
@@ -36,29 +37,36 @@ public class CardMethods {
 
 		} else {
 			// Ask player to if they want to
-			activePlayer.printCards(activePlayer.getCards());
-			String input = view.getInput("Would you like to trade in your cards?(Y/N)");
-			input.toLowerCase();
-			if (input.equals("y")) {
-				cardTrader(activePlayer, view, model);
+			if(activePlayer.getNoCards()>3) {
+				activePlayer.printCards(activePlayer.getCards());
+				String input = view.getInput("Would you like to trade in your cards?(Y/N)");
+				input.toLowerCase();
+				if (input.equals("y")) {
+					cardTrader(activePlayer, view, model);
+				}
 			}
 		}
 	}
 
 	public static void cardTrader(Player activePlayer, IView view, Model model) throws BoardException, IllegalMoveException {
 		Card[] selectedCards = new Card[3];
-
+		int playerCards=activePlayer.getNoCards();
 		// Gather selected cards
 		for (int i = 0; i < 3; i++) {
-			int response = view.getNumber("Please enter the number of a card you would like to trade");
+			int response = view.getNumber("Please enter the number of a card you would like to trade:");
 			selectedCards[i] = activePlayer.getCards().get(response);
+			System.out.println(selectedCards[i].getId() + " " + selectedCards[i].getTerritory().getName()+": " + selectedCards[i].getType() + " selected for trade");
 		}
 		// Check you can trade in cards
 		if (verifyCardTrade(selectedCards)) {
 			awardArmies(model, activePlayer, selectedCards, view);
+			for(int i =0;i<2;i++){
+				activePlayer.getCards().remove(selectedCards[i]);
+			}
+			playerCards = playerCards-3;
+			activePlayer.setNoCards(playerCards);
 		} else {
 			System.out.println("Those cards can't be traded");
-			cardTrader(activePlayer, view, model);
 		}
 	}
 
@@ -108,6 +116,7 @@ public class CardMethods {
 		int selectedArmies;
 		int playerTerritorySelection;
 		int armiesAwarded = calculateArmiesAwarded(model);
+		System.out.println("You have been awarded: "+armiesAwarded+" armies");
 		for (int i = 0; i < 3; i++) {
 			if (activePlayer.getArmies().containsValue(selectedCards[i].getTerritory().getName())) {
 				playerTerritorySelection = selectedCards[i].getTerritory().getId();
@@ -115,15 +124,17 @@ public class CardMethods {
 				break;
 			}
 		}
-		while (armiesAwarded >= 0) {
+		while (armiesAwarded > 0) {
+			System.out.println("Armies left to be traded: "+ armiesAwarded);
 			model.getGameState().getBoard().printAvailableTerritories();
 			playerTerritorySelection = view.getNumber("What territory would you like to put your armies in?");
 			selectedArmies = view.getNumber("How many armies would you like to put on this territory? ");
-			if (armiesAwarded <= selectedArmies) {
+			if (selectedArmies <= armiesAwarded) {
 				armiesAwarded = armiesAwarded - selectedArmies;
 				Moves.reinforce(activePlayer, model.getGameState(), playerTerritorySelection, selectedArmies);
 			}
 		}
+		System.out.println("All armies added to board");
 	}
 
 	public static int calculateArmiesAwarded(Model model) {
