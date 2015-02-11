@@ -1,10 +1,9 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.LogManager;
 
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
@@ -12,9 +11,10 @@ import model.Army;
 import model.GameState;
 import model.Player;
 import model.Territory;
-import controller.DieManager;
+import org.apache.logging.log4j.Logger;
 
 public class Moves {
+	static Logger log = org.apache.logging.log4j.LogManager.getLogger(Controller.class.getName());
 
 	/*
 	 * REINFORCE
@@ -35,6 +35,7 @@ public class Moves {
 				territory.addOccupyingArmy(army);
 			}
 		} else {
+			log.error("Illegal Move Detected in reinforce by " + player.getName().toString());
 			throw new IllegalMoveException();
 		}
 	}

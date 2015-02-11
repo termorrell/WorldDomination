@@ -2,8 +2,6 @@ package controller;
 
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
-import factories.BoardFactory;
-import factories.CardFactory;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -178,9 +176,8 @@ public class Controller {
 
 			// Loop through players giving each player in turn a go
 			Player player = playerIterator.next();
-
 			collectArmies(player);
-
+			log.debug(player.getName().toString()+"'s turn begun");
 			boolean capturedTerritory = false;
 			boolean playersTurnIsValid = true;
 			// Allow each player to select what move they would like to make
@@ -188,8 +185,10 @@ public class Controller {
 				try {
 					CardMethods.tradeInCards(player, view, model);
 				}catch(IllegalMoveException e){
+					log.error("Illegal Move Made during card trader", e);
 						e.getStackTrace();
 				}catch(BoardException e){
+					log.error("Board Exception during card trader", e);
 					e.getStackTrace();
 				}
 				// Ask the player what move they would like to perform
@@ -211,12 +210,14 @@ public class Controller {
 			}
 
 			if (capturedTerritory) {
-				CardMethods.collectCard(player,model);
+				log.debug("Card collected after claimed territory");
+				CardMethods.collectCard(player, model);
 			}
 
 			// Check whether the player has lost the game
 			if (player.getTerritories().size() == 0) {
 				// Remove the player from the list of players
+				log.info(player.getName().toString()+" has been eliminated");
 				model.getGameState().getPlayers().remove(player);
 
 				// TODO: Need to maintain the position in the iterator,
@@ -256,10 +257,14 @@ public class Controller {
 		int numberOfAttackingArmies = view.getNumber(player.getName() + " please enter the number of armies you would like attack with: ");
 
 		try {
+			log.debug(player.getName().toString()+" attacked from territory ID: " + attackingTerritoryId + "and attacked: " + defendingTerritoryId+" with " +numberOfAttackingArmies+" armies");
+
 			Moves.attack(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies);
 			int numberOfDefendingArmies = view.getNumber(model.getGameState().getBoard().getTerritoriesById(defendingTerritoryId).getOwner().getName() + " please enter the number of armies you would like defend with: ");
+			log.debug(model.getGameState().getBoard().getTerritoriesById(defendingTerritoryId).getOwner().getName().toString()+"defending with "+ numberOfDefendingArmies);
 			capturedTerritory = Moves.defend(player, model.getGameState(), attackingTerritoryId, defendingTerritoryId, numberOfAttackingArmies, numberOfDefendingArmies);
 		} catch (IllegalMoveException e) {
+			log.error("Illegal Move Detected in attack by " + player.getName().toString());
 			e.printStackTrace();
 		} catch (BoardException e) {
 			e.printStackTrace();
@@ -275,8 +280,11 @@ public class Controller {
 		int numberOfArmies = view.getNumber(player.getName() + " please enter the number of armies you would like to move: ");
 
 		try {
+			log.debug(player.getName().toString()+" fortified from territory ID: " + originTerritoryId + "and sent to: " + destinationTerritoryId+" with " +numberOfArmies+" armies");
+
 			Moves.fortify(player, model.getGameState(), originTerritoryId, destinationTerritoryId, numberOfArmies);
 		} catch (IllegalMoveException e) {
+			log.error("Illegal Move Detected in fortify by " + player.getName().toString());
 			e.printStackTrace();
 		} catch (BoardException e) {
 			e.printStackTrace();
@@ -289,6 +297,7 @@ public class Controller {
 		int numberOfPlayersRemaining = model.getGameState().getPlayers().size();
 		if (numberOfPlayersRemaining < 2 && numberOfPlayersRemaining > 0) {
 			System.out.println("The game has finished. We have a winner");
+			log.info(model.getGameState().getPlayers().get(0).getName().toString()+" won the game!!!");
 			return true;
 		} else {
 			return false;
@@ -304,10 +313,13 @@ public class Controller {
 			int numberOfArmiesToBeDeployed = view.getNumber(player.getName() + " please enter the number of armies you would like to deploy: ");
 			if (numberOfArmiesToBeDeployed <= numberOfArmies) {
 				try {
+					log.debug(player.getName().toString() + " reinforced with territory ID: " + destinationTerritoryId + "and armies deployed " + numberOfArmiesToBeDeployed);
 					Moves.reinforce(player, model.getGameState(), destinationTerritoryId, numberOfArmiesToBeDeployed);
 				} catch (BoardException e) {
+					log.error("A problem with the board occurred when placing new armies");
 					System.err.println("A problem with the board occurred.");
 				} catch (IllegalMoveException e) {
+					log.error("Illegal move detected when placing new armies");
 					System.err.println("An illegal move was attempted. Please try again.");
 				}
 				numberOfArmies -= numberOfArmiesToBeDeployed;

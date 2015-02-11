@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="FATAL">
+<Configuration status="INFO">
   <Appenders>
 
  <File name="File" fileName="risk.log">
@@ -7,10 +7,13 @@
     </File>
   </Appenders>
   <Loggers>
-    <Logger name="program.Main" level="trace" additivity="false">
+    <Logger name="program.Main" level="info" additivity="false">
       <AppenderRef ref="File"/>
     </Logger>
-    <Logger name="controller.Controller" level="trace" additivity="false">
+    <Logger name="controller.Controller" level="info" additivity="false">
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="controller.Moves" level="info" additivity="false">
       <AppenderRef ref="File"/>
     </Logger>
     <Root level="error">
