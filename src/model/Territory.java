@@ -16,7 +16,7 @@ public class Territory {
 		this.id = id;
 		this.name = name;
 		this.continent = continent;
-		this.occupyingArmies = new LinkedList<>();
+		this.occupyingArmies = new LinkedList<Army>();
 	}
 
 	public int getId() {

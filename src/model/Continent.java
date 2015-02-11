@@ -4,11 +4,13 @@ public class Continent {
 	int id;
 	String name;
 	Territory[] territories;
+	final int reinforcementArmies;
 	
-	public Continent(int id, String name, Territory[] territories) {
+	public Continent(int id, String name, Territory[] territories, int reinforcementArmies) {
 		this.id = id;
 		this.name = name;
 		this.territories = territories;
+		this.reinforcementArmies = reinforcementArmies;
 	}
 
 	public int getId() {
@@ -33,6 +35,10 @@ public class Continent {
 
 	public void setTerritories(Territory[] territories) {
 		this.territories = territories;
+	}
+
+	public int getReinforcementArmies() {
+		return reinforcementArmies;
 	}
 
 }
