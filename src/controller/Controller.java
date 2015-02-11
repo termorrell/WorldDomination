@@ -5,6 +5,8 @@ import exceptions.IllegalMoveException;
 import factories.BoardFactory;
 import factories.CardFactory;
 import model.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import view.IView;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class Controller {
 
 	Model model;
 	IView view;
+	static Logger log = LogManager.getLogger(Controller.class.getName());
 
 	public Controller(Model model, IView view) {
 		this.model = model;
@@ -25,15 +28,16 @@ public class Controller {
 
 	public void run() {
 		// Initialise controller
-		init();
 
+
+		init();
 		// Players choose territories until all territories are occupied
 		claimTerritories();
 
-		// Players reinforce their territories until all inital armies are on
+		// Players reinforce their territories until all initial armies are on
 		// the board
 		distributeInitialArmies();
-
+		log.info("Finished Distributing Army Setup");
 		// Begin game play
 		beginGamePlay();
 

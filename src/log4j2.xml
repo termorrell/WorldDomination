@@ -3,11 +3,14 @@
   <Appenders>
 
  <File name="File" fileName="risk.log">
-            <PatternLayout pattern="[ %d{ISO8601} %-5level] %logger{36} - %msg%n"/>
+            <PatternLayout pattern="[%d{ISO8601} %-5level] %logger{36} - %msg%n"/>
     </File>
   </Appenders>
   <Loggers>
-    <Logger name="controller.LogCreator" level="trace" additivity="false">
+    <Logger name="program.Main" level="trace" additivity="false">
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="controller.Controller" level="trace" additivity="false">
       <AppenderRef ref="File"/>
     </Logger>
     <Root level="error">
