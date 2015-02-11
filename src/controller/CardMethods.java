@@ -3,6 +3,8 @@ package controller;
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
 import model.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import view.IView;
 
 import java.io.BufferedReader;
@@ -11,7 +13,8 @@ import java.io.BufferedReader;
  * Created by ${mm280} on 03/02/15.
  */
 public class CardMethods {
-	// Called at end of each turn if territory gained
+
+	static Logger log = LogManager.getLogger(CardMethods.class.getName());	// Called at end of each turn if territory gained
 	// TODO SHUFFLE CARDS?
 	public static void collectCard(Player activePlayer, Model model) {
 		for (int i = 0; i < model.getGameState().getCards().size(); i++) {
@@ -21,6 +24,7 @@ public class CardMethods {
 				int playerCards = activePlayer.getNoCards();
 				playerCards++;
 				activePlayer.setNoCards(playerCards);
+				log.debug(activePlayer.getName().toString()+" collected a "+ model.getGameState().getCards().get(i).getType()+" card");
 				System.out.println(activePlayer.getName()+ ", you have gained a "+ model.getGameState().getCards().get(i).getType()+" card");
 				break;
 			}
@@ -65,8 +69,10 @@ public class CardMethods {
 			}
 			playerCards = playerCards-3;
 			activePlayer.setNoCards(playerCards);
+			log.debug(activePlayer.getName().toString()+" traded in a set of cards");
 		} else {
 			System.out.println("Those cards can't be traded");
+			log.debug("Card trade failed, cards didn't match");
 		}
 	}
 

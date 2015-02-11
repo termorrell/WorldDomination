@@ -210,7 +210,6 @@ public class Controller {
 			}
 
 			if (capturedTerritory) {
-				log.debug("Card collected after claimed territory");
 				CardMethods.collectCard(player, model);
 			}
 
