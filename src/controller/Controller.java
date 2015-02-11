@@ -108,9 +108,9 @@ public class Controller {
 	 * distributed.
 	 */
 	private void distributeInitialArmies() {
-		int numberOfInitialArmies = calclulateNumberOfArmies();
+		int numberOfInitialArmies = calculateNumberOfArmies();
 
-		Map<Player, Integer> remainingArmies = new HashMap<>();
+		Map<Player, Integer> remainingArmies = new HashMap<Player, Integer>();
 		for (Player player : model.getGameState().getPlayers()) {
 			remainingArmies.put(player, numberOfInitialArmies - player.getArmies().size());
 		}
@@ -145,7 +145,7 @@ public class Controller {
 		return true;
 	}
 
-	private int calclulateNumberOfArmies() {
+	private int calculateNumberOfArmies() {
 		switch (model.getGameState().getNumberOfPlayers()) {
 		case 3:
 			return 35;
@@ -201,6 +201,7 @@ public class Controller {
 			}
 
 			if (capturedTerritory) {
+				
 				// TODO do card stuff here
 			}
 

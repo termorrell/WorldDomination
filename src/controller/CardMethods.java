@@ -13,7 +13,6 @@ import java.io.BufferedReader;
 public class CardMethods {
 	// Called at end of each turn if territory gained
 	// TODO SHUFFLE CARDS?
-	// TODO change attack method to return boolean?
 	public static void collectCard(Player activePlayer, Model model) {
 		for (int i = 0; i < model.getGameState().getCards().size(); i++) {
 			if (!model.getGameState().getCards().get(i).isAssigned()) {
