@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="FATAL">
+  <Appenders>
+
+ <File name="File" fileName="risk.log">
+            <PatternLayout pattern="[%d{ISO8601} %-5level] %logger{36} - %msg%n"/>
+    </File>
+  </Appenders>
+  <Loggers>
+    <Logger name="controller.Log" level="trace" additivity="false">
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Root level="error">
+      <AppenderRef ref="File"/>
+    </Root>
+  </Loggers>
+</Configuration>
