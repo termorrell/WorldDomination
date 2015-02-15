@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/controller/JsonParser.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/controller/ApiManager.java" afterPath="$PROJECT_DIR$/src/controller/ApiManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -47,8 +46,8 @@
       <file leaf-file-name="ApiManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controller/ApiManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.6375" vertical-offset="390" max-vertical-offset="825">
-              <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.4125" vertical-offset="0" max-vertical-offset="840">
+              <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#sendRequest#0;class#ApiManager#0" expanded="false" />
@@ -590,7 +589,13 @@
       <option name="project" value="LOCAL" />
       <updated>1424009585740</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="changed Parse methods slightly">
+      <created>1424009939802</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1424009939802</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -664,7 +669,8 @@
     <MESSAGE value="Updated config file" />
     <MESSAGE value="Added BoardSetup Tests" />
     <MESSAGE value="Added in ability to get command from JSON server response and call correct method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added in ability to get command from JSON server response and call correct method" />
+    <MESSAGE value="changed Parse methods slightly" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed Parse methods slightly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1160,8 +1166,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/ApiManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6375" vertical-offset="390" max-vertical-offset="825">
-          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.4125" vertical-offset="0" max-vertical-offset="840">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;method#sendRequest#0;class#ApiManager#0" expanded="false" />

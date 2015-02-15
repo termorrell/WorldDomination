@@ -10,7 +10,8 @@ abstract class ApiManager implements ApiMethods {
      * Takes in a string and converts to JSON
      */
     public void sendRequest(String json) {
-    
+    JSONObject obj = new JSONObject(json);
+
     }
     /**
      * Receive information from the server in the form of JSON and analyses it for each type of command
