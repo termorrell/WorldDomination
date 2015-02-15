@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="Added an updated model uml">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Umls/modelUml.png" />
+    <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="made a .png file for model UML">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WorldDomination.iws" />
@@ -32,138 +31,7 @@
     <favorites_list name="WorldDomination" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="ApiManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controller/ApiManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="docComment;method#sendRequest#0;class#ApiManager#0" expanded="false" />
-                <element signature="docComment;method#receiveRequest#0;class#ApiManager#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/program/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="810">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JAVA/model" pinned="false" current-in-tab="true">
-        <entry file="uml://JAVA/model">
-          <provider selected="true" editor-type-id="UmlEditorProvider">
-            <state>
-              <ID>JAVA</ID>
-              <OriginalElement>model</OriginalElement>
-              <nodes>
-                <node x="311.89243197278904" y="0.0">model.Player</node>
-                <node x="40.89328231292518" y="907.0">model.Board</node>
-                <node x="577.3541666666666" y="1331.5">model.PlayerInfo</node>
-                <node x="243.35416666666663" y="1253.0">model.GameState</node>
-                <node x="396.5" y="435.0">model.Army</node>
-                <node x="475.85416666666663" y="1512.0">model.Model</node>
-                <node x="209.87499999999997" y="627.0">model.Territory</node>
-                <node x="432.11805555555554" y="984.5">model.Card</node>
-                <node x="844.6180555555555" y="0.0">model.Move</node>
-                <node x="10.5" y="435.5">model.Continent</node>
-              </nodes>
-              <notes />
-              <edges>
-                <edge source="model.Territory" target="model.Army">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Model" target="model.GameState">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Continent" target="model.Territory">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Army" target="model.Player">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Card" target="model.Territory">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Model" target="model.PlayerInfo">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.GameState" target="model.Player">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Territory" target="model.Continent">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Player" target="model.Territory">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.GameState" target="model.Board">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Board" target="model.Territory">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.GameState" target="model.Card">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Territory" target="model.Player">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Player" target="model.Army">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Player" target="model.Card">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Board" target="model.Continent">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-                <edge source="model.Army" target="model.Territory">
-                  <point x="0.0" y="0.0" />
-                  <point x="0.0" y="0.0" />
-                </edge>
-              </edges>
-              <settings layout="Hierarchic Group" zoom="0.332719459791283" x="498.0" y="804.5" />
-              <SelectedNodes>
-                <node>model.Board</node>
-              </SelectedNodes>
-              <Categories>
-                <Category>Fields</Category>
-                <Category>Properties</Category>
-                <Category>Inner Classes</Category>
-                <Category>Methods</Category>
-                <Category>Constructors</Category>
-              </Categories>
-              <SCOPE>All</SCOPE>
-              <VISIBILITY>private</VISIBILITY>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -213,8 +81,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="10" />
-    <option name="y" value="43" />
+    <option name="y" value="48" />
     <option name="width" value="1260" />
     <option name="height" value="666" />
   </component>
@@ -243,6 +110,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -289,14 +157,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="library" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -485,6 +352,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
@@ -545,6 +418,7 @@
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/library/json-20141113.jar" />
       <envs />
       <method />
     </configuration>
@@ -656,7 +530,9 @@
       <workItem from="1422379425557" duration="2325000" />
       <workItem from="1422453035456" duration="6613000" />
       <workItem from="1423081599178" duration="4606000" />
-      <workItem from="1424016734902" duration="756000" />
+      <workItem from="1424016734902" duration="923000" />
+      <workItem from="1424018165245" duration="33000" />
+      <workItem from="1424023125337" duration="144000" />
     </task>
     <task id="LOCAL-00001" summary="Added the JUnit library to the project">
       <created>1422457440883</created>
@@ -790,19 +666,25 @@
       <option name="project" value="LOCAL" />
       <updated>1424017338737</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="made a .png file for model UML">
+      <created>1424017524110</created>
+      <option name="number" value="00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1424017524110</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14600000" />
+    <option name="totallyTimeSpent" value="14944000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="43" width="1260" height="666" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="48" width="1260" height="666" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32998326" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -813,7 +695,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32663316" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32810047" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -826,6 +707,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997344" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32810047" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -866,7 +748,8 @@
     <MESSAGE value="Added in ability to get command from JSON server response and call correct method" />
     <MESSAGE value="changed Parse methods slightly" />
     <MESSAGE value="Added an updated model uml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added an updated model uml" />
+    <MESSAGE value="made a .png file for model UML" />
+    <option name="LAST_COMMIT_MESSAGE" value="made a .png file for model UML" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -911,19 +794,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2040" max-vertical-offset="2370">
           <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-          <folding>
-            <element signature="method#init#0;class#Controller#0" expanded="false" />
-            <element signature="method#claimTerritories#0;class#Controller#0" expanded="false" />
-            <element signature="method#distributeInitialArmies#0;class#Controller#0" expanded="false" />
-            <element signature="method#allArmiesPlaced#0;class#Controller#0" expanded="false" />
-            <element signature="method#calculateNumberOfArmies#0;class#Controller#0" expanded="false" />
-            <element signature="method#beginGamePlay#0;class#Controller#0" expanded="false" />
-            <element signature="method#calculateNumberOfArmies#1;class#Controller#0" expanded="false" />
-            <element signature="method#attackTerritory#0;class#Controller#0" expanded="false" />
-            <element signature="method#fortifyTerritory#0;class#Controller#0" expanded="false" />
-            <element signature="method#checkWinnerExists#0;class#Controller#0" expanded="false" />
-            <element signature="method#collectArmies#0;class#Controller#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -980,31 +850,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1245">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#469#470#0" expanded="false" />
-            <element signature="e#485#486#0" expanded="false" />
-            <element signature="e#515#516#0" expanded="false" />
-            <element signature="e#534#535#0" expanded="false" />
-            <element signature="e#562#563#0" expanded="false" />
-            <element signature="e#580#581#0" expanded="false" />
-            <element signature="e#617#618#0" expanded="false" />
-            <element signature="e#640#641#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="false" />
-            <element signature="e#688#689#0" expanded="false" />
-            <element signature="e#727#728#0" expanded="false" />
-            <element signature="e#752#753#0" expanded="false" />
-            <element signature="e#788#789#0" expanded="false" />
-            <element signature="e#811#812#0" expanded="false" />
-            <element signature="e#861#862#0" expanded="false" />
-            <element signature="e#894#895#0" expanded="false" />
-            <element signature="e#933#934#0" expanded="false" />
-            <element signature="e#957#958#0" expanded="false" />
-            <element signature="e#1011#1012#0" expanded="false" />
-            <element signature="e#1046#1047#0" expanded="false" />
-            <element signature="e#1095#1096#0" expanded="false" />
-            <element signature="e#1124#1125#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1019,19 +864,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="825">
           <caret line="34" column="62" selection-start-line="34" selection-start-column="62" selection-end-line="34" selection-end-column="62" />
-          <folding>
-            <element signature="method#init#0;class#Controller#0" expanded="false" />
-            <element signature="method#claimTerritories#0;class#Controller#0" expanded="false" />
-            <element signature="method#distributeInitialArmies#0;class#Controller#0" expanded="false" />
-            <element signature="method#allArmiesPlaced#0;class#Controller#0" expanded="false" />
-            <element signature="method#calculateNumberOfArmies#0;class#Controller#0" expanded="false" />
-            <element signature="method#beginGamePlay#0;class#Controller#0" expanded="false" />
-            <element signature="method#calculateNumberOfArmies#1;class#Controller#0" expanded="false" />
-            <element signature="method#attackTerritory#0;class#Controller#0" expanded="false" />
-            <element signature="method#fortifyTerritory#0;class#Controller#0" expanded="false" />
-            <element signature="method#checkWinnerExists#0;class#Controller#0" expanded="false" />
-            <element signature="method#collectArmies#0;class#Controller#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1067,31 +899,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1095">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#469#470#0" expanded="false" />
-            <element signature="e#485#486#0" expanded="false" />
-            <element signature="e#515#516#0" expanded="false" />
-            <element signature="e#534#535#0" expanded="false" />
-            <element signature="e#562#563#0" expanded="false" />
-            <element signature="e#580#581#0" expanded="false" />
-            <element signature="e#617#618#0" expanded="false" />
-            <element signature="e#640#641#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="false" />
-            <element signature="e#688#689#0" expanded="false" />
-            <element signature="e#727#728#0" expanded="false" />
-            <element signature="e#752#753#0" expanded="false" />
-            <element signature="e#788#789#0" expanded="false" />
-            <element signature="e#811#812#0" expanded="false" />
-            <element signature="e#861#862#0" expanded="false" />
-            <element signature="e#894#895#0" expanded="false" />
-            <element signature="e#933#934#0" expanded="false" />
-            <element signature="e#957#958#0" expanded="false" />
-            <element signature="e#1011#1012#0" expanded="false" />
-            <element signature="e#1046#1047#0" expanded="false" />
-            <element signature="e#1095#1096#0" expanded="false" />
-            <element signature="e#1124#1125#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1120,31 +927,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1245">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#469#470#0" expanded="false" />
-            <element signature="e#485#486#0" expanded="false" />
-            <element signature="e#515#516#0" expanded="false" />
-            <element signature="e#534#535#0" expanded="false" />
-            <element signature="e#562#563#0" expanded="false" />
-            <element signature="e#580#581#0" expanded="false" />
-            <element signature="e#617#618#0" expanded="false" />
-            <element signature="e#640#641#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="false" />
-            <element signature="e#688#689#0" expanded="false" />
-            <element signature="e#727#728#0" expanded="false" />
-            <element signature="e#752#753#0" expanded="false" />
-            <element signature="e#788#789#0" expanded="false" />
-            <element signature="e#811#812#0" expanded="false" />
-            <element signature="e#861#862#0" expanded="false" />
-            <element signature="e#894#895#0" expanded="false" />
-            <element signature="e#933#934#0" expanded="false" />
-            <element signature="e#957#958#0" expanded="false" />
-            <element signature="e#1011#1012#0" expanded="false" />
-            <element signature="e#1046#1047#0" expanded="false" />
-            <element signature="e#1095#1096#0" expanded="false" />
-            <element signature="e#1124#1125#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1215,7 +997,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.098522164" vertical-offset="0" max-vertical-offset="609">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1258,7 +1039,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5418719" vertical-offset="0" max-vertical-offset="609">
           <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1266,17 +1046,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="231" max-vertical-offset="1260">
           <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#checkTerritoryCanBeReinforced#0;class#Moves#0" expanded="false" />
-            <element signature="method#attack#0;class#Moves#0" expanded="false" />
-            <element signature="method#checkAttackIsLegal#0;class#Moves#0" expanded="false" />
-            <element signature="method#defend#0;class#Moves#0" expanded="false" />
-            <element signature="method#removeArmyFromTerritory#0;class#Moves#0" expanded="false" />
-            <element signature="method#checkDefendIsLegal#0;class#Moves#0" expanded="false" />
-            <element signature="method#fortify#0;class#Moves#0" expanded="false" />
-            <element signature="method#checkFortifyIsLegal#0;class#Moves#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1284,7 +1053,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.26108375" vertical-offset="1446" max-vertical-offset="2055">
           <caret line="123" column="51" selection-start-line="123" selection-start-column="51" selection-end-line="123" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1292,7 +1060,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.54697984" vertical-offset="754" max-vertical-offset="1350">
           <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1300,19 +1067,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5075" vertical-offset="532" max-vertical-offset="1290">
           <caret line="102" column="8" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
-          <folding>
-            <element signature="method#init#0;class#Controller#0" expanded="false" />
-            <element signature="method#claimTerritories#0;class#Controller#0" expanded="false" />
-            <element signature="method#distributeInitialArmies#0;class#Controller#0" expanded="false" />
-            <element signature="method#allArmiesPlaced#0;class#Controller#0" expanded="false" />
-            <element signature="method#calculateNumberOfArmies#0;class#Controller#0" expanded="false" />
-            <element signature="method#beginGamePlay#0;class#Controller#0" expanded="false" />
-            <element signature="method#calculateNumberOfArmies#1;class#Controller#0" expanded="false" />
-            <element signature="method#attackTerritory#0;class#Controller#0" expanded="false" />
-            <element signature="method#fortifyTerritory#0;class#Controller#0" expanded="false" />
-            <element signature="method#checkWinnerExists#0;class#Controller#0" expanded="false" />
-            <element signature="method#collectArmies#0;class#Controller#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1320,14 +1074,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.5478036" vertical-offset="199" max-vertical-offset="1575">
           <caret line="127" column="83" selection-start-line="127" selection-start-column="83" selection-end-line="127" selection-end-column="83" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#cardTrader#0;class#CardMethods#0" expanded="false" />
-            <element signature="method#verifyCardTrade#0;class#CardMethods#0" expanded="false" />
-            <element signature="method#checkAllSameType#0;class#CardMethods#0" expanded="false" />
-            <element signature="method#checkAllDifferentType#0;class#CardMethods#0" expanded="false" />
-            <element signature="method#calculateArmiesAwarded#0;class#CardMethods#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1335,27 +1081,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.26362038" vertical-offset="0" max-vertical-offset="569">
           <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/ApiManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#sendRequest#0;class#ApiManager#0" expanded="false" />
-            <element signature="docComment;method#receiveRequest#0;class#ApiManager#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/program/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="810">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1363,7 +1088,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.13181019" vertical-offset="0" max-vertical-offset="569">
           <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1378,101 +1102,44 @@
           <ID>JAVA</ID>
           <OriginalElement>model</OriginalElement>
           <nodes>
-            <node x="311.89243197278904" y="0.0">model.Player</node>
-            <node x="40.89328231292518" y="907.0">model.Board</node>
-            <node x="577.3541666666666" y="1331.5">model.PlayerInfo</node>
-            <node x="243.35416666666663" y="1253.0">model.GameState</node>
-            <node x="396.5" y="435.0">model.Army</node>
-            <node x="475.85416666666663" y="1512.0">model.Model</node>
-            <node x="209.87499999999997" y="627.0">model.Territory</node>
-            <node x="432.11805555555554" y="984.5">model.Card</node>
-            <node x="844.6180555555555" y="0.0">model.Move</node>
-            <node x="10.5" y="435.5">model.Continent</node>
+            <node x="" y="">model.Player</node>
+            <node x="" y="">model.Board</node>
+            <node x="" y="">model.PlayerInfo</node>
+            <node x="" y="">model.GameState</node>
+            <node x="" y="">model.Army</node>
+            <node x="" y="">model.Model</node>
+            <node x="" y="">model.Territory</node>
+            <node x="" y="">model.Card</node>
+            <node x="" y="">model.Move</node>
+            <node x="" y="">model.Continent</node>
           </nodes>
           <notes />
-          <edges>
-            <edge source="model.Territory" target="model.Army">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Model" target="model.GameState">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Continent" target="model.Territory">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Army" target="model.Player">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Card" target="model.Territory">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Model" target="model.PlayerInfo">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.GameState" target="model.Player">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Territory" target="model.Continent">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Player" target="model.Territory">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.GameState" target="model.Board">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Board" target="model.Territory">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.GameState" target="model.Card">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Territory" target="model.Player">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Player" target="model.Army">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Player" target="model.Card">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Board" target="model.Continent">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="model.Army" target="model.Territory">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="0.332719459791283" x="498.0" y="804.5" />
-          <SelectedNodes>
-            <node>model.Board</node>
-          </SelectedNodes>
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.332719459791283" x="498.0" y="805.0" />
+          <SelectedNodes />
           <Categories>
-            <Category>Fields</Category>
-            <Category>Properties</Category>
-            <Category>Inner Classes</Category>
-            <Category>Methods</Category>
             <Category>Constructors</Category>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+            <Category>Inner Classes</Category>
+            <Category>Properties</Category>
           </Categories>
           <SCOPE>All</SCOPE>
           <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/program/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7539543" vertical-offset="36" max-vertical-offset="810">
+          <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/ApiManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10544816" vertical-offset="0" max-vertical-offset="840">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
         </state>
       </provider>
     </entry>
