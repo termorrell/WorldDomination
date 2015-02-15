@@ -5,16 +5,13 @@ import org.json.JSONObject;
 
 abstract class ApiManager implements ApiMethods {
 
-
     /**
      * Sends a request to server
-     * Takes in a string of Json?
+     * Takes in a string and converts to JSON
      */
     public void sendRequest(String json) {
-
+    
     }
-
-
     /**
      * Receive information from the server in the form of JSON and analyses it for each type of command
      */
@@ -52,4 +49,6 @@ abstract class ApiManager implements ApiMethods {
             unrecognisedResponse(payload);
         }
     }
+
+
 }
