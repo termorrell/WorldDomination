@@ -20,7 +20,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/ideaProjects/json-20141113.jar!/" />
+          <root url="jar://$MODULE_DIR$/library/json-20141113.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -29,7 +29,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/apache-log4j-2.1-bin/log4j-core-2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/library/log4j-api-2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -38,7 +38,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/apache-log4j-2.1-bin/log4j-api-2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/library/log4j-core-2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
