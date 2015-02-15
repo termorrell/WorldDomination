@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>model</OriginalElement>
+  <nodes>
+    <node x="311.89243197278904" y="0.0">model.Player</node>
+    <node x="40.89328231292518" y="907.0">model.Board</node>
+    <node x="577.3541666666666" y="1331.5">model.PlayerInfo</node>
+    <node x="243.35416666666663" y="1253.0">model.GameState</node>
+    <node x="396.5" y="435.0">model.Army</node>
+    <node x="475.85416666666663" y="1512.0">model.Model</node>
+    <node x="209.87499999999997" y="627.0">model.Territory</node>
+    <node x="432.11805555555554" y="984.5">model.Card</node>
+    <node x="844.6180555555555" y="0.0">model.Move</node>
+    <node x="10.5" y="435.5">model.Continent</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Model" target="model.GameState">
+      <point x="-18.0" y="-48.5" />
+      <point x="529.8541666666666" y="1482.0" />
+      <point x="478.85416666666663" y="1482.0" />
+      <point x="78.5" y="104.5" />
+    </edge>
+    <edge source="model.Territory" target="model.Army">
+      <point x="34.33333333333337" y="-115.0" />
+      <point x="450.20833333333337" y="602.0" />
+      <point x="445.75" y="602.0" />
+      <point x="-49.25" y="71.0" />
+    </edge>
+    <edge source="model.Army" target="model.Player">
+      <point x="-49.24999999999994" y="-71.0" />
+      <point x="445.75000000000006" y="415.0" />
+      <point x="460.1067176870748" y="415.0" />
+      <point x="-59.28571428571422" y="192.5" />
+    </edge>
+    <edge source="model.Continent" target="model.Territory">
+      <point x="136.875" y="70.5" />
+      <point x="329.875" y="602.0" />
+      <point x="312.875" y="602.0" />
+      <point x="-103.0" y="-115.0" />
+    </edge>
+    <edge source="model.Card" target="model.Territory">
+      <point x="-89.25" y="-70.5" />
+      <point x="521.3680555555555" y="882.0" />
+      <point x="553.2083333333334" y="882.0" />
+      <point x="137.33333333333337" y="115.0" />
+    </edge>
+    <edge source="model.Model" target="model.PlayerInfo">
+      <point x="54.0" y="-48.5" />
+      <point x="601.8541666666666" y="1492.0" />
+      <point x="695.8541666666666" y="1492.0" />
+      <point x="39.5" y="26.0" />
+    </edge>
+    <edge source="model.GameState" target="model.Player">
+      <point x="117.75" y="-104.5" />
+      <point x="518.1041666666666" y="1233.0" />
+      <point x="799.6180555555555" y="1233.0" />
+      <point x="799.6180555555555" y="415.0" />
+      <point x="697.2495748299319" y="415.0" />
+      <point x="177.85714285714286" y="192.5" />
+    </edge>
+    <edge source="model.Territory" target="model.Continent">
+      <point x="-171.66666666666669" y="-115.0" />
+      <point x="244.2083333333333" y="602.0" />
+      <point x="238.625" y="602.0" />
+      <point x="45.625" y="70.5" />
+    </edge>
+    <edge source="model.Player" target="model.Territory">
+      <point x="-118.57142857142856" y="192.5" />
+      <point x="400.8210034013605" y="415.0" />
+      <point x="386.0" y="415.0" />
+      <point x="386.0" y="602.0" />
+      <point x="381.54166666666663" y="602.0" />
+      <point x="-34.333333333333314" y="-115.0" />
+    </edge>
+    <edge source="model.Board" target="model.Territory">
+      <point x="136.125" y="-148.0" />
+      <point x="358.5182823129252" y="882.0" />
+      <point x="415.875" y="882.0" />
+      <point x="0.0" y="115.0" />
+    </edge>
+    <edge source="model.GameState" target="model.Board">
+      <point x="-39.25" y="-104.5" />
+      <point x="361.10416666666663" y="1223.0" />
+      <point x="222.39328231292518" y="1223.0" />
+      <point x="0.0" y="148.0" />
+    </edge>
+    <edge source="model.GameState" target="model.Card">
+      <point x="39.25" y="-104.5" />
+      <point x="439.60416666666663" y="1223.0" />
+      <point x="610.6180555555555" y="1223.0" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="model.Territory" target="model.Player">
+      <point x="171.66666666666674" y="-115.0" />
+      <point x="587.5416666666667" y="602.0" />
+      <point x="645.4791666666666" y="602.0" />
+      <point x="645.4791666666666" y="415.0" />
+      <point x="578.6781462585034" y="415.0" />
+      <point x="59.285714285714334" y="192.5" />
+    </edge>
+    <edge source="model.Player" target="model.Army">
+      <point x="5.6843418860808015E-14" y="192.5" />
+      <point x="519.3924319727892" y="415.0" />
+      <point x="544.25" y="415.0" />
+      <point x="49.25000000000006" y="-71.0" />
+    </edge>
+    <edge source="model.Player" target="model.Card">
+      <point x="118.57142857142856" y="192.5" />
+      <point x="637.9638605442176" y="405.0" />
+      <point x="679.4349489795918" y="405.0" />
+      <point x="679.4349489795918" y="882.0" />
+      <point x="699.8680555555555" y="882.0" />
+      <point x="89.25" y="-70.5" />
+    </edge>
+    <edge source="model.Board" target="model.Continent">
+      <point x="-136.125" y="-148.0" />
+      <point x="86.26828231292518" y="882.0" />
+      <point x="96.25" y="882.0" />
+      <point x="96.25" y="602.0" />
+      <point x="56.125" y="602.0" />
+      <point x="-136.875" y="70.5" />
+    </edge>
+    <edge source="model.Army" target="model.Territory">
+      <point x="49.25000000000006" y="71.0" />
+      <point x="544.25" y="602.0" />
+      <point x="518.875" y="602.0" />
+      <point x="103.0" y="-115.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.36351441985244803" x="473.5" y="735.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
