@@ -1,5 +1,8 @@
 package controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 abstract class ApiManager implements ApiMethods {
 
 
@@ -13,38 +16,40 @@ abstract class ApiManager implements ApiMethods {
 
 
     /**
-     * Receive information from the server and analyses it for each type of command
+     * Receive information from the server in the form of JSON and analyses it for each type of command
      */
-    public void receiveRequest() {
-        String serverResponse = "";
-        if (serverResponse.contains("attack")) {
-            attackReceived(serverResponse);
-        } else if (serverResponse.contains("defend")) {
-            defendReceived(serverResponse);
-        } else if (serverResponse.contains("join_game")) {
-            joinGameReceived(serverResponse);
-        } else if (serverResponse.contains("roll")) {
-            rollReceived(serverResponse);
-        } else if (serverResponse.contains("roll_hash")) {
-            rollHashReceived(serverResponse);
-        } else if (serverResponse.contains("roll_number")) {
-            rollNumberReceived(serverResponse);
-        } else if (serverResponse.contains("setup")) {
-            setupReceived(serverResponse);
-        } else if (serverResponse.contains("acknowledgement")) {
-            acknowledgementReceived(serverResponse);
-        } else if (serverResponse.contains("trade_in_cards")) {
-            tradeInReceived(serverResponse);
-        } else if (serverResponse.contains("deploy")) {
-            deployReceived(serverResponse);
-        } else if (serverResponse.contains("attack_capture")) {
-            attackWonReceived(serverResponse);
-        } else if (serverResponse.contains("fortify")) {
-            fortifyReceived(serverResponse);
-        } else if (serverResponse.contains("win")) {
-            winReceived(serverResponse);
+    public void receiveRequest(JSONObject response) {
+        String command = response.getString("command");
+        command.toLowerCase();
+        JSONArray payload = response.getJSONArray("payload");
+        if (command.equals("attack")) {
+            attackReceived(payload);
+        } else if (command.equals("defend")) {
+            defendReceived(payload);
+        } else if (command.equals("join_game")) {
+            joinGameReceived(payload);
+        } else if (command.equals("roll")) {
+            rollReceived(payload);
+        } else if (command.equals("roll_hash")) {
+            rollHashReceived(payload);
+        } else if (command.equals("roll_number")) {
+            rollNumberReceived(payload);
+        } else if (command.equals("setup")) {
+            setupReceived(payload);
+        } else if (command.equals("acknowledgement")) {
+            acknowledgementReceived(payload);
+        } else if (command.equals("trade_in_cards")) {
+            tradeInReceived(payload);
+        } else if (command.equals("deploy")) {
+            deployReceived(payload);
+        } else if (command.equals("attack_capture")) {
+            attackWonReceived(payload);
+        } else if (command.equals("fortify")) {
+            fortifyReceived(payload);
+        } else if (command.equals("win")) {
+            winReceived(payload);
         } else {
-            unrecognisedResponse(serverResponse);
+            unrecognisedResponse(payload);
         }
     }
 }
