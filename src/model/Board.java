@@ -70,7 +70,7 @@ public class Board {
 
 	private boolean playerOwnsContinent(Player player, Continent continent) {
 		for (Territory territory : continent.getTerritories()) {
-			if (!territory.getOwner().equals(player)) {
+			if (territory.getOwner()== null || !territory.getOwner().equals(player)) {
 				return false;
 			}
 		}
