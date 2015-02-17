@@ -1,25 +1,27 @@
 package controller;
 
+import org.json.JSONArray;
+
 /**
  * Created by Maria on 27/11/14.
  */
 public interface ApiMethods {
 
 
-    public void attackReceived(String json);
-    public void defendReceived(String json);
-    public void joinGameReceived(String json);
-    public void rollReceived(String json);
-    public void rollHashReceived(String json);
-    public void rollNumberReceived(String json);
-    public void setupReceived(String json);
-    public void acknowledgementReceived(String json);
-    public void tradeInReceived(String json);
-    public void deployReceived(String json);
-    public void attackWonReceived(String json);
-    public void fortifyReceived(String json);
-    public void winReceived(String json);
-    public void unrecognisedResponse(String json);
+    public void attackReceived(JSONArray json);
+    public void defendReceived(JSONArray json);
+    public void joinGameReceived(JSONArray json);
+    public void rollReceived(JSONArray json);
+    public void rollHashReceived(JSONArray json);
+    public void rollNumberReceived(JSONArray json);
+    public void setupReceived(JSONArray json);
+    public void acknowledgementReceived(JSONArray json);
+    public void tradeInReceived(JSONArray json);
+    public void deployReceived(JSONArray json);
+    public void attackWonReceived(JSONArray json);
+    public void fortifyReceived(JSONArray json);
+    public void winReceived(JSONArray json);
+    public void unrecognisedResponse(JSONArray json);
 
 
 }
