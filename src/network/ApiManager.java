@@ -3,12 +3,12 @@ package network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-abstract class ApiManager implements ApiMethods {
+public class ApiManager implements ApiMethods {
 
 
-    public JSONObject parseResponse(String response){
+    public void parseResponse(String response){
         JSONObject obj = new JSONObject(response);
-        return obj;
+        receivedRequest(obj);
     }
     /**
      * Sends a request to server
@@ -21,7 +21,7 @@ abstract class ApiManager implements ApiMethods {
     /**
      * Receive information from the server in the form of JSON and analyses it for each type of command
      */
-    public void receiveRequest(JSONObject response) {
+    public void receivedRequest(JSONObject response) {
         String command = response.getString("command");
         command.toLowerCase();
         JSONArray payload = response.getJSONArray("payload");
@@ -56,5 +56,65 @@ abstract class ApiManager implements ApiMethods {
         }
     }
 
+    public void attackReceived(JSONArray json){
+        
+    }
+    public void defendReceived(JSONArray json) {
+
+    }
+
+    public void joinGameReceived(JSONArray json) {
+
+    }
+
+
+    public void rollReceived(JSONArray json) {
+
+    }
+
+
+    public void rollHashReceived(JSONArray json) {
+
+    }
+
+    public void rollNumberReceived(JSONArray json) {
+
+    }
+
+    public void setupReceived(JSONArray json) {
+
+    }
+
+    public void acknowledgementReceived(JSONArray json) {
+
+    }
+
+
+    public void tradeInReceived(JSONArray json) {
+
+    }
+    public void deployReceived(JSONArray json) {
+
+    }
+
+    @Override
+    public void attackWonReceived(JSONArray json) {
+
+    }
+
+    @Override
+    public void fortifyReceived(JSONArray json) {
+
+    }
+
+    @Override
+    public void winReceived(JSONArray json) {
+
+    }
+
+    @Override
+    public void unrecognisedResponse(JSONArray json) {
+
+    }
 
 }

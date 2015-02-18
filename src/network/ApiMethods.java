@@ -9,7 +9,8 @@ import org.json.JSONObject;
 public interface ApiMethods {
 
     public void sendRequest(String json);
-    public JSONObject parseResponse(String response);
+    public void parseResponse(String response);
+    public void receivedRequest(JSONObject response);
 
     public void attackReceived(JSONArray json);
     public void defendReceived(JSONArray json);

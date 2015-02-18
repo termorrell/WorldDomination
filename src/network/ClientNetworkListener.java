@@ -9,6 +9,7 @@ import com.esotericsoftware.minlog.Log;
  */
 public class ClientNetworkListener extends Listener{
 
+    ApiMethods api = new ApiManager();
     public void connected(Connection connection) {
         Log.info("[Server] Someone is trying to connect.");
     }
@@ -22,6 +23,7 @@ public class ClientNetworkListener extends Listener{
         if(object instanceof NetworkPacket){
             NetworkPacket response = (NetworkPacket)object;
             // TODO call methods to look at response, parse methods stored in API
+            api.parseResponse(response.getJsonStringResponse());
             System.out.println(response.getJsonStringResponse());
         }
     }
