@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/NetworkListener.java" afterPath="$PROJECT_DIR$/src/network/NetworkListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/TestClient.java" afterPath="$PROJECT_DIR$/src/network/TestClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/TestServer.java" afterPath="$PROJECT_DIR$/src/network/TestServer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WorldDomination.iws" />
@@ -69,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NetworkListener.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NetworkListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/network/NetworkListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6359223" vertical-offset="143" max-vertical-offset="555">
-              <caret line="34" column="31" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="143" max-vertical-offset="570">
+              <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#init#0;class#NetworkListener#0" expanded="false" />
@@ -82,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestClient.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TestClient.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/network/TestClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="263" max-vertical-offset="765">
-              <caret line="28" column="35" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.81796116" vertical-offset="263" max-vertical-offset="765">
+              <caret line="40" column="43" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -721,7 +719,13 @@
       <option name="project" value="LOCAL" />
       <updated>1424282976220</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Send messages between client and server">
+      <created>1424283648319</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1424283648319</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -775,7 +779,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added the id's for each continent" />
     <MESSAGE value="Corrected the game flow for the setup" />
     <MESSAGE value="Refactored the naming for the check for winner method" />
     <MESSAGE value="Added tha ability to continue a turn indefinitely" />
@@ -800,7 +803,8 @@
     <MESSAGE value="Added external Jars for networking" />
     <MESSAGE value="Setting up packet for json" />
     <MESSAGE value="Client sends stuff to server!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Client sends stuff to server!" />
+    <MESSAGE value="Send messages between client and server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Send messages between client and server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1127,6 +1131,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/network/NetworkPacket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="23" max-vertical-offset="450">
+          <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/network/ApiManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="975">
@@ -1145,14 +1157,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/NetworkPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="23" max-vertical-offset="450">
-          <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/network/TestServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="705">
@@ -1163,23 +1167,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/TestClient.java">
+    <entry file="file://$PROJECT_DIR$/src/network/NetworkListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="263" max-vertical-offset="765">
-          <caret line="28" column="35" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="143" max-vertical-offset="570">
+          <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#init#0;class#NetworkListener#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/NetworkListener.java">
+    <entry file="file://$PROJECT_DIR$/src/network/TestClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6359223" vertical-offset="143" max-vertical-offset="555">
-          <caret line="34" column="31" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.81796116" vertical-offset="263" max-vertical-offset="765">
+          <caret line="40" column="43" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#init#0;class#NetworkListener#0" expanded="false" />
           </folding>
         </state>
       </provider>

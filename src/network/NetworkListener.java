@@ -27,9 +27,10 @@ public class NetworkListener extends Listener {
     public void received(Connection connection, Object object) {
         if(object instanceof NetworkPacket){
             NetworkPacket response = (NetworkPacket)object;
+            // TODO call methods to look at response, parse methods stored in API
             System.out.println(response.getJsonStringResponse());
             NetworkPacket packet = new NetworkPacket();
-
+            //TODO send a correct string
             packet.setJsonStringResponse("hello");
             connection.sendTCP(packet);
             connection.close();
