@@ -1,24 +1,30 @@
 package network;
 
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.minlog.Log;
 
 /**
  * Created by ${mm280} on 18/02/15.
  */
 public class NetworkListener extends Listener {
-    @Override
+
+    private Client client;
+    public void init(Client client){
+        this.client=client;
+
+    }
     public void connected(Connection connection) {
-        super.connected(connection);
+        Log.info("[Server] Someone is trying to connect.");
     }
 
-    @Override
     public void disconnected(Connection connection) {
-
+        Log.info("[Server] Someone is trying to disconnect.");
     }
 
-    @Override
+    //Object is thing server has received from client
     public void received(Connection connection, Object object) {
-        super.received(connection, object);
+        connection.sendTCP("thanks");
     }
 }

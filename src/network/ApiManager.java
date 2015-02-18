@@ -1,10 +1,15 @@
-package controller;
+package network;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 abstract class ApiManager implements ApiMethods {
 
+
+    public JSONObject parseResponse(String response){
+        JSONObject obj = new JSONObject(response);
+        return obj;
+    }
     /**
      * Sends a request to server
      * Takes in a string and converts to JSON
