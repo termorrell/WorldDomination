@@ -18,8 +18,7 @@ public class TestClient {
         scanner = new Scanner(System.in);
         client = new Client();
         register();
-        NetworkListener n1 = new NetworkListener();
-        n1.init(client);
+        ClientNetworkListener n1 = new ClientNetworkListener();
         client.addListener(n1);
         new Thread(client).start();
         try {
@@ -36,6 +35,8 @@ public class TestClient {
     public void register(){
         Kryo kryo = client.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
         kryo.register(NetworkPacket.class);
+
+
     }
 
     public static void main(String[] args){
