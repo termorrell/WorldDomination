@@ -24,6 +24,9 @@ public class TestClient {
         client.start();
         try {
             client.connect(5000,scanner.nextLine(),54555);
+            NetworkPacket packet = new NetworkPacket();
+            packet.setJsonStringResponse("work!!");
+            client.sendTCP(packet);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,7 +35,7 @@ public class TestClient {
 
     public void register(){
         Kryo kryo = client.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
-
+        kryo.register(NetworkPacket.class);
     }
 
     public static void main(String[] args){

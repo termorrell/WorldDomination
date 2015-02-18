@@ -25,6 +25,13 @@ public class NetworkListener extends Listener {
 
     //Object is thing server has received from client
     public void received(Connection connection, Object object) {
-        connection.sendTCP("thanks");
+        if(object instanceof NetworkPacket){
+            NetworkPacket response = (NetworkPacket)object;
+            System.out.println(response.getJsonStringResponse());
+            NetworkPacket packet = new NetworkPacket();
+
+            packet.setJsonStringResponse("hello");
+            connection.sendTCP(packet);
+        }
     }
 }

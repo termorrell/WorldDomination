@@ -17,7 +17,7 @@ public class TestServer {
         server = new Server();
         registerPackets();
         server.addListener(new NetworkListener());
-        server.bind(1234);
+        server.bind(54555);
         server.start();
 
     }
@@ -26,7 +26,7 @@ public class TestServer {
     // will contain a bunch of variables and client will read variables
     private void registerPackets(){
         Kryo kryo = server.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
-
+        kryo.register(NetworkPacket.class);
     }
 
     public static void main(String[] args){
