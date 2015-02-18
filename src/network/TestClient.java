@@ -21,7 +21,7 @@ public class TestClient {
         NetworkListener n1 = new NetworkListener();
         n1.init(client);
         client.addListener(n1);
-        client.start();
+        new Thread(client).start();
         try {
             client.connect(5000,scanner.nextLine(),54555);
             NetworkPacket packet = new NetworkPacket();

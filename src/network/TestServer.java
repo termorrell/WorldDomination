@@ -19,7 +19,6 @@ public class TestServer {
         server.addListener(new NetworkListener());
         server.bind(54555);
         server.start();
-
     }
 
     //Register all of packets that will be sent, packet will be something that

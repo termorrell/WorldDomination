@@ -32,6 +32,7 @@ public class NetworkListener extends Listener {
 
             packet.setJsonStringResponse("hello");
             connection.sendTCP(packet);
+            connection.close();
         }
     }
 }
