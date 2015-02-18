@@ -44,5 +44,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="Kryonet" level="project" />
+    <orderEntry type="library" exported="" name="com.esotericsoftware:kryonet:2.22.0-RC1" level="project" />
   </component>
 </module>
