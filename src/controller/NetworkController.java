@@ -8,21 +8,20 @@ import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import view.IView;
+import view.INetworkView;
 
 public class NetworkController {
 	Model model;
-	IView view;
+	INetworkView view;
 	static Logger log = LogManager.getLogger(Controller.class.getName());
 
-	public NetworkController(Model model, IView view) {
+	public NetworkController(Model model, INetworkView view) {
 		this.model = model;
 		this.view = view;
 	}
 
 	public void run() {
 		// Initialise controller
-
 
 		init();
 		// Players choose territories until all territories are occupied
@@ -50,7 +49,7 @@ public class NetworkController {
 		// Number of players are entered
 		int playerNo = 0;
 		while (playerNo < 3 || playerNo > 6) {
-			model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players between 3 and 6: "));
+//			model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players between 3 and 6: "));
 			playerNo = model.getGameState().getNumberOfPlayers();
 		}
 
@@ -59,8 +58,8 @@ public class NetworkController {
 		for (int i = 0; i < playerNo; i++) {
 			Player player = new Player();
 			// Set player name
-			player.setName(view.getInput("Please enter your name:"));
-			player.setColour(view.getInput("What colour would you like to be: "));
+//			player.setName(view.getInput("Please enter your name:"));
+//			player.setColour(view.getInput("What colour would you like to be: "));
 			allPlayers.add(player);
 		}
 		model.getGameState().setPlayers(allPlayers);
@@ -70,7 +69,9 @@ public class NetworkController {
 	 * Adds the player that is resembled by the running instance of this program.
 	 */
 	public void addLocalPlayer(int id) {
-		
+		Player me = new Player();
+		me.setName(view.getLocalPlayerName());
+		model.getGameState().getPlayers().add(me);
 	}
 	
 	public void addPlayer(int id, String name) {

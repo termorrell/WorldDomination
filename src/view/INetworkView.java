@@ -1,5 +1,5 @@
 package view;
 
 public interface INetworkView {
-	public void getName();
+	public String getLocalPlayerName();
 }
