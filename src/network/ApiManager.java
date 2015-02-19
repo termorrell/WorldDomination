@@ -19,7 +19,7 @@ public class ApiManager implements ApiMethods {
      * Takes in a string and converts to JSON
      */
     public JSONObject sendRequest(String json) {
-    JSONObject obj = new JSONObject(json);
+        JSONObject obj = new JSONObject(json);
         return obj;
     }
     /**
