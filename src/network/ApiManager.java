@@ -12,10 +12,11 @@ public class ApiManager implements ApiMethods {
 
 	/**
 	 * Sends a request to server Takes in a string and converts to JSON
+	 * @return 
 	 */
-	public void sendRequest(String json) {
+	public JSONObject sendRequest(String json) {
 		JSONObject obj = new JSONObject(json);
-
+		return obj;
 	}
 
 	/**
