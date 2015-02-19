@@ -66,6 +66,12 @@ public class NetworkController {
 		model.getGameState().setPlayers(allPlayers);
 	}
 	
+	/*
+	 * Adds the player that is resembled by the running instance of this program.
+	 */
+	public void addLocalPlayer(int id) {
+		
+	}
 	
 	public void addPlayer(int id, String name) {
 		

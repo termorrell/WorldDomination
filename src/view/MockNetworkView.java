@@ -1,5 +1,5 @@
 package view;
 
-public class MockNetworkView {
+public class MockNetworkView implements INetworkView{
 
 }
