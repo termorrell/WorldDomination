@@ -10,31 +10,15 @@ import org.apache.logging.log4j.Logger;
 
 import view.INetworkView;
 
-public class NetworkController {
+public class GameStateManager {
 	Model model;
-	INetworkView view;
-	static Logger log = LogManager.getLogger(Controller.class.getName());
-
-	public NetworkController(Model model, INetworkView view) {
-		this.model = model;
-		this.view = view;
-	}
-
-	public void run() {
-		// Initialise controller
-
+	static Logger log = LogManager.getLogger(NewController.class.getName());
+	
+	
+	public GameStateManager() {
+		this.model = new Model();
 		init();
-		// Players choose territories until all territories are occupied
-		//claimTerritories();
-
-		// Players reinforce their territories until all initial armies are on
-		// the board
-		//distributeInitialArmies();
-		log.info("Finished Distributing Army Setup");
-		// Begin game play
-		//beginGamePlay();
-
-	}
+	}	
 	
 	/*
 	 * assign, name of territory and player - return boolean
@@ -45,14 +29,6 @@ public class NetworkController {
 
 		// Set cards based on board
 		model.getGameState().setCards(DataManager.getCards(model.getGameState().getBoard()));
-	}
-	
-	/*
-	 * Adds the player that is resembled by the running instance of this program.
-	 */
-	public void addLocalPlayer(int id) {
-		String name = view.getLocalPlayerName();
-		this.addPlayer(id, name);
 	}
 	
 	/*
