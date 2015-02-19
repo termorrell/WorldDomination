@@ -66,5 +66,16 @@ public class NetworkController {
 		model.getGameState().getPlayers().add(me);
 		model.getGameState().setNumberOfPlayers(model.getGameState().getNumberOfPlayers() + 1);
 	}
+	
+	/*
+	 * Checks the game is set up correctly
+	 */
+	public boolean checkReady() {
+		boolean ready = true;
+		if(model.getGameState().getNumberOfPlayers() >= 3 && model.getGameState().getNumberOfPlayers() <= 6) {
+			ready = false;
+		}
+		return ready;
+	}
 
 }
