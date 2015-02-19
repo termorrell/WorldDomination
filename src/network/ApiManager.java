@@ -1,6 +1,5 @@
 package network;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ApiManager implements ApiMethods {
@@ -26,139 +25,120 @@ public class ApiManager implements ApiMethods {
 	public void receivedRequest(JSONObject response) {
 		String command = response.getString("command");
 		command.toLowerCase();
-		JSONArray payload = response.getJSONArray("payload");
-
 		switch (command) {
-		case "accept_join_game":
-			acceptJoinGameReceived(payload);
-			break;
-			
-		case "ping":
-			pingReceived(payload);
-			break;
-
-		case "attack":
-			attackReceived(payload);
-			break;
-
-		case "defend":
-			attackReceived(payload);
-			break;
-
-		
-
-		case "roll":
-			attackReceived(payload);
-			break;
-
-		case "roll_hash":
-			attackReceived(payload);
-			break;
-
-		case "roll_number":
-			attackReceived(payload);
-			break;
-			
-		default:
-			System.err.println("JSON message couldn't be recognised.");
-			break;
+			case "accept_join_game":
+				acceptJoinGameReceived(response);
+				break;
+			case "ping":
+				pingReceived(response);
+				break;
+			case "attack":
+				attackReceived(response);
+				break;
+			case "defend":
+				attackReceived(response);
+				break;
+			case "roll":
+				attackReceived(response);
+				break;
+			case "roll_hash":
+				attackReceived(response);
+				break;
+			case "roll_number":
+				attackReceived(response);
+				break;
+			case "ready":
+				//
+				break;
+			case "acknowledgement":
+				acknowledgementReceived(response);
+				break;
+			case "setup":
+				setupReceived(response);
+				break;
+			case "trade_in_cards":
+				tradeInReceived(response);
+				break;
+			case "deploy":
+				deployReceived(response);
+				break;
+			case "attack_capture":
+				attackWonReceived(response);
+				break;
+			case "fortify":
+				fortifyReceived(response);
+				break;
+			case "win":
+				winReceived(response);
+			default:
+				System.err.println("JSON message couldn't be recognised.");
+				break;
 		}
 	}
 
-	// if (command.equals("attack")) {
-	// attackReceived(payload);
-	// } else if (command.equals("defend")) {
-	// defendReceived(payload);
-	// } else if (command.equals("join_game")) {
-	// joinGameReceived(payload);
-	// } else if (command.equals("roll")) {
-	// rollReceived(payload);
-	// } else if (command.equals("roll_hash")) {
-	// rollHashReceived(payload);
-	// } else if (command.equals("roll_number")) {
-	// rollNumberReceived(payload);
-	// } else if (command.equals("setup")) {
-	// setupReceived(payload);
-	// } else if (command.equals("acknowledgement")) {
-	// acknowledgementReceived(payload);
-	// } else if (command.equals("trade_in_cards")) {
-	// tradeInReceived(payload);
-	// } else if (command.equals("deploy")) {
-	// deployReceived(payload);
-	// } else if (command.equals("attack_capture")) {
-	// attackWonReceived(payload);
-	// } else if (command.equals("fortify")) {
-	// fortifyReceived(payload);
-	// } else if (command.equals("win")) {
-	// winReceived(payload);
-	// } else {
-	// unrecognisedResponse(payload);
-	// }
+	private void acceptJoinGameReceived(JSONObject json){
 
-	private void acceptJoinGameReceived(JSONArray json){
-		json.getJSONObject(0);
 		
 	}
 	
-	private void pingReceived(JSONArray json) {
+	private void pingReceived(JSONObject json) {
 		String name = "name";
-		System.out.println(json);
 	}
 	
-	public void attackReceived(JSONArray json) {
+	public void attackReceived(JSONObject json) {
 
 	}
 
-	public void defendReceived(JSONArray json) {
+	public void defendReceived(JSONObject json) {
 
 	}
 
-	public void joinGameReceived(JSONArray json) {
+	public void joinGameReceived(JSONObject json) {
 		System.out.println("join");
 	}
 
-	public void rollReceived(JSONArray json) {
+	public void rollReceived(JSONObject json) {
 
 	}
 
-	public void rollHashReceived(JSONArray json) {
+	public void rollHashReceived(JSONObject json) {
 
 	}
 
-	public void rollNumberReceived(JSONArray json) {
+	public void rollNumberReceived(JSONObject json) {
 
 	}
 
-	public void setupReceived(JSONArray json) {
+	public void setupReceived(JSONObject json) {
 
 	}
 
-	public void acknowledgementReceived(JSONArray json) {
+	public void acknowledgementReceived(JSONObject json) {
 
 	}
 
-	public void tradeInReceived(JSONArray json) {
+	public void tradeInReceived(JSONObject json) {
 
 	}
 
-	public void deployReceived(JSONArray json) {
+	public void deployReceived(JSONObject json) {
 
 	}
 
 
-	public void attackWonReceived(JSONArray json) {
+	public void attackWonReceived(JSONObject json) {
 
 	}
  
-	public void fortifyReceived(JSONArray json) {
+	public void fortifyReceived(JSONObject json) {
 
 	}
 
-	public void winReceived(JSONArray json) {
+	public void winReceived(JSONObject json) {
 
 	}
 
-	public void unrecognisedResponse(JSONArray json) {
+	public void unrecognisedResponse(JSONObject json) {
 
 	}
 
