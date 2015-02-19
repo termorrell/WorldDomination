@@ -12,6 +12,7 @@ public class ApiManagerTest {
     Model model;
     ApiMethods api;
     String jsonJoinRequest;
+
     @Before
     public void setUp() throws Exception {
         api = new ApiManager();
@@ -35,12 +36,7 @@ public class ApiManagerTest {
         JSONObject b = obj.getJSONObject("payload");
 
         assertEquals(obj.getString("command"), "join_game");
-        assertEquals(b.getJSONArray("supported_versions").getInt(1), 2);
+        assertEquals(b.getJSONArray("supported_versions").getInt(0), 1);
     }
 
-    @Test
-    public void checkJoinGameCalledCorrectly(){
-
-
-    }
 }

@@ -48,7 +48,7 @@ public class ApiManager implements ApiMethods {
 				attackReceived(response);
 				break;
 			case "ready":
-				//
+				readyReceived(response);
 				break;
 			case "acknowledgement":
 				acknowledgementReceived(response);
@@ -76,13 +76,21 @@ public class ApiManager implements ApiMethods {
 		}
 	}
 
-	private void acceptJoinGameReceived(JSONObject json){
+	private void readyReceived(JSONObject json){
 
-		
+	}
+
+	private void acceptJoinGameReceived(JSONObject json){
+		JSONObject payload = json.getJSONObject("payload");
+		int playerId = payload.getInt("player_id");
+		int acknowlegement_timeout = payload.getInt("acknowlegement_timeout");
+		int move_timeout = payload.getInt("move_timeout");
+
 	}
 	
 	private void pingReceived(JSONObject json) {
-		String name = "name";
+		int payload = json.getInt("payload");
+		int player_id = json.getInt("player_id");
 	}
 	
 	public void attackReceived(JSONObject json) {
