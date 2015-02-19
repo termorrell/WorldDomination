@@ -69,7 +69,7 @@ public class ApiManager implements ApiMethods {
     }
 
     public void joinGameReceived(JSONArray json) {
-
+    	System.out.println("join");
     }
 
 
@@ -79,7 +79,7 @@ public class ApiManager implements ApiMethods {
 
 
     public void rollHashReceived(JSONArray json) {
-
+    	
     }
 
     public void rollNumberReceived(JSONArray json) {

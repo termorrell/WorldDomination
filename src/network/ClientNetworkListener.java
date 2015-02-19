@@ -11,11 +11,11 @@ public class ClientNetworkListener extends Listener{
 
     ApiMethods api = new ApiManager();
     public void connected(Connection connection) {
-        Log.info("[Server] Someone is trying to connect.");
+        Log.info("[Client] Someone is trying to connect.");
     }
 
     public void disconnected(Connection connection) {
-        Log.info("[Server] Someone is trying to disconnect.");
+        Log.info("[Client] Someone is trying to disconnect.");
     }
 
     //Object is thing server has received from client
