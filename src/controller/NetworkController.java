@@ -45,37 +45,26 @@ public class NetworkController {
 
 		// Set cards based on board
 		model.getGameState().setCards(DataManager.getCards(model.getGameState().getBoard()));
-
-		// Number of players are entered
-		int playerNo = 0;
-		while (playerNo < 3 || playerNo > 6) {
-//			model.getGameState().setNumberOfPlayers(view.getNumber("Please enter the number of players between 3 and 6: "));
-			playerNo = model.getGameState().getNumberOfPlayers();
-		}
-
-		// Player details are entered
-		ArrayList<Player> allPlayers = new ArrayList<Player>();
-		for (int i = 0; i < playerNo; i++) {
-			Player player = new Player();
-			// Set player name
-//			player.setName(view.getInput("Please enter your name:"));
-//			player.setColour(view.getInput("What colour would you like to be: "));
-			allPlayers.add(player);
-		}
-		model.getGameState().setPlayers(allPlayers);
 	}
 	
 	/*
 	 * Adds the player that is resembled by the running instance of this program.
 	 */
 	public void addLocalPlayer(int id) {
-		Player me = new Player();
-		me.setName(view.getLocalPlayerName());
-		model.getGameState().getPlayers().add(me);
+		String name = view.getLocalPlayerName();
+		this.addPlayer(id, name);
 	}
 	
+	/*
+	 * Adds the players that will act as opponents.
+	 */
 	public void addPlayer(int id, String name) {
-		
+		// TODO check for no more than 6 players
+		Player me = new Player();
+		me.setName(name);
+		me.setId(id);
+		model.getGameState().getPlayers().add(me);
+		model.getGameState().setNumberOfPlayers(model.getGameState().getNumberOfPlayers() + 1);
 	}
 
 }

@@ -16,6 +16,8 @@ public class GameState {
 	public GameState() {
 		BoardFactory factory = new BoardFactory();
 		this.board = factory.getBoard();
+		this.numberOfPlayers = 0;
+		this.players = new ArrayList<>();
 	}
 
 	public int getNumberOfPlayers() {

@@ -70,6 +70,7 @@ public class ApiManager implements ApiMethods {
 				break;
 			case "win":
 				winReceived(response);
+				break;
 			default:
 				System.err.println("JSON message couldn't be recognised.");
 				break;
@@ -83,14 +84,16 @@ public class ApiManager implements ApiMethods {
 	private void acceptJoinGameReceived(JSONObject json){
 		JSONObject payload = json.getJSONObject("payload");
 		int playerId = payload.getInt("player_id");
+		//TODO controller add local player
 		int acknowlegement_timeout = payload.getInt("acknowlegement_timeout");
 		int move_timeout = payload.getInt("move_timeout");
-
 	}
 	
 	private void pingReceived(JSONObject json) {
 		int payload = json.getInt("payload");
 		int player_id = json.getInt("player_id");
+		//TODO controller add player
+		// name will hopefully be added in the next representative meeting.
 	}
 	
 	public void attackReceived(JSONObject json) {
