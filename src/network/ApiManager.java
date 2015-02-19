@@ -18,9 +18,9 @@ public class ApiManager implements ApiMethods {
      * Sends a request to server
      * Takes in a string and converts to JSON
      */
-    public void sendRequest(String json) {
+    public JSONObject sendRequest(String json) {
     JSONObject obj = new JSONObject(json);
-
+        return obj;
     }
     /**
      * Receive information from the server in the form of JSON and analyses it for each type of command
@@ -59,6 +59,7 @@ public class ApiManager implements ApiMethods {
             unrecognisedResponse(payload);
         }
     }
+
     public void attackReceived(JSONArray json) {
 
         //Moves.attack(activePlayer,model.getGameState(),json.getInt(0),json.getInt(1),json.getInt(2));

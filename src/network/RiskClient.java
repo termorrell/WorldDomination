@@ -26,14 +26,11 @@ public class RiskClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void register(){
         Kryo kryo = client.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
         kryo.register(NetworkPacket.class);
-
-
     }
 
     public static void main(String[] args){
