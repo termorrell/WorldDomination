@@ -9,11 +9,11 @@ import java.io.IOException;
 /**erver server
  * Created by ${mm280} on 18/02/15.
  */
-public class TestServer {
+public class RiskServer {
 
     private Server server;
 
-    public TestServer() throws IOException{
+    public RiskServer() throws IOException{
         server = new Server();
         registerPackets();
         server.addListener(new NetworkListener());
@@ -30,7 +30,7 @@ public class TestServer {
 
     public static void main(String[] args){
         try {
-            new TestServer();
+            new RiskServer();
             Log.set(Log.LEVEL_DEBUG); // Logging utility for server
 
         } catch (IOException e) {

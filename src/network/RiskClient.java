@@ -5,24 +5,21 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.minlog.Log;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * Created by ${mm280} on 18/02/15.
  */
-public class TestClient {
+public class RiskClient {
     public Client client;
-    public Scanner scanner;
 
-    public TestClient(){
-        scanner = new Scanner(System.in);
+    public RiskClient(){
         client = new Client();
         register();
         ClientNetworkListener n1 = new ClientNetworkListener();
         client.addListener(n1);
         new Thread(client).start();
         try {
-            client.connect(5000,scanner.nextLine(),54555);
+            client.connect(5000,"127.0.0.1",54555);
             NetworkPacket packet = new NetworkPacket();
             packet.setJsonStringResponse("work!!");
             client.sendTCP(packet);
@@ -40,7 +37,7 @@ public class TestClient {
     }
 
     public static void main(String[] args){
-        new TestClient();
+        new RiskClient();
         Log.set(Log.LEVEL_DEBUG);
     }
 }

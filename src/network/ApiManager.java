@@ -1,10 +1,14 @@
 package network;
 
+import model.Model;
+import model.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ApiManager implements ApiMethods {
-
+        //TODO Figure out active player????
+    Player activePlayer = new Player();
+    Model model = new Model();
 
     public void parseResponse(String response){
         JSONObject obj = new JSONObject(response);
@@ -55,9 +59,9 @@ public class ApiManager implements ApiMethods {
             unrecognisedResponse(payload);
         }
     }
+    public void attackReceived(JSONArray json) {
 
-    public void attackReceived(JSONArray json){
-        
+        //Moves.attack(activePlayer,model.getGameState(),json.getInt(0),json.getInt(1),json.getInt(2));
     }
     public void defendReceived(JSONArray json) {
 
