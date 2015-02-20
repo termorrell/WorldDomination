@@ -57,7 +57,7 @@ public class ApiManager implements ApiMethods {
 			case "setup":
 				setupReceived(response);
 				break;
-			case "trade_in_cards":
+			case "play_cards":
 				tradeInReceived(response);
 				break;
 			case "deploy":
@@ -78,6 +78,8 @@ public class ApiManager implements ApiMethods {
 		}
 	}
 
+	//TODO CALL RELEVANT METHODS
+	//todo check correct with rep final protocol
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");
 		//TODO checkReady call
@@ -161,11 +163,23 @@ public class ApiManager implements ApiMethods {
 	}
 
 	public void attackWonReceived(JSONObject json) {
-
+		JSONArray armyMovement = json.getJSONArray("payload");
+		int source_territory = armyMovement.getInt(0);
+		int dest_territory = armyMovement.getInt(1);
+		int num_armies = armyMovement.getInt(2);
+		int ack_id = json.getInt("ack_id");
 	}
 
 	public void fortifyReceived(JSONObject json) {
-
+		int ack_id = json.getInt("ack_id");
+		if(json.getJSONArray("payload")!= null){
+			JSONArray armyMovement = json.getJSONArray("payload");
+			int source_territory = armyMovement.getInt(0);
+			int dest_territory = armyMovement.getInt(1);
+			int num_armies = armyMovement.getInt(2);
+		}else{
+			//TODO?
+		}
 	}
 
 	public void winReceived(JSONObject json) {
