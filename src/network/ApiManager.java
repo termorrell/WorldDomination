@@ -5,9 +5,11 @@ import org.json.JSONObject;
 
 public class ApiManager implements ApiMethods {
 
-	public void parseResponse(String response) {
+	public JSONObject parseResponse(String response) {
 		JSONObject obj = new JSONObject(response);
-		receivedRequest(obj);
+		JSONObject reply;
+		reply = receivedRequest(obj);
+		return reply;
 	}
 
 	/**
@@ -23,10 +25,14 @@ public class ApiManager implements ApiMethods {
 	 * Receive information from the server in the form of JSON and analyses it
 	 * for each type of command
 	 */
-	public void receivedRequest(JSONObject response) {
+	public JSONObject receivedRequest(JSONObject response) {
+		JSONObject reply;
 		String command = response.getString("command");
 		command.toLowerCase();
 		switch (command) {
+			case "join_game":
+				reply = joinGameReceived(response);
+				return reply;
 			case "accept_join_game":
 				acceptJoinGameReceived(response);
 				break;
@@ -76,10 +82,24 @@ public class ApiManager implements ApiMethods {
 				System.err.println("JSON message couldn't be recognised.");
 				break;
 		}
+		return null;
 	}
 
 	//TODO CALL RELEVANT METHODS
 	//todo check correct with rep final protocol
+
+	private JSONObject joinGameReceived(JSONObject json){
+		JSONObject respond;
+		String accept = "{\n" +
+				"\t\"command\": \"join_game\",\n" +
+				"\t\"payload\": {\n" +
+				"\t\t\"supported_versions\": [1],\n" +
+				"\t\t\"supported_features\": [\"custom_map\"]\n" +
+				"\t}\n" +
+				"}";
+		respond  = sendRequest(accept);
+		return respond;
+	}
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");
 		//TODO checkReady call

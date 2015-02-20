@@ -9,22 +9,23 @@ import com.esotericsoftware.minlog.Log;
  */
 public class ClientsNetworkListener extends Listener{
 
-    ApiMethods api = new ApiManager();
+
     public void connected(Connection connection) {
-        Log.info("[Client] Someone is trying to connect.");
+        Log.info("[Client] Connecting.");
     }
 
     public void disconnected(Connection connection) {
-        Log.info("[Client] Someone is trying to disconnect.");
+        Log.info("[Client] Disconnected.");
     }
 
     //Object is thing server has received from client
     public void received(Connection connection, Object object) {
         if(object instanceof NetworkPacket){
             NetworkPacket response = (NetworkPacket)object;
-            // TODO call methods to look at response, parse methods stored in API
-            api.parseResponse(response.getJsonStringResponse());
             System.out.println(response.getJsonStringResponse());
+            // TODO call methods to look at response, parse methods stored in API
+            //api.parseResponse(response.getJsonStringResponse());
+            //System.out.println(response.getJsonStringResponse());
         }
     }
 }
