@@ -16,7 +16,7 @@ public class RiskServer {
     public RiskServer() throws IOException{
         server = new Server();
         registerPackets();
-        server.addListener(new NetworkListener());
+        server.addListener(new ServersNetworkListener());
         server.bind(54555);
         server.start();
     }

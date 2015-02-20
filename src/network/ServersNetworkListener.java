@@ -1,5 +1,6 @@
 package network;
 
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
@@ -7,15 +8,19 @@ import com.esotericsoftware.minlog.Log;
 /**
  * Created by ${mm280} on 18/02/15.
  */
-public class ClientNetworkListener extends Listener{
+public class ServersNetworkListener extends Listener {
 
-    ApiMethods api = new ApiManager();
+    private Client client;
+    public void init(Client client){
+        this.client=client;
+
+    }
     public void connected(Connection connection) {
-        Log.info("[Client] Someone is trying to connect.");
+        Log.info("[Server] Someone is trying to connect.");
     }
 
     public void disconnected(Connection connection) {
-        Log.info("[Client] Someone is trying to disconnect.");
+        Log.info("[Server] Someone is trying to disconnect.");
     }
 
     //Object is thing server has received from client
@@ -23,9 +28,11 @@ public class ClientNetworkListener extends Listener{
         if(object instanceof NetworkPacket){
             NetworkPacket response = (NetworkPacket)object;
             // TODO call methods to look at response, parse methods stored in API
-            api.parseResponse(response.getJsonStringResponse());
             System.out.println(response.getJsonStringResponse());
+            NetworkPacket packet = new NetworkPacket();
+            //TODO send a correct string
+            packet.setJsonStringResponse("hello");
+            connection.sendTCP(packet);
         }
     }
 }
-

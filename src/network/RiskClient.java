@@ -15,7 +15,7 @@ public class RiskClient {
     public RiskClient(){
         client = new Client();
         register();
-        ClientNetworkListener n1 = new ClientNetworkListener();
+        ClientsNetworkListener n1 = new ClientsNetworkListener();
         client.addListener(n1);
         new Thread(client).start();
         try {
