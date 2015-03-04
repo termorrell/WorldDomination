@@ -68,10 +68,10 @@ public class ServerResponseGenerator {
         response.put("player_id",player_id);
         return response;
     }
-    public static JSONObject timeoutGenerator(int player_id,int ack_id){
+    public static JSONObject timeoutGenerator(int player_id,int ack_id,int player_left_id){
         JSONObject response = new JSONObject();
         response.put("command","timeout");
-        response.put("payload",1);
+        response.put("payload",player_left_id);
         response.put("player_id",player_id);
         response.put("ack_id",ack_id);
         return response;

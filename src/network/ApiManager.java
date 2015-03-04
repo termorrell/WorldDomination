@@ -117,7 +117,7 @@ public class ApiManager implements ApiMethods {
 		JSONArray supported_features = payload.getJSONArray("custom_map");
 		//TODO PROPER PLAYER ID ETC
 		JSONObject server_response = ServerResponseGenerator.acceptJoinGameGenerator(0,0,0);
-		return server_response;
+		
 	}
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");
