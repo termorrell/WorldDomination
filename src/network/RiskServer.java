@@ -17,6 +17,7 @@ public class RiskServer {
         registerPackets();
         server.addListener(new ServersNetworkListener());
         server.bind(54555);
+        //TODO TIME OUT
         server.start();
     }
 

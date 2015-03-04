@@ -5,19 +5,13 @@ import org.json.JSONObject;
 
 public class ApiManager implements ApiMethods {
 
+	/**
+	 * Parses a string into a Json objects
+	 * @param response the string to be parsed
+	 * @return a new json object
+	 */
 	public JSONObject parseResponse(String response) {
 		JSONObject obj = new JSONObject(response);
-		JSONObject reply;
-		reply = receivedRequest(obj);
-		return reply;
-	}
-
-	/**
-	 * Sends a request to server Takes in a string and converts to JSON
-	 * @return 
-	 */
-	public JSONObject sendRequest(String json) {
-		JSONObject obj = new JSONObject(json);
 		return obj;
 	}
 
@@ -26,13 +20,9 @@ public class ApiManager implements ApiMethods {
 	 * for each type of command
 	 */
 	public JSONObject receivedRequest(JSONObject response) {
-		JSONObject reply;
 		String command = response.getString("command");
 		command.toLowerCase();
 		switch (command) {
-			case "join_game":
-				reply = joinGameReceived(response);
-				return reply;
 			case "accept_join_game":
 				acceptJoinGameReceived(response);
 				break;
@@ -85,20 +75,31 @@ public class ApiManager implements ApiMethods {
 		return null;
 	}
 
+	public JSONObject serverCheckCommandRequest(JSONObject request) {
+		String command = request.getString("command");
+		JSONObject response = new JSONObject();
+		command.toLowerCase();
+		switch (command){
+			case "join_game":
+				response = joinGameReceived(request);
+				return response;
+			default:
+				System.err.println("Unrecognised message");
+				break;
+		}
+		return null;
+	}
+
 	//TODO CALL RELEVANT METHODS
 	//todo check correct with rep final protocol
 
 	private JSONObject joinGameReceived(JSONObject json){
-		JSONObject respond;
-		String accept = "{\n" +
-				"\t\"command\": \"join_game\",\n" +
-				"\t\"payload\": {\n" +
-				"\t\t\"supported_versions\": [1],\n" +
-				"\t\t\"supported_features\": [\"custom_map\"]\n" +
-				"\t}\n" +
-				"}";
-		respond  = sendRequest(accept);
-		return respond;
+		JSONObject payload = json.getJSONObject("payload");
+		JSONArray supported_versions = payload.getJSONArray("supported_versions");
+		JSONArray supported_features = payload.getJSONArray("custom_map");
+		//TODO PROPER PLAYER ID ETC
+		JSONObject server_response = ServerResponseGenerator.acceptJoinGameGenerator(0,0,0);
+		return server_response;
 	}
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");

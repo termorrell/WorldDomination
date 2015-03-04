@@ -7,9 +7,8 @@ import org.json.JSONObject;
  */
 public interface ApiMethods {
 
-    public JSONObject sendRequest(String json);
     public JSONObject parseResponse(String response);
     public JSONObject receivedRequest(JSONObject response);
-
+    public JSONObject serverCheckCommandRequest(JSONObject request);
 
 }

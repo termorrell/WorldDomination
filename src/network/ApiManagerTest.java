@@ -31,8 +31,7 @@ public class ApiManagerTest {
     public void checkParseJsonCorrectly(){
 
 
-        JSONObject obj = api.sendRequest(jsonJoinRequest);
-        System.out.println(obj.getString("command"));
+        JSONObject obj = api.parseResponse(jsonJoinRequest);
         JSONObject b = obj.getJSONObject("payload");
 
         assertEquals(obj.getString("command"), "join_game");

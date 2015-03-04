@@ -22,10 +22,7 @@ public class ClientsNetworkListener extends Listener{
     public void received(Connection connection, Object object) {
         if(object instanceof NetworkPacket){
             NetworkPacket response = (NetworkPacket)object;
-            System.out.println(response.getJsonStringResponse());
-            // TODO call methods to look at response, parse methods stored in API
-            //api.parseResponse(response.getJsonStringResponse());
-            //System.out.println(response.getJsonStringResponse());
+
         }
     }
 }
