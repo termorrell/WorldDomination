@@ -1,5 +1,6 @@
 package network;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -16,5 +17,31 @@ public class ServerResponseGenerator {
         payload.put("move_timeout", move_timeout);
         accept_game.put("payload",payload);
         return accept_game;
+    }
+    //TODO NEVER CALLED?
+    public static JSONObject rejectJoinGameGenerator(){
+        JSONObject response = new JSONObject();
+        response.put("command","reject_join_game");
+        response.put("payload","Game in Progress");
+        return response;
+    }
+    //todo players name???
+    public static JSONObject playersJoined(String[] player_name){
+        JSONObject response = new JSONObject();
+        response.put("command", "players_joined");
+        JSONArray payload = new JSONArray(player_name);
+        response.put("payload",payload);
+        return response;
+    }
+    public static JSONObject pingGenerator(int players_joined, int player_id){
+        JSONObject response = new JSONObject();
+        response.put("command","ping");
+        if(players_joined==0){
+            response.put("payload","null");
+        }else{
+            response.put("payload", players_joined);
+        }
+        response.put("player_id", player_id);
+        return response;
     }
 }

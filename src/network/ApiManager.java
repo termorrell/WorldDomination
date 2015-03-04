@@ -83,6 +83,7 @@ public class ApiManager implements ApiMethods {
 			case "join_game":
 				response = joinGameReceived(request);
 				return response;
+
 			default:
 				System.err.println("Unrecognised message");
 				break;
