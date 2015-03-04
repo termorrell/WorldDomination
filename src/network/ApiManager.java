@@ -27,10 +27,10 @@ public class ApiManager implements ApiMethods {
 				acceptJoinGameReceived(response);
 				break;
 			case "reject_join_game":
-
+				rejectJoinGameReceived(response);
 				break;
 			case "players_joined":
-
+				playersJoinedReceived(response);
 				break;
 			case "ping":
 				pingReceived(response);
@@ -39,16 +39,16 @@ public class ApiManager implements ApiMethods {
 				readyReceived(response);
 				break;
 			case "initialise_game":
-
+				initGameReceived(response);
 				break;
 			case "roll":
 				rollReceived(response);
 				break;
 			case "timeout":
-
+				timeoutReceived(response);
 				break;
 			default:
-				System.err.println("JSON message couldn't be recognised.");
+				unrecognisedCommand(response);
 				break;
 		}
 		return null;
@@ -56,12 +56,11 @@ public class ApiManager implements ApiMethods {
 
 	public JSONObject serverCheckCommandRequest(JSONObject request) {
 		String command = request.getString("command");
-		JSONObject response = new JSONObject();
 		command.toLowerCase();
 		switch (command){
 			case "join_game":
 				joinGameReceived(request);
-				return response;
+				break;
 			case "ping":
 				pingReceived(request);
 				break;
@@ -99,10 +98,10 @@ public class ApiManager implements ApiMethods {
 				rollNumberReceived(request);
 				break;
 			case "leave_game":
-
+				leaveGameReceived(request);
 				break;
 			default:
-				System.err.println("Unrecognised message");
+				unrecognisedCommand(request);
 				break;
 		}
 		return null;
@@ -110,20 +109,23 @@ public class ApiManager implements ApiMethods {
 
 	//TODO CALL RELEVANT METHODS
 	//todo check correct with rep final protocol
-
 	private void joinGameReceived(JSONObject json){
 		JSONObject payload = json.getJSONObject("payload");
 		JSONArray supported_versions = payload.getJSONArray("supported_versions");
 		JSONArray supported_features = payload.getJSONArray("custom_map");
-		//TODO PROPER PLAYER ID ETC
-		JSONObject server_response = ServerResponseGenerator.acceptJoinGameGenerator(0,0,0);
-		
 	}
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");
 		//TODO checkReady call
 	}
+	private void rejectJoinGameReceived(JSONObject json){
+	String payload = json.getString("payload");
 
+}
+	private void playersJoinedReceived(JSONObject json){
+		JSONArray players = json.getJSONArray("payload");
+
+	}
 	private void acceptJoinGameReceived(JSONObject json){
 		JSONObject payload = json.getJSONObject("payload");
 		int playerId = payload.getInt("player_id");
@@ -131,15 +133,19 @@ public class ApiManager implements ApiMethods {
 		int acknowlegement_timeout = payload.getInt("acknowlegement_timeout");
 		int move_timeout = payload.getInt("move_timeout");
 	}
-	
+	private void leaveGameReceived(JSONObject json){
+		JSONObject payload = json.getJSONObject("payload");
+		int response_code = payload.getInt("response");
+		boolean receive_updates = payload.getBoolean("receive_updates");
+		int player_id = json.getInt("player_id");
+	}
 	private void pingReceived(JSONObject json) {
 		int payload = json.getInt("payload");
 		int player_id = json.getInt("player_id");
 		//TODO controller add player
 		// name will hopefully be added in the next representative meeting.
 	}
-
-	public void attackReceived(JSONObject json) {
+	private void attackReceived(JSONObject json) {
 		JSONArray payload = json.getJSONArray("payload");
 		int source_territory = payload.getInt(0);
 		int dest_territory = payload.getInt(1);
@@ -147,39 +153,34 @@ public class ApiManager implements ApiMethods {
 		int ack_id = json.getInt("ack_id");
 		int player_id = json.getInt("player_id");
 	}
-
-	public void defendReceived(JSONObject json) {
+	private void defendReceived(JSONObject json) {
 		int no_armies = json.getInt("payload");
 		int player_id = json.getInt("player_id");
 		int ack_id = json.getInt("ack_id");
 	}
-	public void rollReceived(JSONObject json) {
+	private void rollReceived(JSONObject json) {
 		JSONObject payload = json.getJSONObject("payload");
 		int dice_count = payload.getInt("dice_count");
 		int dice_faces = payload.getInt("dice_faces");
 		int player_id = json.getInt("player_id");
 		//TODO CHECK ROLL
 	}
-
-	public void rollHashReceived(JSONObject json) {
+	private void rollHashReceived(JSONObject json) {
 		String payloadHash = json.getString("payload");
 		int player_id = json.getInt("player_id");
 		//TODO ROLL HASH
 	}
-
-	public void rollNumberReceived(JSONObject json) {
+	private void rollNumberReceived(JSONObject json) {
 		String payloadHash = json.getString("payload");
 		int player_id = json.getInt("player_id");
 		//TODO ROLL NUMBER
 	}
-
-	public void setupReceived(JSONObject json) {
+	private void setupReceived(JSONObject json) {
 		int territory_id = json.getInt("payload");
 		int ack_id = json.getInt("ack_id");
 		int player_id = json.getInt("player_id");
 	}
-
-	public void acknowledgementReceived(JSONObject json) {
+	private void acknowledgementReceived(JSONObject json) {
 		int player_id = json.getInt("player_id");
 		JSONObject payload = json.getJSONObject("payload");
 		int ack_id = payload.getInt("ack_id");
@@ -187,30 +188,26 @@ public class ApiManager implements ApiMethods {
 		String data = payload.getString("data");
 
 	}
-
-	public void playCardsReceived(JSONObject json) {
+	private void playCardsReceived(JSONObject json) {
 		String payload = json.getString("payload");
 		int player_id = json.getInt("player_id");
 		int ack_id = json.getInt("ack_id");
 	}
-
-	public void deployReceived(JSONObject json) {
+	private void deployReceived(JSONObject json) {
 		JSONArray payload = json.getJSONArray("payload");
 		int territory_id = payload.getInt(0);
 		int num_armies = payload.getInt(1);
 		int player_id = json.getInt("player_id");
 		int ack_id = json.getInt("ack_id");
 	}
-
-	public void attackWonReceived(JSONObject json) {
+	private void attackWonReceived(JSONObject json) {
 		JSONArray armyMovement = json.getJSONArray("payload");
 		int source_territory = armyMovement.getInt(0);
 		int dest_territory = armyMovement.getInt(1);
 		int num_armies = armyMovement.getInt(2);
 		int ack_id = json.getInt("ack_id");
 	}
-
-	public void fortifyReceived(JSONObject json) {
+	private void fortifyReceived(JSONObject json) {
 		int ack_id = json.getInt("ack_id");
 		if(json.getJSONArray("payload")!= null){
 			JSONArray armyMovement = json.getJSONArray("payload");
@@ -221,8 +218,17 @@ public class ApiManager implements ApiMethods {
 			//TODO?
 		}
 	}
-
-	public void winReceived(JSONObject json) {
+	private void initGameReceived(JSONObject json){
+		JSONObject payload = json.getJSONObject("payload");
+		int version = payload.getInt("version");
+		JSONArray supported_features = payload.getJSONArray("supported_features");
+	}
+	private void timeoutReceived(JSONObject json){
+		int player_left_id = json.getInt("payload");
+		int player_id = json.getInt("player_id");
+		int ack_id = json.getInt("ack_id");
+	}
+	private void unrecognisedCommand(JSONObject json){
 
 	}
 

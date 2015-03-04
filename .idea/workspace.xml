@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ApiManager.java" afterPath="$PROJECT_DIR$/src/network/ApiManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" afterPath="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WorldDomination.iws" />
@@ -37,14 +36,21 @@
       <file leaf-file-name="ApiManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/network/ApiManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43567753" vertical-offset="1426" max-vertical-offset="2355">
-              <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.28301886" vertical-offset="75" max-vertical-offset="765">
+              <caret line="56" column="68" selection-start-line="56" selection-start-column="68" selection-end-line="56" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#parseResponse#0;class#ApiManager#0" expanded="false" />
                 <element signature="docComment;method#clientCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#clientCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#serverCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#joinGameReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#readyReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#rejectJoinGameReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#playersJoinedReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#acceptJoinGameReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#leaveGameReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#pingReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#attackReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#defendReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#rollReceived#0;class#ApiManager#0" expanded="false" />
@@ -56,6 +62,8 @@
                 <element signature="method#deployReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#attackWonReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#fortifyReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#initGameReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#timeoutReceived#0;class#ApiManager#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -916,7 +924,13 @@
       <option name="project" value="LOCAL" />
       <updated>1425508233852</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="cleaned up error">
+      <created>1425508633364</created>
+      <option name="number" value="00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1425508633364</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -999,7 +1013,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added BoardSetup Tests" />
     <MESSAGE value="Added in ability to get command from JSON server response and call correct method" />
     <MESSAGE value="changed Parse methods slightly" />
     <MESSAGE value="Added an updated model uml" />
@@ -1024,11 +1037,12 @@
     <MESSAGE value="Adding in generators for message" />
     <MESSAGE value="Adding in generators for server messages: ready,join game, ping" />
     <MESSAGE value="Adding in generators for all client and server messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding in generators for all client and server messages" />
+    <MESSAGE value="cleaned up error" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned up error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="34" />
+      <option name="time" value="36" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1408,14 +1422,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/network/ApiManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43567753" vertical-offset="1426" max-vertical-offset="2355">
-          <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.28301886" vertical-offset="75" max-vertical-offset="765">
+          <caret line="56" column="68" selection-start-line="56" selection-start-column="68" selection-end-line="56" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;method#parseResponse#0;class#ApiManager#0" expanded="false" />
             <element signature="docComment;method#clientCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#clientCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#serverCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#joinGameReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#readyReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#rejectJoinGameReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#playersJoinedReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#acceptJoinGameReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#leaveGameReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#pingReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#attackReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#defendReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#rollReceived#0;class#ApiManager#0" expanded="false" />
@@ -1427,6 +1448,8 @@
             <element signature="method#deployReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#attackWonReceived#0;class#ApiManager#0" expanded="false" />
             <element signature="method#fortifyReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#initGameReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#timeoutReceived#0;class#ApiManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
