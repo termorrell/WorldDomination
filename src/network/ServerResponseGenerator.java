@@ -48,4 +48,41 @@ public class ServerResponseGenerator {
         response.put("ack_id",ack_id);
         return response;
     }
-}
+    public static JSONObject initGameGenerated(int version, String[] supported_features){
+        JSONObject response = new JSONObject();
+        response.put("command","initialise_game");
+        JSONObject payload = new JSONObject();
+        payload.put("version", version);
+        JSONArray supported_feature = new JSONArray(supported_features);
+        payload.put("supported_features",supported_feature);
+        response.put("payload",payload);
+        return response;
+    }
+    public static JSONObject rollGenerator(int dice_count,int dice_faces,int player_id){
+        JSONObject response = new JSONObject();
+        JSONObject payload = new JSONObject();
+        payload.put("dice_count",dice_count);
+        payload.put("dice_faces",dice_faces);
+        response.put("command","roll");
+        response.put("payload",payload);
+        response.put("player_id",player_id);
+        return response;
+    }
+    public static JSONObject timeoutGenerator(int player_id,int ack_id){
+        JSONObject response = new JSONObject();
+        response.put("command","timeout");
+        response.put("payload",1);
+        response.put("player_id",player_id);
+        response.put("ack_id",ack_id);
+        return response;
+    }
+    public static JSONObject leaveGameGenerator(int response_code,boolean receive_updates,int player_id){
+        JSONObject response = new JSONObject();
+        JSONObject payload = new JSONObject();
+        payload.put("response",response_code);
+        payload.put("receive_updates", receive_updates);
+        response.put("command","leave_game");
+        response.put("payload",payload);
+        response.put("player_id",player_id);
+        return response;
+    }}

@@ -19,54 +19,33 @@ public class ApiManager implements ApiMethods {
 	 * Receive information from the server in the form of JSON and analyses it
 	 * for each type of command
 	 */
-	public JSONObject receivedRequest(JSONObject response) {
+	public JSONObject clientCheckCommandRequest(JSONObject response) {
 		String command = response.getString("command");
 		command.toLowerCase();
 		switch (command) {
 			case "accept_join_game":
 				acceptJoinGameReceived(response);
 				break;
+			case "reject_join_game":
+
+				break;
+			case "players_joined":
+
+				break;
 			case "ping":
 				pingReceived(response);
-				break;
-			case "attack":
-				attackReceived(response);
-				break;
-			case "defend":
-				defendReceived(response);
-				break;
-			case "roll":
-				rollReceived(response);
-				break;
-			case "roll_hash":
-				rollHashReceived(response);
-				break;
-			case "roll_number":
-				rollNumberReceived(response);
 				break;
 			case "ready":
 				readyReceived(response);
 				break;
-			case "acknowledgement":
-				acknowledgementReceived(response);
+			case "initialise_game":
+
 				break;
-			case "setup":
-				setupReceived(response);
+			case "roll":
+				rollReceived(response);
 				break;
-			case "play_cards":
-				tradeInReceived(response);
-				break;
-			case "deploy":
-				deployReceived(response);
-				break;
-			case "attack_capture":
-				attackWonReceived(response);
-				break;
-			case "fortify":
-				fortifyReceived(response);
-				break;
-			case "win":
-				winReceived(response);
+			case "timeout":
+
 				break;
 			default:
 				System.err.println("JSON message couldn't be recognised.");
@@ -81,9 +60,47 @@ public class ApiManager implements ApiMethods {
 		command.toLowerCase();
 		switch (command){
 			case "join_game":
-				response = joinGameReceived(request);
+				joinGameReceived(request);
 				return response;
+			case "ping":
+				pingReceived(request);
+				break;
+			case "setup":
+				setupReceived(request);
+				break;
+			case "play_cards":
+				playCardsReceived(request);
+				break;
+			case "deploy":
+				deployReceived(request);
+				break;
+			case "attack":
+				attackReceived(request);
+				break;
+			case "defend":
+				defendReceived(request);
+				break;
+			case "attack_capture":
+				attackWonReceived(request);
+				break;
+			case "fortify":
+				fortifyReceived(request);
+				break;
+			case "acknowledgement":
+				acknowledgementReceived(request);
+				break;
+			case "roll":
+				rollReceived(request);
+				break;
+			case "roll_hash":
+				rollHashReceived(request);
+				break;
+			case "roll_number":
+				rollNumberReceived(request);
+				break;
+			case "leave_game":
 
+				break;
 			default:
 				System.err.println("Unrecognised message");
 				break;
@@ -94,7 +111,7 @@ public class ApiManager implements ApiMethods {
 	//TODO CALL RELEVANT METHODS
 	//todo check correct with rep final protocol
 
-	private JSONObject joinGameReceived(JSONObject json){
+	private void joinGameReceived(JSONObject json){
 		JSONObject payload = json.getJSONObject("payload");
 		JSONArray supported_versions = payload.getJSONArray("supported_versions");
 		JSONArray supported_features = payload.getJSONArray("custom_map");
@@ -132,9 +149,10 @@ public class ApiManager implements ApiMethods {
 	}
 
 	public void defendReceived(JSONObject json) {
-
+		int no_armies = json.getInt("payload");
+		int player_id = json.getInt("player_id");
+		int ack_id = json.getInt("ack_id");
 	}
-
 	public void rollReceived(JSONObject json) {
 		JSONObject payload = json.getJSONObject("payload");
 		int dice_count = payload.getInt("dice_count");
@@ -170,7 +188,7 @@ public class ApiManager implements ApiMethods {
 
 	}
 
-	public void tradeInReceived(JSONObject json) {
+	public void playCardsReceived(JSONObject json) {
 		String payload = json.getString("payload");
 		int player_id = json.getInt("player_id");
 		int ack_id = json.getInt("ack_id");

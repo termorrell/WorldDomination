@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ApiManager.java" afterPath="$PROJECT_DIR$/src/network/ApiManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ApiMethods.java" afterPath="$PROJECT_DIR$/src/network/ApiMethods.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" afterPath="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" afterPath="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -34,35 +36,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ApiMethods.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/network/ApiMethods.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
-              <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApiManager.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ApiManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/network/ApiManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="246" max-vertical-offset="1305">
-              <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.48885077" vertical-offset="1560" max-vertical-offset="2310">
+              <caret line="153" column="43" selection-start-line="153" selection-start-column="43" selection-end-line="153" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;method#parseResponse#0;class#ApiManager#0" expanded="false" />
-                <element signature="docComment;method#receivedRequest#0;class#ApiManager#0" expanded="false" />
-                <element signature="method#receivedRequest#0;class#ApiManager#0" expanded="false" />
+                <element signature="docComment;method#clientCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#joinGameReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#readyReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#acceptJoinGameReceived#0;class#ApiManager#0" expanded="false" />
-                <element signature="method#pingReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#attackReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#rollReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#rollHashReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#rollNumberReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#setupReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#acknowledgementReceived#0;class#ApiManager#0" expanded="false" />
-                <element signature="method#tradeInReceived#0;class#ApiManager#0" expanded="false" />
+                <element signature="method#playCardsReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#deployReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#attackWonReceived#0;class#ApiManager#0" expanded="false" />
                 <element signature="method#fortifyReceived#0;class#ApiManager#0" expanded="false" />
@@ -71,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerResponseGenerator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ServerResponseGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/network/ServerResponseGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.91525424" vertical-offset="411" max-vertical-offset="855">
-              <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="647" max-vertical-offset="1410">
+              <caret line="54" column="21" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -86,8 +78,8 @@
       <file leaf-file-name="ClientResponseGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/network/ClientResponseGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="525">
-              <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1442" max-vertical-offset="2130">
+              <caret line="133" column="24" selection-start-line="133" selection-start-column="24" selection-end-line="133" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -184,13 +176,13 @@
         <option value="$PROJECT_DIR$/src/tests/MoveTests.java" />
         <option value="$PROJECT_DIR$/src/network/RiskClient.java" />
         <option value="$PROJECT_DIR$/src/network/ClientsNetworkListener.java" />
-        <option value="$PROJECT_DIR$/src/network/ApiMethods.java" />
         <option value="$PROJECT_DIR$/src/network/ApiManagerTest.java" />
         <option value="$PROJECT_DIR$/src/network/RiskServer.java" />
         <option value="$PROJECT_DIR$/src/network/ServersNetworkListener.java" />
-        <option value="$PROJECT_DIR$/src/network/ApiManager.java" />
+        <option value="$PROJECT_DIR$/src/network/ApiMethods.java" />
         <option value="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" />
         <option value="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" />
+        <option value="$PROJECT_DIR$/src/network/ApiManager.java" />
       </list>
     </option>
   </component>
@@ -914,7 +906,13 @@
       <option name="project" value="LOCAL" />
       <updated>1425497020388</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Adding in generators for server messages: ready,join game, ping">
+      <created>1425502445273</created>
+      <option name="number" value="00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1425502445273</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -942,7 +940,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27109376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3747954" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3747954" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -997,7 +995,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added debug info to cards" />
     <MESSAGE value="Updated config file" />
     <MESSAGE value="Added BoardSetup Tests" />
     <MESSAGE value="Added in ability to get command from JSON server response and call correct method" />
@@ -1022,11 +1019,12 @@
     <MESSAGE value="Think networking is multi-threaded" />
     <MESSAGE value="Added in partial dealing with join game" />
     <MESSAGE value="Adding in generators for message" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding in generators for message" />
+    <MESSAGE value="Adding in generators for server messages: ready,join game, ping" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding in generators for server messages: ready,join game, ping" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="33" />
+      <option name="time" value="34" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1334,14 +1332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/ApiMethods.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/network/ApiManagerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="615">
@@ -1368,31 +1358,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/ApiManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="246" max-vertical-offset="1305">
-          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="docComment;method#parseResponse#0;class#ApiManager#0" expanded="false" />
-            <element signature="docComment;method#receivedRequest#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#receivedRequest#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#acceptJoinGameReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#pingReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#attackReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#rollReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#rollHashReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#rollNumberReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#setupReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#acknowledgementReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#tradeInReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#deployReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#attackWonReceived#0;class#ApiManager#0" expanded="false" />
-            <element signature="method#fortifyReceived#0;class#ApiManager#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/view/INetworkView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
@@ -1409,10 +1374,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/network/ApiMethods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5084746" vertical-offset="0" max-vertical-offset="354">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/network/ClientResponseGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="525">
-          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1442" max-vertical-offset="2130">
+          <caret line="133" column="24" selection-start-line="133" selection-start-column="24" selection-end-line="133" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1421,10 +1394,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/network/ServerResponseGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.91525424" vertical-offset="411" max-vertical-offset="855">
-          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="647" max-vertical-offset="1410">
+          <caret line="54" column="21" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/network/ApiManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48885077" vertical-offset="1560" max-vertical-offset="2310">
+          <caret line="153" column="43" selection-start-line="153" selection-start-column="43" selection-end-line="153" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#parseResponse#0;class#ApiManager#0" expanded="false" />
+            <element signature="docComment;method#clientCheckCommandRequest#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#joinGameReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#readyReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#acceptJoinGameReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#attackReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#rollReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#rollHashReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#rollNumberReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#setupReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#acknowledgementReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#playCardsReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#deployReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#attackWonReceived#0;class#ApiManager#0" expanded="false" />
+            <element signature="method#fortifyReceived#0;class#ApiManager#0" expanded="false" />
           </folding>
         </state>
       </provider>
