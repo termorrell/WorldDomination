@@ -19,4 +19,11 @@ public class ClientResponseGenerator {
         response.put("payload",payload);
         return response;
     }
+    public static JSONObject pingGenerator(int players_joined, int player_id){
+        JSONObject response = new JSONObject();
+        response.put("command","ping");
+        response.put("payload","null");
+        response.put("player_id", player_id);
+        return response;
+    }
 }

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8f7262e3-5a03-43f3-b71b-7362b4d8c009" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ApiManager.java" afterPath="$PROJECT_DIR$/src/network/ApiManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" afterPath="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" afterPath="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -72,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerResponseGenerator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ServerResponseGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/network/ServerResponseGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="381" max-vertical-offset="795">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.91525424" vertical-offset="411" max-vertical-offset="855">
+              <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -84,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientResponseGenerator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ClientResponseGenerator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/network/ClientResponseGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.84745765" vertical-offset="0" max-vertical-offset="420">
-              <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="525">
+              <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -190,8 +189,8 @@
         <option value="$PROJECT_DIR$/src/network/RiskServer.java" />
         <option value="$PROJECT_DIR$/src/network/ServersNetworkListener.java" />
         <option value="$PROJECT_DIR$/src/network/ApiManager.java" />
-        <option value="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" />
         <option value="$PROJECT_DIR$/src/network/ClientResponseGenerator.java" />
+        <option value="$PROJECT_DIR$/src/network/ServerResponseGenerator.java" />
       </list>
     </option>
   </component>
@@ -909,7 +908,13 @@
       <option name="project" value="LOCAL" />
       <updated>1425494014983</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Adding in generators for message">
+      <created>1425497020388</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1425497020388</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -992,7 +997,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Added debug log info to controller" />
     <MESSAGE value="Added debug info to cards" />
     <MESSAGE value="Updated config file" />
     <MESSAGE value="Added BoardSetup Tests" />
@@ -1017,7 +1021,8 @@
     <MESSAGE value="Renamed Network Listeners" />
     <MESSAGE value="Think networking is multi-threaded" />
     <MESSAGE value="Added in partial dealing with join game" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added in partial dealing with join game" />
+    <MESSAGE value="Adding in generators for message" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding in generators for message" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1404,20 +1409,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/ServerResponseGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/network/ClientResponseGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="381" max-vertical-offset="795">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="525">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/network/ClientResponseGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/network/ServerResponseGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84745765" vertical-offset="0" max-vertical-offset="420">
-          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.91525424" vertical-offset="411" max-vertical-offset="855">
+          <caret line="49" column="5" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

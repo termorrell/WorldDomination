@@ -36,12 +36,16 @@ public class ServerResponseGenerator {
     public static JSONObject pingGenerator(int players_joined, int player_id){
         JSONObject response = new JSONObject();
         response.put("command","ping");
-        if(players_joined==0){
-            response.put("payload","null");
-        }else{
-            response.put("payload", players_joined);
-        }
+        response.put("payload", players_joined);
         response.put("player_id", player_id);
+        return response;
+    }
+    public static JSONObject readyGenerator(int player_id, int ack_id){
+        JSONObject response = new JSONObject();
+        response.put("command","ready");
+        response.put("payload","null");
+        response.put("player_id",player_id);
+        response.put("ack_id",ack_id);
         return response;
     }
 }
