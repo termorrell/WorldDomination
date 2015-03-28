@@ -28,7 +28,14 @@ public class GameState {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-
+    public Player getPlayerById(int id) {
+        for(Player player : players) {
+            if(player.getId() == id) {
+                return player;
+            }
+        }
+        return null;
+    }
 
 	public Board getBoard() {
 		return board;
@@ -53,8 +60,6 @@ public class GameState {
 	public void setCards(LinkedList<Card> cards) {
 		this.cards = cards;
 	}
-
-
 
 	public int getCardsTradedIn() {
 		return cardsTradedIn;

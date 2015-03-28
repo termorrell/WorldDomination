@@ -37,9 +37,16 @@ public class NewController {
         join();
     }
 
+    public void
 
     private void join() {
+        //TODO must be sent somewhere
         ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures());
 
     }
+
+
+
+
+
 }

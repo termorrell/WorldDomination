@@ -2,6 +2,8 @@ package controller;
 
 import java.util.ArrayList;
 
+import exceptions.BoardException;
+import exceptions.IllegalMoveException;
 import model.Model;
 import model.Player;
 
@@ -54,4 +56,19 @@ public class GameStateManager {
 		return ready;
 	}
 
+    /*
+     * Claims territory for player.
+     * TODO error checking
+     */
+    public void setup(int playerId, int territoryId) throws BoardException, IllegalMoveException {
+
+        Moves.reinforce(model.getGameState().getPlayerById(playerId), model.getGameState(), territoryId, 1);
+
+    }
+
+    public void reinforce(int playerId, int territoryId, int numberOfArmies) throws BoardException, IllegalMoveException {
+        Moves.reinforce(model.getGameState().getPlayerById(playerId), model.getGameState(), territoryId, numberOfArmies);
+    }
+
+   
 }
