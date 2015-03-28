@@ -9,7 +9,7 @@ import org.json.JSONObject;
  */
 public class ClientResponseGenerator {
 
-    public static JSONObject sendJoinGame(int[] supported_versions, String[] supported_features){
+    public static JSONObject joinGameGenerator(int[] supported_versions, String[] supported_features){
         JSONObject response = new JSONObject();
         response.put("command","join_game");
         JSONObject payload = new JSONObject();

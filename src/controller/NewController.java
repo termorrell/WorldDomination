@@ -1,8 +1,5 @@
 package controller;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import model.Player;
-
 import network.ClientResponseGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +39,7 @@ public class NewController {
 
 
     private void join() {
-        ClientResponseGenerator.sendJoinGame(Constants.getSupportedVersions(),Constants.getSupportedFeatures());
+        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures());
+
     }
 }

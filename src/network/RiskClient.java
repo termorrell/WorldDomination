@@ -2,6 +2,7 @@ package network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -19,12 +20,15 @@ public class RiskClient{
         new Thread(client).start();
         try {
             client.connect(5000,"127.0.0.1",54555);
-            NetworkPacket packet = new NetworkPacket();
-            packet.setJsonStringResponse("{command:join_game}");
-            client.sendTCP(packet);
         } catch (IOException e) {
-            e.printStackTrace();
+           System.err.println("A problem occured connecting to the server.");
         }
+    }
+
+    public void sendMessage(JSONObject responseObject) {
+        NetworkPacket packet = new NetworkPacket();
+        packet.setJsonStringResponse(responseObject.toString());
+        client.sendTCP(packet);
     }
 
     public void register(){
@@ -38,9 +42,9 @@ public class RiskClient{
     }
 
 
-    public static void main(String[] args){
-        new RiskClient();
-        //Log.set(Log.LEVEL_DEBUG);
-    }
+//    public static void main(String[] args){
+//        new RiskClient();
+//        //Log.set(Log.LEVEL_DEBUG);
+//    }
 
 }

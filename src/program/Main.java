@@ -18,7 +18,8 @@ public class Main {
 
 	static Logger log = LogManager.getLogger(Main.class.getName());
 	public static void main(String[] args) {
-       startServer();
+
+        startServer();
 
         newController();
 
@@ -42,6 +43,7 @@ public class Main {
     private static void oldController() {
         Model model = new Model();
 
+        String[] args = {};
         BufferedReader reader = getReader(args);
         IView view = new Input(reader);
         Controller controller = new Controller(model, view);

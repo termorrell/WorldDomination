@@ -1,9 +1,15 @@
 package network;
 
+import controller.NewController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ApiManager implements ApiMethods {
+public class ClientApiManager implements ApiMethods {
+    NewController controller;
+
+    public ClientApiManager(NewController controller) {
+        this.controller = controller;
+    }
 
 	/**
 	 * Parses a string into a Json objects
@@ -19,101 +25,78 @@ public class ApiManager implements ApiMethods {
 	 * Receive information from the server in the form of JSON and analyses it
 	 * for each type of command
 	 */
-	public JSONObject clientCheckCommandRequest(JSONObject response) {
-		String command = response.getString("command");
+	public void checkCommandRequest(JSONObject json) {
+		String command = json.getString("command");
 		command.toLowerCase();
 		switch (command) {
-			case "accept_join_game":
-				acceptJoinGameReceived(response);
-				break;
-			case "reject_join_game":
-				rejectJoinGameReceived(response);
-				break;
-			case "players_joined":
-				playersJoinedReceived(response);
-				break;
-			case "ping":
-				pingReceived(response);
-				break;
-			case "ready":
-				readyReceived(response);
-				break;
-			case "initialise_game":
-				initGameReceived(response);
-				break;
-			case "roll":
-				rollReceived(response);
-				break;
-			case "timeout":
-				timeoutReceived(response);
-				break;
-			default:
-				unrecognisedCommand(response);
-				break;
-		}
-		return null;
+            case "accept_join_game":
+                acceptJoinGameReceived(json);
+                break;
+            case "reject_join_game":
+                rejectJoinGameReceived(json);
+                break;
+            case "players_joined":
+                playersJoinedReceived(json);
+                break;
+            case "ping":
+                pingReceived(json);
+                break;
+            case "ready":
+                readyReceived(json);
+                break;
+            case "initialise_game":
+                initGameReceived(json);
+                break;
+            case "setup":
+                setupReceived(json);
+                break;
+            case "play_cards":
+                playCardsReceived(json);
+                break;
+            case "deploy":
+                deployReceived(json);
+                break;
+            case "attack":
+                attackReceived(json);
+                break;
+            case "defend":
+                defendReceived(json);
+                break;
+            case "attack_capture":
+                attackWonReceived(json);
+                break;
+            case "fortify":
+                fortifyReceived(json);
+                break;
+            case "acknowledgement":
+                acknowledgementReceived(json);
+                break;
+            case "roll":
+                rollReceived(json);
+                break;
+            case "roll_hash":
+                rollHashReceived(json);
+                break;
+            case "roll_number":
+                rollNumberReceived(json);
+                break;
+            case "leave_game":
+                leaveGameReceived(json);
+                break;
+            case "timeout":
+                timeoutReceived(json);
+                break;
+            default:
+                unrecognisedCommand(json);
+                break;
+        }
 	}
 
-	public JSONObject serverCheckCommandRequest(JSONObject request) {
-		String command = request.getString("command");
-		command.toLowerCase();
-		switch (command){
-			case "join_game":
-				joinGameReceived(request);
-				break;
-			case "ping":
-				pingReceived(request);
-				break;
-			case "setup":
-				setupReceived(request);
-				break;
-			case "play_cards":
-				playCardsReceived(request);
-				break;
-			case "deploy":
-				deployReceived(request);
-				break;
-			case "attack":
-				attackReceived(request);
-				break;
-			case "defend":
-				defendReceived(request);
-				break;
-			case "attack_capture":
-				attackWonReceived(request);
-				break;
-			case "fortify":
-				fortifyReceived(request);
-				break;
-			case "acknowledgement":
-				acknowledgementReceived(request);
-				break;
-			case "roll":
-				rollReceived(request);
-				break;
-			case "roll_hash":
-				rollHashReceived(request);
-				break;
-			case "roll_number":
-				rollNumberReceived(request);
-				break;
-			case "leave_game":
-				leaveGameReceived(request);
-				break;
-			default:
-				unrecognisedCommand(request);
-				break;
-		}
-		return null;
-	}
+
 
 	//TODO CALL RELEVANT METHODS
 	//todo check correct with rep final protocol
-	private void joinGameReceived(JSONObject json){
-		JSONObject payload = json.getJSONObject("payload");
-		JSONArray supported_versions = payload.getJSONArray("supported_versions");
-		JSONArray supported_features = payload.getJSONArray("custom_map");
-	}
+
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");
 		//TODO checkReady call
