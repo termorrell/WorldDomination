@@ -1,31 +1,52 @@
 package program;
 
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import controller.Controller;
+import controller.NewController;
+import network.RiskServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import view.INetworkView;
 import view.IView;
 import view.Input;
 import model.Model;
+import view.MockNetworkView;
 
 public class Main {
 
 	static Logger log = LogManager.getLogger(Main.class.getName());
 	public static void main(String[] args) {
-		
-		Model model = new Model();
-		
-		BufferedReader reader = getReader(args);
-		IView view = new Input(reader);
-		Controller controller = new Controller(model, view);
-		controller.run();
-		
+       startServer();
+
+        newController();
+
+        // TODO call startServer if program is supposed to act as server
 	}
+
+    private static void newController() {
+        INetworkView view = new MockNetworkView();
+        NewController controller = new NewController(view);
+        controller.run();
+    }
+
+    private static void startServer() {
+        try {
+            RiskServer server = new RiskServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void oldController() {
+        Model model = new Model();
+
+        BufferedReader reader = getReader(args);
+        IView view = new Input(reader);
+        Controller controller = new Controller(model, view);
+        controller.run();
+    }
 	
 	private static BufferedReader getReader(String[] args) {
 		BufferedReader reader = null;
