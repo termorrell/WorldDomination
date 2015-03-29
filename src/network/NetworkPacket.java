@@ -1,18 +1,11 @@
 package network;
 
-import org.json.JSONObject;
-
 /**
  * Created by ${mm280} on 18/02/15.
  */
 public class NetworkPacket {
 
     private String jsonStringResponse;
-
-
-
-
-
 
 
     public String getJsonStringResponse() {

@@ -2,7 +2,6 @@ package network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Server;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -16,7 +15,8 @@ public class RiskServer {
     public RiskServer() throws IOException{
         server = new Server();
         registerPackets();
-        server.addListener(new ServersNetworkListener());
+        //todo controller?
+        //server.addListener(new ServersNetworkListener());
         server.bind(54555);
         //TODO TIME OUT
         server.start();

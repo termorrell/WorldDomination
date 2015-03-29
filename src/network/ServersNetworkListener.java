@@ -40,7 +40,11 @@ public class ServersNetworkListener extends Listener {
         Log.info("[Server] Someone is trying to disconnect.");
     }
 
-    //Object is thing server has received from client
+    /**
+     * Called when a server receives a request
+     * @param connection The client connection
+     * @param object The request from the client
+     */
     public void received(Connection connection, Object object) {
         if(object instanceof NetworkPacket){
             NetworkPacket response = (NetworkPacket)object;
@@ -53,9 +57,13 @@ public class ServersNetworkListener extends Listener {
         }
     }
 
+    /**
+     * Forward a message to all clients
+     * @param message message to be sent, in the form of a string
+     */
     public void broadcast(String message) {
         for(Client client : clients) {
-            client.sendTCP("Test");
+            client.sendTCP(message);
         }
     }
 }
