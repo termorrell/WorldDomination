@@ -37,18 +37,7 @@ public class NewController {
         join();
     }
 
-<<<<<<< HEAD
-    public void
-
-=======
->>>>>>> 086a70d3327a2f55eb1b9ae46480d532df18eef9
     private void join() {
-        //TODO must be sent somewhere
-        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures());
+        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(),view.getLocalPlayerName());
     }
-
-
-
-
-
 }
