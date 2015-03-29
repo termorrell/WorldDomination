@@ -37,9 +37,7 @@ public class NewController {
         join();
     }
 
-
     private void join() {
         ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures());
-
     }
 }

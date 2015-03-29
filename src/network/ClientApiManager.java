@@ -24,6 +24,7 @@ public class ClientApiManager implements ApiMethods {
 	/**
 	 * Receive information from the server in the form of JSON and analyses it
 	 * for each type of command
+	 * @param json command sent to the client in JSONObject form
 	 */
 	public void checkCommandRequest(JSONObject json) {
 		String command = json.getString("command");
@@ -97,6 +98,7 @@ public class ClientApiManager implements ApiMethods {
 	//TODO CALL RELEVANT METHODS
 	//todo check correct with rep final protocol
 
+
 	private void readyReceived(JSONObject json){
 		int ack_id = json.getInt("ack_id");
 		//TODO checkReady call
@@ -113,7 +115,7 @@ public class ClientApiManager implements ApiMethods {
 		JSONObject payload = json.getJSONObject("payload");
 		int playerId = payload.getInt("player_id");
 		//TODO controller add local player
-		int acknowlegement_timeout = payload.getInt("acknowlegement_timeout");
+		int acknowledgement_timeout = payload.getInt("acknowledgement_timeout");
 		int move_timeout = payload.getInt("move_timeout");
 	}
 	private void leaveGameReceived(JSONObject json){
