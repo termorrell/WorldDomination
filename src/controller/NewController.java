@@ -34,17 +34,13 @@ public class NewController {
     }
 
     public void run() {
-        join();
+        join(gameStateManager.model.getPlayerInfo().getUserName());
     }
 
-<<<<<<< HEAD
-    public void
 
-=======
->>>>>>> 086a70d3327a2f55eb1b9ae46480d532df18eef9
-    private void join() {
+    private void join(String name) {
         //TODO must be sent somewhere
-        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures());
+        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(), name);
     }
 
 

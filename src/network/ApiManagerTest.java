@@ -15,7 +15,7 @@ public class ApiManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        api = new ClientApiManager();
+       // api = new ClientApiManager();
         model = new Model();
         jsonJoinRequest ="{\n" +
                 "\t\"command\": \"join_game\",\n" +

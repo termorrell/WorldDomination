@@ -70,5 +70,5 @@ public class GameStateManager {
         Moves.reinforce(model.getGameState().getPlayerById(playerId), model.getGameState(), territoryId, numberOfArmies);
     }
 
-   
+
 }
