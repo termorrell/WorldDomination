@@ -4,8 +4,8 @@ package program;
 public class Constants {
     // TODO to be replaced with a configuration file
 
-    public static int[] getSupportedVersions() {
-        int[] versions = {1};
+    public static float[] getSupportedVersions() {
+        float[] versions = {1};
         return versions;
     }
 
