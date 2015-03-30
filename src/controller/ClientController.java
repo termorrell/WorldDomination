@@ -7,13 +7,13 @@ import org.apache.logging.log4j.Logger;
 import program.Constants;
 import view.INetworkView;
 
-public class NewController {
+public class ClientController {
 
     INetworkView view;
     GameStateManager gameStateManager;
-    static Logger log = LogManager.getLogger(NewController.class.getName());
+    static Logger log = LogManager.getLogger(ClientController.class.getName());
 
-    public NewController(INetworkView view) {
+    public ClientController(INetworkView view) {
         this.view = view;
         this.gameStateManager = new GameStateManager();
     }

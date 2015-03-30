@@ -4,7 +4,7 @@ package program;
 import java.io.*;
 
 import controller.Controller;
-import controller.NewController;
+import controller.ClientController;
 import network.RiskServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class Main {
 
     private static void newController() {
         INetworkView view = new MockNetworkView();
-        NewController controller = new NewController(view);
+        ClientController controller = new ClientController(view);
         controller.run();
     }
 
