@@ -1,10 +1,7 @@
 package controller;
 
-import network.ClientResponseGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import program.Constants;
 import view.INetworkView;
 
 public class ClientController {
@@ -38,6 +35,6 @@ public class ClientController {
     }
 
     private void join() {
-        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(),view.getLocalPlayerName());
+        //ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(),view.getLocalPlayerName());
     }
 }

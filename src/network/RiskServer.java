@@ -78,16 +78,4 @@ public class RiskServer {
     public void setServerResponse(NetworkPacket serverResponse) {
         this.serverResponse = serverResponse;
     }
-
-
-    public static void main(String[] args){
-        try {
-            new RiskServer();
-           // Log.set(Log.LEVEL_DEBUG); // Logging utility for server
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

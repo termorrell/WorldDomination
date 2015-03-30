@@ -62,10 +62,4 @@ public class RiskClient {
         kryo.register(java.util.ArrayList.class);
     }
 
-
-    public static void main(String[] args){
-        new RiskClient();
-        //Log.set(Log.LEVEL_DEBUG);
-    }
-
 }
