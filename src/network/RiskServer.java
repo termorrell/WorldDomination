@@ -10,7 +10,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-/**erver server
+/**
+ * erver server
  * Created by ${mm280} on 18/02/15.
  */
 public class RiskServer {
@@ -19,29 +20,30 @@ public class RiskServer {
     private JSONObject serverResponse = null;
     ServerController controller;
 
-    public RiskServer() throws IOException{
+    public RiskServer() throws IOException {
         server = new Server();
         registerPackets();
-        server.addListener(new Listener(){
+        server.addListener(new Listener() {
             public void connected(Connection connection) {
                 Log.info("[Server] Someone is trying to connect.");
             }
 
             public void received(Connection connection, Object object) {
-                if(object instanceof NetworkPacket){
-                    NetworkPacket clientMessage = (NetworkPacket)object;
+                if (object instanceof NetworkPacket) {
+                    NetworkPacket clientMessage = (NetworkPacket) object;
                     //TODO CALL CONTROLLER
-                    if(serverResponse!=null) {
+                    if (serverResponse != null) {
                         server.sendToAllExceptTCP(connection.getID(), serverResponse);
-                    }else{
+                    } else {
                         Log.info("[SERVER] Received null response object from controller");
                     }
                 }
             }
+
             public void disconnected(Connection connection) {
                 Log.info("[Server] Someone is trying to disconnect.");
             }
-                      });
+        });
         server.bind(54555);
         //TODO TIME OUT
         server.start();
@@ -51,15 +53,16 @@ public class RiskServer {
 
     /**
      * Used by controller to send messages to the server to be sent to clients
+     *
      * @param message a JSONObject with message to be sent
      */
-    public void sendServerResponse(JSONObject message){
+    public void sendServerResponse(JSONObject message) {
         setServerResponse(message);
     }
 
     //Register all of packets that will be sent, packet will be something that
     // will contain a bunch of variables and client will read variables
-    private void registerPackets(){
+    private void registerPackets() {
         Kryo kryo = server.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
         kryo.register(NetworkPacket.class);
         kryo.register(org.json.JSONObject.class);
@@ -68,6 +71,7 @@ public class RiskServer {
         kryo.register(java.util.ArrayList.class);
 
     }
+
     public void setServerResponse(JSONObject serverResponse) {
         this.serverResponse = serverResponse;
     }
