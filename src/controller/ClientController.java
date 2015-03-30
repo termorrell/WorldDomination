@@ -1,19 +1,16 @@
 package controller;
 
-import network.ClientResponseGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import program.Constants;
 import view.INetworkView;
 
-public class NewController {
+public class ClientController {
 
     INetworkView view;
     GameStateManager gameStateManager;
-    static Logger log = LogManager.getLogger(NewController.class.getName());
+    static Logger log = LogManager.getLogger(ClientController.class.getName());
 
-    public NewController(INetworkView view) {
+    public ClientController(INetworkView view) {
         this.view = view;
         this.gameStateManager = new GameStateManager();
     }
@@ -34,17 +31,10 @@ public class NewController {
     }
 
     public void run() {
-        join(gameStateManager.model.getPlayerInfo().getUserName());
+        //join(gameStateManager.model.getPlayerInfo().getUserName());
     }
 
-<<<<<<< HEAD
-
-    private void join(String name) {
-        //TODO must be sent somewhere
-        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(), name);
-=======
     private void join() {
-        ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(),view.getLocalPlayerName());
->>>>>>> 227f480472e47c200f5513484464b7086b84d7db
+        //ClientResponseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(),view.getLocalPlayerName());
     }
 }

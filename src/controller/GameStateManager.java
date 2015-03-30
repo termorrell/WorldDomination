@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
 import model.Model;
@@ -10,11 +8,9 @@ import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import view.INetworkView;
-
 public class GameStateManager {
 	Model model;
-	static Logger log = LogManager.getLogger(NewController.class.getName());
+	static Logger log = LogManager.getLogger(ClientController.class.getName());
 	
 	
 	public GameStateManager() {

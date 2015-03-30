@@ -1,13 +1,13 @@
 package network;
 
-import controller.NewController;
+import controller.ClientController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ClientApiManager implements ApiMethods {
-    NewController controller;
+    ClientController controller;
 
-    public ClientApiManager(NewController controller) {
+    public ClientApiManager(ClientController controller) {
         this.controller = controller;
     }
 

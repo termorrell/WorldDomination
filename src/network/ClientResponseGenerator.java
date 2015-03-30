@@ -19,7 +19,7 @@ public class ClientResponseGenerator {
      * @param name optional, string specifying the real name of the player.
      * @return json object for join_game command
      */
-    public static JSONObject joinGameGenerator(int[] supported_versions, String[] supported_features,String name){
+    public JSONObject joinGameGenerator(float[] supported_versions, String[] supported_features,String name){
         JSONObject response = new JSONObject();
         response.put("command","join_game");
         JSONObject payload = new JSONObject();
@@ -39,7 +39,7 @@ public class ClientResponseGenerator {
      * @param players_joined the total number of players who have joined the game, when sent by the host.
      * @param player_id May be null in the case of a non-player host.
      */
-    public static JSONObject pingGenerator(int players_joined, int player_id){
+    public JSONObject pingGenerator(int players_joined, int player_id){
         JSONObject response = new JSONObject();
         response.put("command","ping");
         response.put("payload","null");
@@ -55,7 +55,7 @@ public class ClientResponseGenerator {
      * @param ack_id id of acknowledgement
      * @return setup command jsonObject
      */
-    public static JSONObject setupGenerator(int player_id, int territory_id, int ack_id){
+    public JSONObject setupGenerator(int player_id, int territory_id, int ack_id){
         JSONObject response = new JSONObject();
         response.put("command","setup");
         response.put("payload",territory_id);
@@ -74,7 +74,7 @@ public class ClientResponseGenerator {
      * @param ack_id id of the acknowledgment message
      * @return JSONOBject for play cards command
      */
-    public static JSONObject playCardsGenerator(int[][] card_ids, int armies, int player_id,int ack_id){
+    public JSONObject playCardsGenerator(int[][] card_ids, int armies, int player_id,int ack_id){
         JSONObject response = new JSONObject();
         response.put("command","play_cards");
         JSONObject payload = new JSONObject();
@@ -95,7 +95,7 @@ public class ClientResponseGenerator {
      * @param ack_id id of the acknowledgment
      * @return JSONObject for draw cards command
      */
-    public static JSONObject drawCardsGenerator(int card_id, int player_id,int ack_id){
+    public JSONObject drawCardsGenerator(int card_id, int player_id,int ack_id){
         JSONObject response = new JSONObject();
         response.put("command","draw_card");
         response.put("payload",card_id);
@@ -112,7 +112,7 @@ public class ClientResponseGenerator {
      * @param ack_id id of acknowledgment
      * @return JSONObject for deploy
      */
-    public static JSONObject deployGenerator(int[][]armies, int player_id,int ack_id){
+    public JSONObject deployGenerator(int[][]armies, int player_id,int ack_id){
         JSONObject response = new JSONObject();
         response.put("command","deploy");
         JSONArray payload = new JSONArray(armies);
@@ -132,7 +132,7 @@ public class ClientResponseGenerator {
      * @param ack_id id of the acknowledgement
      * @return attack command JSONObject
      */
-    public static JSONObject attackGenerator(int[] attack, int player_id, int ack_id){
+    public JSONObject attackGenerator(int[] attack, int player_id, int ack_id){
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(attack);
         response.put("command","attack");
@@ -151,7 +151,7 @@ public class ClientResponseGenerator {
      * @param ack_id id of the acknowledgement
      * @return JSONObject for defend command
      */
-    public static JSONObject defendGenerator(int armies_no,int player_id,int ack_id){
+    public JSONObject defendGenerator(int armies_no,int player_id,int ack_id){
         JSONObject response = new JSONObject();
         response.put("command","defend");
         response.put("payload", armies_no);
@@ -168,7 +168,7 @@ public class ClientResponseGenerator {
      * @param ack_id the id of the acknowledgement
      * @return JSONObject for the attack capture command
      */
-    public static JSONObject attackCaptureGenerator(int[] attack,int player_id,int ack_id){
+    public JSONObject attackCaptureGenerator(int[] attack,int player_id,int ack_id){
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(attack);
         response.put("command","attack_capture");
@@ -187,7 +187,7 @@ public class ClientResponseGenerator {
      * @param ack_id the id of the acknowledgement
      * @return JSONObject for the fortify command
      */
-    public static JSONObject fortifyGenerator(int[] armies, int player_id,int ack_id){
+    public JSONObject fortifyGenerator(int[] armies, int player_id,int ack_id){
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(armies);
         response.put("command","fortify");
@@ -205,7 +205,7 @@ public class ClientResponseGenerator {
      * @param player_id the id of the player sending the message
      * @return JSONObject for the acknowledgement command
      */
-    public static JSONObject ackGenerator(int ack_id, int response_id,int player_id){
+    public JSONObject ackGenerator(int ack_id, int response_id,int player_id){
         JSONObject response = new JSONObject();
         JSONObject payload = new JSONObject();
         payload.put("ack_id",ack_id);
@@ -225,7 +225,7 @@ public class ClientResponseGenerator {
      * @param player_id the id of the player sending the message
      * @return JSONObject for the roll generator command
      */
-    public static JSONObject rollGenerator(int dice_count,int dice_faces,int player_id){
+    public JSONObject rollGenerator(int dice_count,int dice_faces,int player_id){
         JSONObject response = new JSONObject();
         JSONObject payload = new JSONObject();
         payload.put("dice_count",dice_count);
@@ -243,7 +243,7 @@ public class ClientResponseGenerator {
      * @param player_id the id of the player sending the message
      * @return JSONObject for the roll hash command
      */
-    public static JSONObject rollHashGenerator(String sha, int player_id){
+    public JSONObject rollHashGenerator(String sha, int player_id){
         JSONObject response = new JSONObject();
         response.put("command","roll_hash");
         response.put("payload",sha);
@@ -258,7 +258,7 @@ public class ClientResponseGenerator {
      * @param player_id the id of the player sending the message
      * @return JSONObject for the roll number command
      */
-    public static JSONObject rollNumberGenerator(String sha, int player_id){
+    public JSONObject rollNumberGenerator(String sha, int player_id){
         JSONObject response = new JSONObject();
         response.put("command","roll_number");
         response.put("payload",sha);

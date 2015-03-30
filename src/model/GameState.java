@@ -1,9 +1,9 @@
 package model;
 
+import factories.BoardFactory;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import factories.BoardFactory;
 
 public class GameState {
 	Board board;
@@ -17,7 +17,7 @@ public class GameState {
 		BoardFactory factory = new BoardFactory();
 		this.board = factory.getBoard();
 		this.numberOfPlayers = 0;
-		this.players = new ArrayList<>();
+		this.players = new ArrayList<Player>();
 	}
 
 	public int getNumberOfPlayers() {
