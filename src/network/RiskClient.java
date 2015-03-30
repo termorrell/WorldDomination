@@ -21,7 +21,6 @@ public class RiskClient {
         clientResponse = new NetworkPacket();
         client = new Client();
         register();
-        ClientsNetworkListener n1 = new ClientsNetworkListener();
         client.addListener(new Listener() {
             public void connected(Connection connection) {
                 Log.info("[Client] Connecting.");
@@ -33,7 +32,7 @@ public class RiskClient {
 
             public void received(Connection connection, Object object) {
                 if (object instanceof NetworkPacket) {
-                    NetworkPacket response = (NetworkPacket) object;
+                    NetworkPacket serverMessage = (NetworkPacket) object;
                     //TODO CALL CONTROLLER TO UPDATE CLIENT RESPONSE
                 }
             }
