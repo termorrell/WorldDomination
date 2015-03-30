@@ -19,7 +19,7 @@ public class ClientResponseGenerator {
      * @param name optional, string specifying the real name of the player.
      * @return json object for join_game command
      */
-    public static JSONObject joinGameGenerator(int[] supported_versions, String[] supported_features,String name){
+    public static JSONObject joinGameGenerator(float[] supported_versions, String[] supported_features,String name){
         JSONObject response = new JSONObject();
         response.put("command","join_game");
         JSONObject payload = new JSONObject();

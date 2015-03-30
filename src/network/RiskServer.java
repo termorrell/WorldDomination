@@ -17,10 +17,11 @@ import java.io.IOException;
 public class RiskServer {
 
     private Server server;
-    private JSONObject serverResponse = null;
+    private NetworkPacket serverResponse = null;
     ServerController controller;
 
     public RiskServer() throws IOException {
+        serverResponse = new NetworkPacket();
         server = new Server();
         registerPackets();
         server.addListener(new Listener() {
@@ -44,6 +45,7 @@ public class RiskServer {
                 Log.info("[Server] Someone is trying to disconnect.");
             }
         });
+        //todo feed in from gui
         server.bind(54555);
         //TODO TIME OUT
         server.start();
@@ -57,7 +59,7 @@ public class RiskServer {
      * @param message a JSONObject with message to be sent
      */
     public void sendServerResponse(JSONObject message) {
-        setServerResponse(message);
+        serverResponse.setJsonStringResponse(message.toString());
     }
 
     //Register all of packets that will be sent, packet will be something that
@@ -72,19 +74,19 @@ public class RiskServer {
 
     }
 
-    public void setServerResponse(JSONObject serverResponse) {
+    public void setServerResponse(NetworkPacket serverResponse) {
         this.serverResponse = serverResponse;
     }
 
 
-//    public static void main(String[] args){
-//        try {
-//            new RiskServer();
-//           // Log.set(Log.LEVEL_DEBUG); // Logging utility for server
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    public static void main(String[] args){
+        try {
+            new RiskServer();
+           // Log.set(Log.LEVEL_DEBUG); // Logging utility for server
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
