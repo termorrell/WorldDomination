@@ -32,9 +32,10 @@ public class RiskServer {
             public void received(Connection connection, Object object) {
                 if (object instanceof NetworkPacket) {
                     NetworkPacket clientMessage = (NetworkPacket) object;
+                    server.sendToAllExceptTCP(connection.getID(),clientMessage);
                     //TODO CALL CONTROLLER
                     if (serverResponse != null) {
-                        server.sendToAllExceptTCP(connection.getID(), serverResponse);
+                        server.sendToAllTCP(serverResponse);
                     } else {
                         Log.info("[SERVER] Received null response object from controller");
                     }
