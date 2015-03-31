@@ -3,7 +3,6 @@ package controller;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.logging.LogManager;
 
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
@@ -127,9 +126,9 @@ public class Moves {
 
         if (checkDefendIsLegal(attacker, defendingPlayer, gameState, attackingTerritory, defendingTerritory, numberOfAttackingArmies, numberOfDefendingArmies)) {
 
-            List<Integer> attackerDie = DieManager.diceRoll(6, numberOfAttackingArmies);
+            List<Integer> attackerDie = SimpleDieManager.diceRoll(6, numberOfAttackingArmies);
             Collections.sort(attackerDie, Collections.reverseOrder());
-            List<Integer> defenderDie = DieManager.diceRoll(6, numberOfDefendingArmies);
+            List<Integer> defenderDie = SimpleDieManager.diceRoll(6, numberOfDefendingArmies);
             Collections.sort(defenderDie, Collections.reverseOrder());
 
             for (int i = 0; i < defenderDie.size() && i < attackerDie.size(); i++) {
