@@ -1,6 +1,6 @@
 package actions;
 
-public class Acknowledgement {
+public class Acknowledgement extends Action{
     int acknowledgementId;
     int playerId;
 

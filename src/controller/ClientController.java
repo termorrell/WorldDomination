@@ -74,6 +74,10 @@ public class ClientController {
             ping((Ping) action);
         } else if (action instanceof Ready) {
             ready((Ready) action);
+        } else if(action instanceof InitialiseGame) {
+            initialiseGame((InitialiseGame) action);
+        } else if(action instanceof Acknowledgement) {
+            acknowledgement((Acknowledgement) action);
         }
     }
 
@@ -155,6 +159,10 @@ public class ClientController {
         for (int playerId : missedPlayers) {
             gameStateManager.removePlayer(playerId);
         }
+    }
+
+    private void initialiseGame(InitialiseGame initialiseGame) {
+        // TODO once i actually know what version i'm implementing....
     }
 
     private void acknowledgement(Acknowledgement acknowledgement) {
