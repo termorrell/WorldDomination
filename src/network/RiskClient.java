@@ -47,9 +47,9 @@ public class RiskClient {
         }
     }
 
-    public void sendMessage(JSONObject responseObject) {
+    public void sendMessage(String content) {
         NetworkPacket packet = new NetworkPacket();
-        packet.setJsonStringResponse("hello");
+        packet.setJsonStringResponse(content);
         client.sendTCP(packet);
     }
 

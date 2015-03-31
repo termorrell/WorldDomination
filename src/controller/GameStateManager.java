@@ -32,14 +32,31 @@ public class GameStateManager {
 	/*
 	 * Adds the players that will act as opponents.
 	 */
-	public void addPlayer(int id, String name) {
+	public void addPlayer(int id, String name, String publicKey) {
 		// TODO check for no more than 6 players
-		Player me = new Player();
-		me.setName(name);
-		me.setId(id);
-		model.getGameState().getPlayers().add(me);
+		Player player = new Player();
+		player.setName(name);
+		player.setId(id);
+        if(publicKey != null && publicKey.length() > 0) {
+            player.setPublicKey(publicKey);
+        }
+		model.getGameState().getPlayers().add(player);
 		model.getGameState().setNumberOfPlayers(model.getGameState().getNumberOfPlayers() + 1);
 	}
+
+    /**
+     * Checks if the player with this id is already known to the game state
+     * @param id - player id
+     * @return true if the player is known to the game state
+     */
+    public boolean checkPlayerExists(int id) {
+        for(Player player : model.getGameState().getPlayers()) {
+            if(player.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
 	
 	/*
 	 * Checks the game is set up correctly
@@ -67,4 +84,7 @@ public class GameStateManager {
     }
 
 
+    public void addLocalPlayerInfo(String name) {
+        model.getPlayerInfo().setUserName(name);
+    }
 }

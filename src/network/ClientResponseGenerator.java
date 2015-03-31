@@ -3,10 +3,17 @@ package network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 /**
  * Created by ${mm280} on 04/03/15.
  */
 public class ClientResponseGenerator {
+
+    RiskClient connection;
+
+    public ClientResponseGenerator(RiskClient connection) {
+        this.connection = connection;
+    }
 
     /**
      * Sent by a client to a host attempting to join a game.
@@ -19,7 +26,7 @@ public class ClientResponseGenerator {
      * @param name optional, string specifying the real name of the player.
      * @return json object for join_game command
      */
-    public JSONObject joinGameGenerator(float[] supported_versions, String[] supported_features,String name){
+    public void joinGameGenerator(float[] supported_versions, String[] supported_features,String name){
         JSONObject response = new JSONObject();
         response.put("command","join_game");
         JSONObject payload = new JSONObject();
@@ -29,7 +36,7 @@ public class ClientResponseGenerator {
         payload.put("supported_features",supported_feature);
         payload.put("name",name);
         response.put("payload",payload);
-        return response;
+        connection.sendMessage(response.toString());
     }
 
     /**
