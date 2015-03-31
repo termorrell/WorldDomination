@@ -212,11 +212,12 @@ public class ClientResponseGenerator {
      * @param player_id the id of the player sending the message
      * @return JSONObject for the acknowledgement command
      */
-    public JSONObject ackGenerator(int ack_id, int response_id,int player_id){
+    public JSONObject ackGenerator(int ack_id, int player_id){
+        // TODO not up to date
         JSONObject response = new JSONObject();
         JSONObject payload = new JSONObject();
         payload.put("ack_id",ack_id);
-        payload.put("response",response_id);
+       // payload.put("response",response_id);
         response.put("command","acknowledgement");
         response.put("payload",payload);
         response.put("player_id",player_id);

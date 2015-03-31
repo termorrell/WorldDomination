@@ -1,6 +1,7 @@
 package controller;
 
 import actions.*;
+import model.Player;
 import network.ClientResponseGenerator;
 import network.RiskClient;
 import org.apache.logging.log4j.LogManager;
@@ -8,9 +9,7 @@ import org.apache.logging.log4j.Logger;
 import program.Constants;
 import view.INetworkView;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class ClientController {
 
@@ -54,25 +53,27 @@ public class ClientController {
 
     public void gameLoop() {
 
-        while(!won) {
+        while (!won) {
             executeActions();
         }
     }
 
     private void executeActions() {
-        while(!actions.isEmpty()) {
+        while (!actions.isEmpty()) {
             Action nextAction = actions.poll();
             executeAction(nextAction);
         }
     }
 
     private void executeAction(Action action) {
-        if(action instanceof RejectJoinGame) {
+        if (action instanceof RejectJoinGame) {
             rejectJoinGame((RejectJoinGame) action);
-        } else if(action instanceof AcceptJoinGame) {
+        } else if (action instanceof AcceptJoinGame) {
             acceptJoinGame((AcceptJoinGame) action);
-        } else if(action instanceof Ping) {
+        } else if (action instanceof Ping) {
             ping((Ping) action);
+        } else if (action instanceof Ready) {
+            ready((Ready) action);
         }
     }
 
@@ -90,9 +91,9 @@ public class ClientController {
     private void playersJoined(PlayersJoined action) {
         Map<Integer, String[]> players = action.getPlayers();
         view.displayJoinedPlayers(players);
-        for(Map.Entry<Integer, String[]> player : players.entrySet()) {
-            if(!gameStateManager.checkPlayerExists(player.getKey())) {
-                if(player.getValue().length == 2) {
+        for (Map.Entry<Integer, String[]> player : players.entrySet()) {
+            if (!gameStateManager.checkPlayerExists(player.getKey())) {
+                if (player.getValue().length == 2) {
                     gameStateManager.addPlayer(player.getKey(), player.getValue()[0], player.getValue()[1]);
                 } else {
                     // TODO proper error handling
@@ -103,30 +104,73 @@ public class ClientController {
     }
 
     private void ping(Ping ping) {
-        if(ping.getPlayerId() == -1) {
-           hostPing(ping);
+        if (ping.getPlayerId() == -1 || ping.getPlayerId() == 0) {
+            hostPing(ping);
         } else {
             clientPing(ping);
         }
     }
 
     private void hostPing(Ping ping) {
-        if(view.getPingReadyConfirmation()) {
-               responseGenerator.pingGenerator(gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId());
-               clientPing(new Ping(0,gameStateManager.getLocalPlayerId()));
-            } else {
-                // TODO error handling
-                shutDown();
+        if (view.getPingReadyConfirmation()) {
+            responseGenerator.pingGenerator(gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId());
+            if (ping.getPlayerId() == 0) {
+                clientPing(ping);
             }
+            clientPing(new Ping(0, gameStateManager.getLocalPlayerId()));
+        } else {
+            // TODO error handling
+            shutDown();
         }
     }
 
     private void clientPing(Ping ping) {
         int returnCode = acknowledgementManager.addAcknowledgement(ping.getPlayerId(), -1);
-        if(returnCode == -1) {
+        if (returnCode == -1) {
             // TODO error handling
             shutDown();
         }
+    }
+
+    private void ready(Ready ready) {
+        if (!acknowledgementManager.isAcknowledgedByAllPlayers(gameStateManager.model.getGameState().getNumberOfPlayers())) {
+            removeUnreadyPlayers();
+        }
+        acknowledgementManager.expectAcknowledgement();
+        if(ready.getPlayerId() == 0) {
+            acknowledgementManager.addAcknowledgement(0, acknowledgementManager.getAcknowledgementId());
+        }
+        sendAcknowledgement();
+    }
+
+    private void removeUnreadyPlayers() {
+        Set<Integer> acknowledgedPlayers = acknowledgementManager.getPlayers();
+        ArrayList<Player> players = gameStateManager.model.getGameState().getPlayers();
+        Set<Integer> missedPlayers = new HashSet<>();
+        for (Player player : players) {
+            if (!acknowledgedPlayers.contains(player.getId())) {
+                missedPlayers.add(player.getId());
+            }
+        }
+        for (int playerId : missedPlayers) {
+            gameStateManager.removePlayer(playerId);
+        }
+    }
+
+    private void acknowledgement(Acknowledgement acknowledgement) {
+        int responseCode = -1;
+        if (acknowledgementManager.getAcknowledgementId() == acknowledgement.getAcknowledgementId()) {
+            responseCode = acknowledgementManager.addAcknowledgement(acknowledgement.getPlayerId(), acknowledgement.getAcknowledgementId());
+        }
+        if (responseCode != 0) {
+            // TODO error handling
+            shutDown();
+        }
+    }
+
+    private void sendAcknowledgement() {
+        responseGenerator.ackGenerator(acknowledgementManager.getAcknowledgementId(), gameStateManager.getLocalPlayerId());
+        acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), acknowledgementManager.getAcknowledgementId());
     }
 
     /**

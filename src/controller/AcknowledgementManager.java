@@ -15,24 +15,36 @@ public class AcknowledgementManager {
         this.players = new HashSet<>();
     }
 
-    public boolean isAcknowledgedByAllPlayers( int numberOfPlayers) {
-        if(acknowledgedByAllPlayers) {
+    public boolean isAcknowledgedByAllPlayers(int numberOfPlayers) {
+        if (acknowledgedByAllPlayers) {
             return true;
         }
-        if(players.size() == numberOfPlayers) {
+        if (players.size() == numberOfPlayers) {
             acknowledgedByAllPlayers = true;
-            id++;
         }
         return false;
     }
 
     public int addAcknowledgement(int playerId, int id) {
-        if(this.id == id) {
-            acknowledgedByAllPlayers = false;
+        if (this.id == id) {
             players.add(playerId);
             return 0;
         } else {
             return -1;
         }
+    }
+
+    public Set<Integer> getPlayers() {
+        return players;
+    }
+
+    public int getAcknowledgementId() {
+        return id;
+    }
+
+    public void expectAcknowledgement() {
+        acknowledgedByAllPlayers = false;
+        players.clear();
+        id++;
     }
 }
