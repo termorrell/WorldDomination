@@ -87,4 +87,12 @@ public class GameStateManager {
     public void addLocalPlayerInfo(String name) {
         model.getPlayerInfo().setUserName(name);
     }
+
+    public void setLocalPlayerId(int id) {
+        model.getPlayerInfo().setId(id);
+    }
+
+    public int getLocalPlayerId() {
+        return model.getPlayerInfo().getId();
+    }
 }

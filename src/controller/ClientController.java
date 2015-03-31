@@ -24,11 +24,14 @@ public class ClientController {
 
     boolean won = false;
 
+    AcknowledgementManager acknowledgementManager = null;
+
     public ClientController(INetworkView view) {
         this.view = view;
         this.gameStateManager = new GameStateManager();
         this.client = new RiskClient();
         this.responseGenerator = new ClientResponseGenerator(client);
+        this.acknowledgementManager = new AcknowledgementManager();
     }
 
     public void run() {
@@ -68,6 +71,8 @@ public class ClientController {
             rejectJoinGame((RejectJoinGame) action);
         } else if(action instanceof AcceptJoinGame) {
             acceptJoinGame((AcceptJoinGame) action);
+        } else if(action instanceof Ping) {
+            ping((Ping) action);
         }
     }
 
@@ -94,6 +99,33 @@ public class ClientController {
                     shutDown();
                 }
             }
+        }
+    }
+
+    private void ping(Ping ping) {
+        if(ping.getPlayerId() == -1) {
+           hostPing(ping);
+        } else {
+            clientPing(ping);
+        }
+    }
+
+    private void hostPing(Ping ping) {
+        if(view.getPingReadyConfirmation()) {
+               responseGenerator.pingGenerator(gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId());
+               clientPing(new Ping(0,gameStateManager.getLocalPlayerId()));
+            } else {
+                // TODO error handling
+                shutDown();
+            }
+        }
+    }
+
+    private void clientPing(Ping ping) {
+        int returnCode = acknowledgementManager.addAcknowledgement(ping.getPlayerId(), -1);
+        if(returnCode == -1) {
+            // TODO error handling
+            shutDown();
         }
     }
 
