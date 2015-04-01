@@ -28,7 +28,7 @@ public class NetworkDieManager {
     public String generateLocalHash() throws NoSuchAlgorithmException {
         messageDigest = MessageDigest.getInstance("SHA-256");
         numbers.put(localPlayerId,new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
-        hashes.put(localPlayerId, messageDigest.digest(numbers.get(localPlayerId).toByteArray()).);
+        hashes.put(localPlayerId, String.valueOf(messageDigest.digest(numbers.get(localPlayerId).toByteArray())));
     }
 
     public String getLocalNumber() {
