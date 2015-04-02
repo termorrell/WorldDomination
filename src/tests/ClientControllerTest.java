@@ -15,7 +15,12 @@ public class ClientControllerTest {
 		initNetworkActions();
 		INetworkView view = new MockNetworkView();
 		ClientController controller = new ClientController(view);
-		controller.run();
+
+        for(Action action: networkActions) {
+            controller.handleAction(action);
+        }
+
+        controller.run();
 	}
 	
 	//  nonplaying host
@@ -37,9 +42,12 @@ public class ClientControllerTest {
 		networkActions.add(new PlayersJoined(map));
 		
 		// player's joined
+        Map<Integer, String[]> map1 = new HashMap<>();
+        map1.put(firstId, p1);
+        map1.put(localId, p2);
 		String[] p3 = {"Charly", "Charly's public key."};
-		map.put(thirdId, p3);
-		networkActions.add(new PlayersJoined(map));
+		map1.put(thirdId, p3);
+		networkActions.add(new PlayersJoined(map1));
 		
 		// server ping 
 		networkActions.add(new Ping(3, hostId));

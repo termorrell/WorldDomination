@@ -54,7 +54,7 @@ public class ClientController {
     }
 
     private void join() {
-        responseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(), view.getLocalPlayerName());
+        responseGenerator.joinGameGenerator(Constants.getSupportedVersions(), Constants.getSupportedFeatures(), gameStateManager.model.getPlayerInfo().getUserName());
     }
 
     public void gameLoop() {
@@ -76,6 +76,8 @@ public class ClientController {
             rejectJoinGame((RejectJoinGame) action);
         } else if (action instanceof AcceptJoinGame) {
             acceptJoinGame((AcceptJoinGame) action);
+        } else if(action instanceof PlayersJoined) {
+            playersJoined((PlayersJoined) action);
         } else if (action instanceof Ping) {
             ping((Ping) action);
         } else if (action instanceof Ready) {
