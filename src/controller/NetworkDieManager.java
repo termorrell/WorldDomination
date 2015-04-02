@@ -29,6 +29,7 @@ public class NetworkDieManager {
         messageDigest = MessageDigest.getInstance("SHA-256");
         numbers.put(localPlayerId,new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
         hashes.put(localPlayerId, String.valueOf(messageDigest.digest(numbers.get(localPlayerId).toByteArray())));
+        return hashes.get(localPlayerId);
     }
 
     public String getLocalNumber() {

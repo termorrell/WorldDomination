@@ -24,6 +24,7 @@ public class ClientController {
     boolean won = false;
 
     AcknowledgementManager acknowledgementManager = null;
+    NetworkDieManager networkDieManager = null;
 
     public ClientController(INetworkView view) {
         this.view = view;
@@ -78,6 +79,8 @@ public class ClientController {
             initialiseGame((InitialiseGame) action);
         } else if(action instanceof Acknowledgement) {
             acknowledgement((Acknowledgement) action);
+        } else if (action instanceof Roll) {
+            roll((Roll) action);
         }
     }
 
@@ -174,6 +177,18 @@ public class ClientController {
             // TODO error handling
             shutDown();
         }
+    }
+
+    private void roll(Roll roll) {
+        networkDieManager = new NetworkDieManager(roll.getPlayerId(), roll.getNumberOfRolls(), roll.getNubmerOfFaces());
+    }
+
+    private void rollHash() {
+
+    }
+
+    private void rollNumber() {
+
     }
 
     private void sendAcknowledgement() {
