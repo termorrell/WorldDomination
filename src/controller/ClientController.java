@@ -4,11 +4,14 @@ import actions.*;
 import model.Player;
 import network.ClientResponseGenerator;
 import network.RiskClient;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import program.Constants;
 import view.INetworkView;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class ClientController {
@@ -25,6 +28,8 @@ public class ClientController {
 
     AcknowledgementManager acknowledgementManager = null;
     NetworkDieManager networkDieManager = null;
+    
+    Action cachedAction; // Action will be saved in here while the die roll is completed
 
     public ClientController(INetworkView view) {
         this.view = view;
@@ -81,6 +86,10 @@ public class ClientController {
             acknowledgement((Acknowledgement) action);
         } else if (action instanceof Roll) {
             roll((Roll) action);
+        } else if (action instanceof RollHash) {
+        	rollHash((RollHash) action);
+        } else if (action instanceof RollNumber) {
+        	rollNumber((RollNumber) action);
         }
     }
 
@@ -181,14 +190,25 @@ public class ClientController {
 
     private void roll(Roll roll) {
         networkDieManager = new NetworkDieManager(roll.getPlayerId(), roll.getNumberOfRolls(), roll.getNubmerOfFaces());
+        try {
+			String hash = networkDieManager.generateLocalHash();
+			responseGenerator.rollHashGenerator(hash, gameStateManager.getLocalPlayerId());
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("A problem occured calculating the hash for the die roll.");
+			shutDown();
+		}
     }
 
-    private void rollHash() {
-
+    private void rollHash(RollHash rollHash) {
+    	networkDieManager.addHash(rollHash.getPlayerId(), rollHash.getHash());
     }
 
-    private void rollNumber() {
-
+    private void rollNumber(RollNumber number) {
+    	int returnCode = networkDieManager.addNumber(number.getPlayerId(), number.getNumber());
+    	if(returnCode != 0) {
+    		System.out.println("Wrong hash for number");
+    		shutDown();
+    	}
     }
 
     private void sendAcknowledgement() {

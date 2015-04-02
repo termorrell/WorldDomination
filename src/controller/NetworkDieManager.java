@@ -29,6 +29,8 @@ public class NetworkDieManager {
         messageDigest = MessageDigest.getInstance("SHA-256");
         numbers.put(localPlayerId,new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
         hashes.put(localPlayerId, String.valueOf(messageDigest.digest(numbers.get(localPlayerId).toByteArray())));
+       // TODO find out what exactly is hashed
+        
         return hashes.get(localPlayerId);
     }
 
@@ -50,6 +52,14 @@ public class NetworkDieManager {
         } else {
             return -1;
         }
+    }
+    
+    public int calculateDieRoll(int[] players) {
+    	if(numbers.size() >= players.length) {
+    		// TODO deal with players disconnecting during die roll :( 
+    		return 0;
+    	}
+    	return -1;
     }
 
     public String convertByteToHex(byte[] bytes) {

@@ -1,7 +1,7 @@
 package actions;
 
 
-public class RollNumber {
+public class RollNumber extends Action{
     String number;
     int playerId;
 
