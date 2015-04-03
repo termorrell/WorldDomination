@@ -4,10 +4,8 @@ import actions.*;
 import model.Player;
 import network.ClientResponseGenerator;
 import network.RiskClient;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import program.Constants;
 import view.INetworkView;
 
@@ -28,8 +26,11 @@ public class ClientController {
 
     AcknowledgementManager acknowledgementManager = null;
     NetworkDieManager networkDieManager = null;
-    
+
     Action cachedAction; // Action will be saved in here while the die roll is completed
+    State state = State.INITIALISE;
+    int currentPlayer;
+    int[] dieRolls;
 
     public ClientController(INetworkView view) {
         this.view = view;
@@ -72,27 +73,43 @@ public class ClientController {
     }
 
     private void executeAction(Action action) {
-        if (action instanceof RejectJoinGame) {
-            rejectJoinGame((RejectJoinGame) action);
-        } else if (action instanceof AcceptJoinGame) {
-            acceptJoinGame((AcceptJoinGame) action);
-        } else if(action instanceof PlayersJoined) {
-            playersJoined((PlayersJoined) action);
-        } else if (action instanceof Ping) {
-            ping((Ping) action);
-        } else if (action instanceof Ready) {
-            ready((Ready) action);
-        } else if(action instanceof InitialiseGame) {
-            initialiseGame((InitialiseGame) action);
-        } else if(action instanceof Acknowledgement) {
+        if (action instanceof Acknowledgement) {
             acknowledgement((Acknowledgement) action);
-        } else if (action instanceof Roll) {
-            roll((Roll) action);
-        } else if (action instanceof RollHash) {
-        	rollHash((RollHash) action);
-        } else if (action instanceof RollNumber) {
-        	rollNumber((RollNumber) action);
+        } else {
+            if (action instanceof Ready) {
+                ready((Ready) action);
+            } else {
+                // Check that there are no outstanding acknowledgements
+                if (!acknowledgementManager.isAcknowledgedByAllPlayers(gameStateManager.model.getGameState().getNumberOfPlayers())) {
+                    // TODO missing acknowledgement
+                    shutDown();
+                }
+                if (action instanceof RejectJoinGame) {
+                    rejectJoinGame((RejectJoinGame) action);
+                } else if (action instanceof AcceptJoinGame) {
+                    acceptJoinGame((AcceptJoinGame) action);
+                } else if (action instanceof PlayersJoined) {
+                    playersJoined((PlayersJoined) action);
+                } else if (action instanceof Ping) {
+                    ping((Ping) action);
+                } else if (action instanceof InitialiseGame) {
+                    initialiseGame((InitialiseGame) action);
+                } else if (action instanceof Roll) {
+                    roll((Roll) action);
+                } else if (action instanceof RollHash) {
+                    rollHash((RollHash) action);
+                } else if (action instanceof RollNumber) {
+                    rollNumber((RollNumber) action);
+                }
+            }
         }
+    }
+
+    private void setFirstPlayerId() {
+        if(dieRolls.length > 0) {
+            currentPlayer = dieRolls[0];
+        }
+        dieRolls =  null;
     }
 
     private void rejectJoinGame(RejectJoinGame action) {
@@ -155,7 +172,7 @@ public class ClientController {
             removeUnreadyPlayers();
         }
         acknowledgementManager.expectAcknowledgement();
-        if(ready.getPlayerId() == 0) {
+        if (ready.getPlayerId() == 0) {
             acknowledgementManager.addAcknowledgement(0, acknowledgementManager.getAcknowledgementId());
         }
         sendAcknowledgement();
@@ -193,24 +210,28 @@ public class ClientController {
     private void roll(Roll roll) {
         networkDieManager = new NetworkDieManager(roll.getPlayerId(), roll.getNumberOfRolls(), roll.getNubmerOfFaces());
         try {
-			String hash = networkDieManager.generateLocalHash();
-			responseGenerator.rollHashGenerator(hash, gameStateManager.getLocalPlayerId());
-		} catch (NoSuchAlgorithmException e) {
-			System.out.println("A problem occured calculating the hash for the die roll.");
-			shutDown();
-		}
+            String hash = networkDieManager.generateLocalHash();
+            responseGenerator.rollHashGenerator(hash, gameStateManager.getLocalPlayerId());
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("A problem occured calculating the hash for the die roll.");
+            shutDown();
+        }
     }
 
     private void rollHash(RollHash rollHash) {
-    	networkDieManager.addHash(rollHash.getPlayerId(), rollHash.getHash());
+        networkDieManager.addHash(rollHash.getPlayerId(), rollHash.getHash());
     }
 
     private void rollNumber(RollNumber number) {
-    	int returnCode = networkDieManager.addNumber(number.getPlayerId(), number.getNumber());
-    	if(returnCode != 0) {
-    		System.out.println("Wrong hash for number");
-    		shutDown();
-    	}
+        int returnCode = networkDieManager.addNumber(number.getPlayerId(), number.getNumber());
+        if (returnCode != 0) {
+            System.out.println("Wrong hash for number");
+            shutDown();
+        }
+        if(networkDieManager.isDieRollPossible(gameStateManager.model.getGameState().getNumberOfPlayers())) {
+            dieRolls = networkDieManager.getDieRolls();
+            setFirstPlayerId();
+        }
     }
 
     private void sendAcknowledgement() {
@@ -220,7 +241,7 @@ public class ClientController {
 
     /**
      * Will adapt the local game state according to the given action.
-     *
+     * <p/>
      * For use by networking, ui and ai to propagate information to the controller.
      *
      * @param action - influences that affect the game

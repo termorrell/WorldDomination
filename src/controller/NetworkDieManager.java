@@ -19,6 +19,7 @@ public class NetworkDieManager {
     MessageDigest messageDigest;
     byte[] seed;
 
+
     public NetworkDieManager(int localPlayerId, int numberOfRolls, int numberOfFaces) {
         this.localPlayerId = localPlayerId;
         this.numberOfRolls = numberOfRolls;
@@ -30,12 +31,7 @@ public class NetworkDieManager {
         numbers.put(localPlayerId,new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
         hashes.put(localPlayerId, String.valueOf(messageDigest.digest(numbers.get(localPlayerId).toByteArray())));
        // TODO find out what exactly is hashed
-        
         return hashes.get(localPlayerId);
-    }
-
-    public String getLocalNumber() {
-        return numbers.get(localPlayerId).toString(16);
     }
 
     public void addHash(int playerId, String hash) {
@@ -44,22 +40,52 @@ public class NetworkDieManager {
 
     public int addNumber(int playerId, String hexNumber) {
         byte[] numberInBytes = convertHexToByte(hexNumber);
-        byte[] hash = messageDigest.digest(numberInBytes);
-        String hashInHex = convertByteToHex(hash);
-        if(hashes.get(playerId).equalsIgnoreCase(hashInHex)) {
-            numbers.put(playerId, new BigInteger(numberInBytes));
-            return 0;
-        } else {
-            return -1;
-        }
+        numbers.put(playerId, new BigInteger(numberInBytes));
+// TODO verfication
+
+//        byte[] numberInBytes = convertHexToByte(hexNumber);
+//        byte[] hash = messageDigest.digest(numberInBytes);
+//        String hashInHex = convertByteToHex(hash);
+//        if(hashes.get(playerId).equalsIgnoreCase(hashInHex)) {
+//            numbers.put(playerId, new BigInteger(numberInBytes));
+//            return 0;
+//        } else {
+//            return -1;
+//        }
+        return 0;
     }
-    
-    public int calculateDieRoll(int[] players) {
-    	if(numbers.size() >= players.length) {
-    		// TODO deal with players disconnecting during die roll :( 
-    		return 0;
-    	}
-    	return -1;
+
+    public boolean isDieRollPossible(int numberOfPlayers) {
+        if(numbers.size() == numberOfPlayers) {
+            return true;
+        }
+        return false;
+    }
+
+    public void generateSeed() {
+        // TODO once other things work
+//        seed = new byte[32];
+//        Collection<BigInteger> nums = numbers.values();
+//        for(int i = 0;i< seed.length; i++ ) {
+//            seed[i] = 0;
+//            for(BigInteger num : nums) {
+//                seed[i] = (byte) (seed[i] ^ num.toByteArray()[i]);
+//            }
+//        }
+    }
+
+    public int[] getDieRolls() {
+
+        int[] rolls = new int[numberOfRolls];
+        generateSeed();
+
+        // TODO once the protocol is more stable
+        Random random = new Random(Calendar.getInstance().getTimeInMillis());
+        for(int roll: rolls) {
+            roll = random.nextInt(numberOfFaces);
+        }
+
+        return rolls;
     }
 
     public String convertByteToHex(byte[] bytes) {
@@ -80,20 +106,4 @@ public class NetworkDieManager {
         return bytes;
     }
 
-    public void generateSeed() {
-        seed = new byte[32];
-        Collection<BigInteger> nums = numbers.values();
-        for(int i = 0;i< seed.length; i++ ) {
-            seed[i] = 0;
-            for(BigInteger num : nums) {
-                seed[i] = (byte) (seed[i] ^ num.toByteArray()[i]);
-            }
-        }
-    }
-
-    public int[] getDieRolls() {
-        int[] rolls = new int[numberOfRolls];
-        // TODO once the protocol is more stable
-        return rolls;
-    }
 }

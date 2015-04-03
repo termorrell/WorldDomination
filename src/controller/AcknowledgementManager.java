@@ -22,7 +22,7 @@ public class AcknowledgementManager {
         if (players.size() == numberOfPlayers) {
             acknowledgedByAllPlayers = true;
         }
-        return false;
+        return acknowledgedByAllPlayers;
     }
 
     public int addAcknowledgement(int playerId, int id) {
