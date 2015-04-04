@@ -81,8 +81,8 @@ public class NetworkDieManager {
 
         // TODO once the protocol is more stable
         Random random = new Random(Calendar.getInstance().getTimeInMillis());
-        for(int roll: rolls) {
-            roll = random.nextInt(numberOfFaces);
+        for(int i = 0; i < rolls.length; i++) {
+        	rolls[i] = random.nextInt(numberOfFaces);
         }
 
         return rolls;

@@ -27,9 +27,9 @@ public class Main {
 	}
 
     private static void newController() {
-        INetworkView view = new MockNetworkView();
-        ClientController controller = new ClientController(view);
-        controller.run();
+//        INetworkView view = new MockNetworkView();
+//        ClientController controller = new ClientController(view);
+//        controller.run();
     }
 
     private static void startServer() {

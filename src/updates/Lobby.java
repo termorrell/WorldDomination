@@ -3,7 +3,7 @@ package updates;
 /**
  * Created by Caroline on 02/04/2015.
  */
-public class Lobby {
+public class Lobby extends Update {
     // TODO json must store for every player, id, name and public key
     String json;
 

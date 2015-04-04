@@ -4,9 +4,17 @@ import actions.*;
 import model.Player;
 import network.ClientResponseGenerator;
 import network.RiskClient;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import program.Constants;
+import updates.Lobby;
+import updates.LocalPlayerName;
+import updates.PingReady;
+import updates.Rejection;
+import updates.Update;
+import view.ControllerApiInterface;
 import view.INetworkView;
 
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +22,7 @@ import java.util.*;
 
 public class ClientController {
 
-    INetworkView view;
+    ControllerApiInterface view;
     GameStateManager gameStateManager;
     RiskClient client;
     ClientResponseGenerator responseGenerator;
@@ -29,10 +37,11 @@ public class ClientController {
 
     Action cachedAction; // Action will be saved in here while the die roll is completed
     State state = State.INITIALISE;
+    
     int currentPlayer;
     int[] dieRolls;
 
-    public ClientController(INetworkView view) {
+    public ClientController(ControllerApiInterface view) {
         this.view = view;
         this.gameStateManager = new GameStateManager();
         this.client = new RiskClient();
@@ -50,7 +59,8 @@ public class ClientController {
     * Adds the player information for the local player.
     */
     public void addLocalPlayerInfo() {
-        String name = view.getLocalPlayerName();
+    	LocalPlayerName response = (LocalPlayerName) view.addUpdateAndWaitForResponse(new LocalPlayerName());
+        String name = response.getName();
         gameStateManager.addLocalPlayerInfo(name);
     }
 
@@ -94,8 +104,6 @@ public class ClientController {
                     ping((Ping) action);
                 } else if (action instanceof InitialiseGame) {
                     initialiseGame((InitialiseGame) action);
-                } else if (action instanceof Roll) {
-                    roll((Roll) action);
                 } else if (action instanceof RollHash) {
                     rollHash((RollHash) action);
                 } else if (action instanceof RollNumber) {
@@ -106,14 +114,40 @@ public class ClientController {
     }
 
     private void setFirstPlayerId() {
-        if(dieRolls.length > 0) {
+        if(dieRolls.length == 1) {
             currentPlayer = dieRolls[0];
+        } else {
+        	// TODO errorhandling
+        	shutDown();
         }
         dieRolls =  null;
+        state = State.CARDS;
+        int numOfCards = gameStateManager.model.getGameState().getCards().size();
+        roll(new Roll(numOfCards, numOfCards, gameStateManager.getLocalPlayerId()));
+    }
+    
+    private void shuffle() {
+    	int numberOfCards = gameStateManager.model.getGameState().getCards().size();
+    	if(dieRolls.length == numberOfCards) {
+    		for(int i = 0; i < numberOfCards; i++) {
+    			Collections.swap(gameStateManager.model.getGameState().getCards(), i, dieRolls[i]);
+    		}
+    		state = State.CLAIM;
+    		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
+    			claimTerritory();
+    		}
+    	} else {
+    		// TODO error handling
+    		shutDown();
+    	}
+    }
+    
+    private void claimTerritory() {
+    	
     }
 
     private void rejectJoinGame(RejectJoinGame action) {
-        view.displayRejection(action.getErrorMessage());
+        view.addUpdate(new Rejection(action.getErrorMessage()));
         shutDown();
     }
 
@@ -125,7 +159,7 @@ public class ClientController {
 
     private void playersJoined(PlayersJoined action) {
         Map<Integer, String[]> players = action.getPlayers();
-        view.displayJoinedPlayers(players);
+        view.addUpdate(new Lobby("There are somee Players in the lobby"));
         for (Map.Entry<Integer, String[]> player : players.entrySet()) {
             if (!gameStateManager.checkPlayerExists(player.getKey())) {
                 if (player.getValue().length == 2) {
@@ -147,7 +181,8 @@ public class ClientController {
     }
 
     private void hostPing(Ping ping) {
-        if (view.getPingReadyConfirmation()) {
+    	PingReady ready = (PingReady) view.addUpdateAndWaitForResponse(new PingReady());
+        if (ready.isReady()) {
             responseGenerator.pingGenerator(gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId());
             if (ping.getPlayerId() == 0) {
                 clientPing(ping);
@@ -194,6 +229,7 @@ public class ClientController {
 
     private void initialiseGame(InitialiseGame initialiseGame) {
         // TODO once i actually know what version i'm implementing....
+    	roll(new Roll(1, gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId()));
     }
 
     private void acknowledgement(Acknowledgement acknowledgement) {
@@ -230,7 +266,14 @@ public class ClientController {
         }
         if(networkDieManager.isDieRollPossible(gameStateManager.model.getGameState().getNumberOfPlayers())) {
             dieRolls = networkDieManager.getDieRolls();
-            setFirstPlayerId();
+            if(state == State.INITIALISE) {
+            	setFirstPlayerId();
+            	state = State.SHUFFLE;
+            } else if(state == State.SHUFFLE){
+            	shuffle();
+            	state = State.CLAIM;
+            	
+            }
         }
     }
 
