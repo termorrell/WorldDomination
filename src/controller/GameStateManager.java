@@ -2,9 +2,11 @@ package controller;
 
 import exceptions.BoardException;
 import exceptions.IllegalMoveException;
+import model.GameState;
 import model.Model;
 import model.Player;
 
+import model.Territory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,4 +104,37 @@ public class GameStateManager {
         model.getGameState().getPlayers().remove(player);
         model.getGameState().setNumberOfPlayers(model.getGameState().getNumberOfPlayers() - 1);
     }
+
+    public String serializeMap() {
+        // TODO Maria's excellent JSON skills to serialize the map :)
+        model.getGameState().getBoard().printAvailableTerritories();
+        return null;
+    }
+
+    public boolean allTerritoriesClaimed() {
+        int noTerritory = model.getGameState().getBoard().getNumberOfTerritories();
+        Territory[] territories = model.getGameState().getBoard().getTerritories();
+        for (int i = 0; i < noTerritory; i++) {
+            // Check if territory has an owner
+            if (territories[i].getOwner() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int calculateNumberOfArmies(int playerId) {
+        int numberOfArmies = 0;
+        Player player = model.getGameState().getPlayerById(playerId);
+
+        if (player.getTerritories().size() < 9) {
+            numberOfArmies += 3;
+        } else {
+            numberOfArmies += Math.floor(player.getTerritories().size() / 3);
+        }
+
+        numberOfArmies += model.getGameState().getBoard().getContinentBonus(player);
+        return numberOfArmies;
+    }
 }
+

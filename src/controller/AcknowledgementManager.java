@@ -16,7 +16,7 @@ public class AcknowledgementManager {
     }
 
     public boolean isAcknowledgedByAllPlayers(int numberOfPlayers) {
-        if (acknowledgedByAllPlayers) {
+        if (numberOfPlayers == 0 || acknowledgedByAllPlayers) {
             return true;
         }
         if (players.size() == numberOfPlayers) {
@@ -25,7 +25,10 @@ public class AcknowledgementManager {
         return acknowledgedByAllPlayers;
     }
 
-    public int addAcknowledgement(int playerId, int id) {
+    public int addAcknowledgement(int playerId, int id, int numberOfPlayers) {
+        if(isAcknowledgedByAllPlayers(numberOfPlayers)) {
+            expectAcknowledgement();
+        }
         if (this.id == id) {
             players.add(playerId);
             return 0;

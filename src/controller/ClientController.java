@@ -1,6 +1,8 @@
 package controller;
 
 import actions.*;
+import exceptions.BoardException;
+import exceptions.IllegalMoveException;
 import model.Player;
 import network.ClientResponseGenerator;
 import network.RiskClient;
@@ -9,16 +11,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import program.Constants;
-import updates.Lobby;
-import updates.LocalPlayerName;
-import updates.PingReady;
-import updates.Rejection;
-import updates.Update;
+import updates.*;
 import view.ControllerApiInterface;
 import view.INetworkView;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.Map;
 
 public class ClientController {
 
@@ -82,6 +81,16 @@ public class ClientController {
         }
     }
 
+    private void executeActionsUntilType(Action type) {
+        while (!actions.isEmpty()) {
+            Action nextAction = actions.poll();
+            executeAction(nextAction);
+            if(type.getClass().equals(nextAction.getClass())) {
+                break;
+            }
+        }
+    }
+
     private void executeAction(Action action) {
         if (action instanceof Acknowledgement) {
             acknowledgement((Acknowledgement) action);
@@ -89,11 +98,6 @@ public class ClientController {
             if (action instanceof Ready) {
                 ready((Ready) action);
             } else {
-                // Check that there are no outstanding acknowledgements
-                if (!acknowledgementManager.isAcknowledgedByAllPlayers(gameStateManager.model.getGameState().getNumberOfPlayers())) {
-                    // TODO missing acknowledgement
-                    shutDown();
-                }
                 if (action instanceof RejectJoinGame) {
                     rejectJoinGame((RejectJoinGame) action);
                 } else if (action instanceof AcceptJoinGame) {
@@ -108,14 +112,19 @@ public class ClientController {
                     rollHash((RollHash) action);
                 } else if (action instanceof RollNumber) {
                     rollNumber((RollNumber) action);
+                } else if (action instanceof Setup) {
+                    setup((Setup) action);
                 }
             }
         }
     }
 
     private void setFirstPlayerId() {
+        // TODO ensure sorting in ascending order
         if(dieRolls.length == 1) {
             currentPlayer = dieRolls[0];
+            // TODO take out
+            currentPlayer = 3;
         } else {
         	// TODO errorhandling
         	shutDown();
@@ -143,7 +152,32 @@ public class ClientController {
     }
     
     private void claimTerritory() {
-    	
+        boolean allTerritoriesClaimed = false;
+        while(!allTerritoriesClaimed) {
+            view.addUpdate(new updates.Map(gameStateManager.serializeMap()));
+            if(currentPlayer == gameStateManager.getLocalPlayerId()) {
+                Claim claim = (Claim)view.addUpdateAndWaitForResponse(new Claim());
+
+            } else {
+                executeActionsUntilType(new Setup(0,0,0));
+            }
+            allTerritoriesClaimed = gameStateManager.allTerritoriesClaimed();
+        }
+    }
+
+    private void setNextPlayer() {
+        ArrayList<Player> players = gameStateManager.model.getGameState().getPlayers();
+        for (int i = 0; i < players.size(); i++) {
+            if(players.get(i).getId() == currentPlayer) {
+                if (i < players.size() - 1) {
+                    currentPlayer = players.get(i + 1).getId();
+                } else {
+                    currentPlayer = players.get(0).getId();
+                }
+                break;
+            }
+
+        }
     }
 
     private void rejectJoinGame(RejectJoinGame action) {
@@ -195,7 +229,7 @@ public class ClientController {
     }
 
     private void clientPing(Ping ping) {
-        int returnCode = acknowledgementManager.addAcknowledgement(ping.getPlayerId(), -1);
+        int returnCode = acknowledgementManager.addAcknowledgement(ping.getPlayerId(), -1, gameStateManager.model.getGameState().getNumberOfPlayers());
         if (returnCode == -1) {
             // TODO error handling
             shutDown();
@@ -208,7 +242,7 @@ public class ClientController {
         }
         acknowledgementManager.expectAcknowledgement();
         if (ready.getPlayerId() == 0) {
-            acknowledgementManager.addAcknowledgement(0, acknowledgementManager.getAcknowledgementId());
+            acknowledgementManager.addAcknowledgement(0, acknowledgementManager.getAcknowledgementId(),gameStateManager.model.getGameState().getNumberOfPlayers());
         }
         sendAcknowledgement();
     }
@@ -235,7 +269,7 @@ public class ClientController {
     private void acknowledgement(Acknowledgement acknowledgement) {
         int responseCode = -1;
         if (acknowledgementManager.getAcknowledgementId() == acknowledgement.getAcknowledgementId()) {
-            responseCode = acknowledgementManager.addAcknowledgement(acknowledgement.getPlayerId(), acknowledgement.getAcknowledgementId());
+            responseCode = acknowledgementManager.addAcknowledgement(acknowledgement.getPlayerId(), acknowledgement.getAcknowledgementId(),gameStateManager.model.getGameState().getNumberOfPlayers());
         }
         if (responseCode != 0) {
             // TODO error handling
@@ -277,9 +311,41 @@ public class ClientController {
         }
     }
 
+    private void setup(Setup setup) {
+        if(state == State.CLAIM) {
+            claim(setup.getPlayerId(), setup.getTerritoryId());
+        } else if(state == State.DISTRIBUTE) {
+            distribute(setup.getPlayerId(), setup.getTerritoryId());
+        }
+        acknowledgementManager.addAcknowledgement(setup.getPlayerId(), setup.getAcknowledgementId(),gameStateManager.model.getGameState().getNumberOfPlayers());
+        sendAcknowledgement();
+    }
+
+    private void distribute(int playerId, int territoryId) {
+        // TODO error checking
+        try {
+            gameStateManager.setup(playerId, territoryId);
+        } catch (Exception e) {
+            System.err.print("An invalid move occurred claiming a territory.");
+            shutDown();
+        }
+        setNextPlayer();
+    }
+
+    private void claim(int playerId, int territoryId) {
+        // TODO error checking
+        try {
+            gameStateManager.setup(playerId, territoryId);
+        } catch (Exception e) {
+            System.err.print("An invalid move occurred claiming a territory.");
+            shutDown();
+        }
+        setNextPlayer();
+    }
+
     private void sendAcknowledgement() {
         responseGenerator.ackGenerator(acknowledgementManager.getAcknowledgementId(), gameStateManager.getLocalPlayerId());
-        acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), acknowledgementManager.getAcknowledgementId());
+        acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), acknowledgementManager.getAcknowledgementId(), gameStateManager.model.getGameState().getNumberOfPlayers());
     }
 
     /**
