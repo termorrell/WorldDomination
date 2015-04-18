@@ -34,8 +34,12 @@ public class NetworkDieManager {
         return hashes.get(localPlayerId);
     }
 
-    public void addHash(int playerId, String hash) {
+    public boolean addHash(int playerId, String hash, int numberOfPlayers) {
         hashes.put(playerId, hash);
+        if(hashes.size() == numberOfPlayers) {
+            return true;
+        }
+        return false;
     }
 
     public int addNumber(int playerId, String hexNumber) {
@@ -80,7 +84,7 @@ public class NetworkDieManager {
         generateSeed();
 
         // TODO once the protocol is more stable
-        Random random = new Random(Calendar.getInstance().getTimeInMillis());
+        Random random = new Random(100);
         for(int i = 0; i < rolls.length; i++) {
         	rolls[i] = random.nextInt(numberOfFaces);
         }

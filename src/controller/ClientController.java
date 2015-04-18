@@ -1,8 +1,6 @@
 package controller;
 
 import actions.*;
-import exceptions.BoardException;
-import exceptions.IllegalMoveException;
 import model.Player;
 import network.ClientResponseGenerator;
 import network.RiskClient;
@@ -13,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import program.Constants;
 import updates.*;
 import view.ControllerApiInterface;
-import view.INetworkView;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -36,7 +33,7 @@ public class ClientController {
 
     Action cachedAction; // Action will be saved in here while the die roll is completed
     State state = State.INITIALISE;
-    
+
     int currentPlayer;
     int[] dieRolls;
 
@@ -48,6 +45,8 @@ public class ClientController {
         this.acknowledgementManager = new AcknowledgementManager();
     }
 
+    boolean collectingAcknowledgements = false;
+
     public void run() {
         addLocalPlayerInfo();
         join();
@@ -58,7 +57,7 @@ public class ClientController {
     * Adds the player information for the local player.
     */
     public void addLocalPlayerInfo() {
-    	LocalPlayerName response = (LocalPlayerName) view.addUpdateAndWaitForResponse(new LocalPlayerName());
+        LocalPlayerName response = (LocalPlayerName) view.addUpdateAndWaitForResponse(new LocalPlayerName());
         String name = response.getName();
         gameStateManager.addLocalPlayerInfo(name);
     }
@@ -68,7 +67,6 @@ public class ClientController {
     }
 
     public void gameLoop() {
-
         while (!won) {
             executeActions();
         }
@@ -81,94 +79,158 @@ public class ClientController {
         }
     }
 
-    private void executeActionsUntilType(Action type) {
+    private void executeActionsUntilIncludingType(Action type) {
         while (!actions.isEmpty()) {
             Action nextAction = actions.poll();
             executeAction(nextAction);
-            if(type.getClass().equals(nextAction.getClass())) {
+            if (type.getClass().equals(nextAction.getClass())) {
                 break;
             }
         }
     }
 
+    private void executeAllCurrentAcknowledgements() {
+        while (!actions.isEmpty()) {
+            Action nextAction = actions.peek();
+            if (nextAction instanceof Acknowledgement) {
+              if(((Acknowledgement) nextAction).getAcknowledgementId() == acknowledgementManager.getAcknowledgementId()) {
+                  nextAction = actions.poll();
+                  executeAction(nextAction);
+              }
+            }
+            break;
+        }
+        checkAcknowledgement();
+    }
+
     private void executeAction(Action action) {
         if (action instanceof Acknowledgement) {
             acknowledgement((Acknowledgement) action);
-        } else {
+        } else   if (action instanceof Ping) {
+            ping((Ping) action);
+            collectingAcknowledgements = true;
+        } else{
+            if (collectingAcknowledgements) {
+                checkAcknowledgement();
+            }
+
             if (action instanceof Ready) {
                 ready((Ready) action);
-            } else {
-                if (action instanceof RejectJoinGame) {
-                    rejectJoinGame((RejectJoinGame) action);
-                } else if (action instanceof AcceptJoinGame) {
-                    acceptJoinGame((AcceptJoinGame) action);
-                } else if (action instanceof PlayersJoined) {
-                    playersJoined((PlayersJoined) action);
-                } else if (action instanceof Ping) {
-                    ping((Ping) action);
-                } else if (action instanceof InitialiseGame) {
-                    initialiseGame((InitialiseGame) action);
-                } else if (action instanceof RollHash) {
-                    rollHash((RollHash) action);
-                } else if (action instanceof RollNumber) {
-                    rollNumber((RollNumber) action);
-                } else if (action instanceof Setup) {
-                    setup((Setup) action);
-                }
+            } else if (action instanceof RejectJoinGame) {
+                rejectJoinGame((RejectJoinGame) action);
+            } else if (action instanceof AcceptJoinGame) {
+                acceptJoinGame((AcceptJoinGame) action);
+            } else if (action instanceof PlayersJoined) {
+                playersJoined((PlayersJoined) action);
+            } else if (action instanceof InitialiseGame) {
+                initialiseGame((InitialiseGame) action);
+            } else if (action instanceof RollHash) {
+                rollHash((RollHash) action);
+            } else if (action instanceof RollNumber) {
+                rollNumber((RollNumber) action);
+            } else if (action instanceof Setup) {
+                setup((Setup) action);
             }
+        }
+
+    }
+
+    private void checkAcknowledgement() {
+        boolean complete;
+        if(state == State.INITIALISE) {
+            // In the initialse state the messages are sent by the server, so all clients have to acknoledge
+            complete = acknowledgementManager.isAcknowledgedByAllPlayers(gameStateManager.model.getGameState().getNumberOfPlayers() +1);
+        } else {
+            complete = acknowledgementManager.isAcknowledgedByAllPlayers(gameStateManager.model.getGameState().getNumberOfPlayers());
+        }
+        if(complete) {
+            collectingAcknowledgements = false;
+        } else {
+            System.out.print("Missing acknowledgement.");
+            shutDown();
         }
     }
 
     private void setFirstPlayerId() {
-        // TODO ensure sorting in ascending order
-        if(dieRolls.length == 1) {
+
+        Collections.sort(gameStateManager.model.getGameState().getPlayers(), Player.PlayerComparator);
+
+        if (dieRolls.length == 1) {
             currentPlayer = dieRolls[0];
             // TODO take out
             currentPlayer = 3;
         } else {
-        	// TODO errorhandling
-        	shutDown();
+            // TODO errorhandling
+            shutDown();
         }
-        dieRolls =  null;
+        dieRolls = null;
         state = State.CARDS;
         int numOfCards = gameStateManager.model.getGameState().getCards().size();
         roll(new Roll(numOfCards, numOfCards, gameStateManager.getLocalPlayerId()));
     }
-    
-    private void shuffle() {
-    	int numberOfCards = gameStateManager.model.getGameState().getCards().size();
-    	if(dieRolls.length == numberOfCards) {
-    		for(int i = 0; i < numberOfCards; i++) {
-    			Collections.swap(gameStateManager.model.getGameState().getCards(), i, dieRolls[i]);
-    		}
-    		state = State.CLAIM;
-    		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
-    			claimTerritory();
-    		}
-    	} else {
-    		// TODO error handling
-    		shutDown();
-    	}
-    }
-    
-    private void claimTerritory() {
-        boolean allTerritoriesClaimed = false;
-        while(!allTerritoriesClaimed) {
-            view.addUpdate(new updates.Map(gameStateManager.serializeMap()));
-            if(currentPlayer == gameStateManager.getLocalPlayerId()) {
-                Claim claim = (Claim)view.addUpdateAndWaitForResponse(new Claim());
 
+    private void shuffle() {
+        int numberOfCards = gameStateManager.model.getGameState().getCards().size();
+        if (dieRolls.length == numberOfCards) {
+            for (int i = 0; i < numberOfCards; i++) {
+                Collections.swap(gameStateManager.model.getGameState().getCards(), i, dieRolls[i]);
+            }
+            state = State.CLAIM;
+        } else {
+            // TODO error handling
+            shutDown();
+        }
+        setupBoard();
+    }
+
+
+    private void setupBoard() {
+
+        Map<Integer, Integer> numberOfArmies = new HashMap<>();
+        for(Player player: gameStateManager.model.getGameState().getPlayers()) {
+            numberOfArmies.put(player.getId(), calculateNumberOfInitialArmies());
+        }
+        claimTerritory(numberOfArmies);
+        distributeTerritory(numberOfArmies);
+    }
+
+    private void claimTerritory( Map<Integer, Integer> numberOfArmies) {
+        boolean allTerritoriesClaimed = false;
+
+        while (!allTerritoriesClaimed) {
+            view.addUpdate(new updates.Map(gameStateManager.serializeMap()));
+            numberOfArmies.put(currentPlayer, numberOfArmies.get(currentPlayer) - 1);
+            if (currentPlayer == gameStateManager.getLocalPlayerId()) {
+                executeAllCurrentAcknowledgements();
+                Claim claim = (Claim) view.addUpdateAndWaitForResponse(new Claim());
+                localSetupTurn(claim);
             } else {
-                executeActionsUntilType(new Setup(0,0,0));
+                executeActionsUntilIncludingType(new Setup(0, 0, 0));
             }
             allTerritoriesClaimed = gameStateManager.allTerritoriesClaimed();
+        }
+
+        state = State.DISTRIBUTE;
+    }
+
+    private void distributeTerritory( Map<Integer, Integer> numberOfArmies) {
+        while(numberOfArmies.get(currentPlayer) > 0) {
+            view.addUpdate(new updates.Map(gameStateManager.serializeMap()));
+            numberOfArmies.put(currentPlayer, numberOfArmies.get(currentPlayer) - 1);
+            if (currentPlayer == gameStateManager.getLocalPlayerId()) {
+                executeAllCurrentAcknowledgements();
+                Distribute distribute = (Distribute) view.addUpdateAndWaitForResponse(new Distribute());
+                localSetupTurn(distribute);
+            } else {
+                executeActionsUntilIncludingType(new Setup(0, 0, 0));
+            }
         }
     }
 
     private void setNextPlayer() {
         ArrayList<Player> players = gameStateManager.model.getGameState().getPlayers();
         for (int i = 0; i < players.size(); i++) {
-            if(players.get(i).getId() == currentPlayer) {
+            if (players.get(i).getId() == currentPlayer) {
                 if (i < players.size() - 1) {
                     currentPlayer = players.get(i + 1).getId();
                 } else {
@@ -189,6 +251,7 @@ public class ClientController {
         // TODO generate proper public key
         String publicKey = "My magically generated public key.";
         gameStateManager.addPlayer(action.getPlayerId(), gameStateManager.model.getPlayerInfo().getUserName(), publicKey);
+        gameStateManager.model.getPlayerInfo().setId(action.getPlayerId());
     }
 
     private void playersJoined(PlayersJoined action) {
@@ -215,13 +278,16 @@ public class ClientController {
     }
 
     private void hostPing(Ping ping) {
-    	PingReady ready = (PingReady) view.addUpdateAndWaitForResponse(new PingReady());
+        PingReady ready = (PingReady) view.addUpdateAndWaitForResponse(new PingReady());
         if (ready.isReady()) {
+            // respond to ping
             responseGenerator.pingGenerator(gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId());
+            acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), -1);
+
+            // if the host is playing, his ping must also be treated as a client ping
             if (ping.getPlayerId() == 0) {
                 clientPing(ping);
             }
-            clientPing(new Ping(0, gameStateManager.getLocalPlayerId()));
         } else {
             // TODO error handling
             shutDown();
@@ -229,7 +295,7 @@ public class ClientController {
     }
 
     private void clientPing(Ping ping) {
-        int returnCode = acknowledgementManager.addAcknowledgement(ping.getPlayerId(), -1, gameStateManager.model.getGameState().getNumberOfPlayers());
+        int returnCode = acknowledgementManager.addAcknowledgement(ping.getPlayerId(), -1);
         if (returnCode == -1) {
             // TODO error handling
             shutDown();
@@ -240,9 +306,14 @@ public class ClientController {
         if (!acknowledgementManager.isAcknowledgedByAllPlayers(gameStateManager.model.getGameState().getNumberOfPlayers())) {
             removeUnreadyPlayers();
         }
+
+        // prepare for receiving acknowledgements
         acknowledgementManager.expectAcknowledgement();
+        collectingAcknowledgements = true;
+
+        // if the host is a player, his message counts towards the acknowledgements
         if (ready.getPlayerId() == 0) {
-            acknowledgementManager.addAcknowledgement(0, acknowledgementManager.getAcknowledgementId(),gameStateManager.model.getGameState().getNumberOfPlayers());
+            acknowledgementManager.addAcknowledgement(0, acknowledgementManager.getAcknowledgementId());
         }
         sendAcknowledgement();
     }
@@ -263,14 +334,12 @@ public class ClientController {
 
     private void initialiseGame(InitialiseGame initialiseGame) {
         // TODO once i actually know what version i'm implementing....
-    	roll(new Roll(1, gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId()));
+        roll(new Roll(1, gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId()));
     }
 
     private void acknowledgement(Acknowledgement acknowledgement) {
         int responseCode = -1;
-        if (acknowledgementManager.getAcknowledgementId() == acknowledgement.getAcknowledgementId()) {
-            responseCode = acknowledgementManager.addAcknowledgement(acknowledgement.getPlayerId(), acknowledgement.getAcknowledgementId(),gameStateManager.model.getGameState().getNumberOfPlayers());
-        }
+        responseCode = acknowledgementManager.addAcknowledgement(acknowledgement.getPlayerId(), acknowledgement.getAcknowledgementId());
         if (responseCode != 0) {
             // TODO error handling
             shutDown();
@@ -289,7 +358,9 @@ public class ClientController {
     }
 
     private void rollHash(RollHash rollHash) {
-        networkDieManager.addHash(rollHash.getPlayerId(), rollHash.getHash());
+        if(networkDieManager.addHash(rollHash.getPlayerId(), rollHash.getHash(), gameStateManager.model.getGameState().getNumberOfPlayers())) {
+            responseGenerator.rollNumberGenerator("This is my number", gameStateManager.getLocalPlayerId());
+        }
     }
 
     private void rollNumber(RollNumber number) {
@@ -298,27 +369,52 @@ public class ClientController {
             System.out.println("Wrong hash for number");
             shutDown();
         }
-        if(networkDieManager.isDieRollPossible(gameStateManager.model.getGameState().getNumberOfPlayers())) {
+        if (networkDieManager.isDieRollPossible(gameStateManager.model.getGameState().getNumberOfPlayers())) {
             dieRolls = networkDieManager.getDieRolls();
-            if(state == State.INITIALISE) {
-            	setFirstPlayerId();
-            	state = State.SHUFFLE;
-            } else if(state == State.SHUFFLE){
-            	shuffle();
-            	state = State.CLAIM;
-            	
+            if (state == State.INITIALISE) {
+                setFirstPlayerId();
+                state = State.SHUFFLE;
+            } else if (state == State.SHUFFLE) {
+                shuffle();
+                state = State.CLAIM;
+
             }
         }
     }
 
     private void setup(Setup setup) {
-        if(state == State.CLAIM) {
+        if (state == State.CLAIM) {
             claim(setup.getPlayerId(), setup.getTerritoryId());
-        } else if(state == State.DISTRIBUTE) {
+        } else if (state == State.DISTRIBUTE) {
             distribute(setup.getPlayerId(), setup.getTerritoryId());
         }
-        acknowledgementManager.addAcknowledgement(setup.getPlayerId(), setup.getAcknowledgementId(),gameStateManager.model.getGameState().getNumberOfPlayers());
+
+        // prepare for receiving acknowledgements
+        acknowledgementManager.expectAcknowledgement();
+        collectingAcknowledgements = true;
+
         sendAcknowledgement();
+    }
+
+    private void localSetupTurn(Update update) {
+        if(update instanceof Claim) {
+            localClaimTurn((Claim) update);
+        } else if(update instanceof Distribute) {
+            localDistributeTurn((Distribute) update);
+        }
+
+        acknowledgementManager.expectAcknowledgement();
+        collectingAcknowledgements = true;
+    }
+
+    private void localClaimTurn(Claim claim) {
+        responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(), claim.getTerritoryId(), 1);
+        claim(gameStateManager.getLocalPlayerId(), claim.getTerritoryId());
+    }
+
+    private void localDistributeTurn(Distribute distribute) {
+        responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(), distribute.getTerritoryId(), 1);
+        distribute(gameStateManager.getLocalPlayerId(), distribute.getTerritoryId());
     }
 
     private void distribute(int playerId, int territoryId) {
@@ -343,9 +439,26 @@ public class ClientController {
         setNextPlayer();
     }
 
+    public int calculateNumberOfInitialArmies() {
+        switch (gameStateManager.model.getGameState().getNumberOfPlayers()) {
+            case 3:
+                return 35;
+            case 4:
+                return 30;
+            case 5:
+                return 25;
+            case 6:
+                return 20;
+            default:
+                System.out.println("Wrong number of players.");
+                break;
+        }
+        return -1;
+    }
+
     private void sendAcknowledgement() {
         responseGenerator.ackGenerator(acknowledgementManager.getAcknowledgementId(), gameStateManager.getLocalPlayerId());
-        acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), acknowledgementManager.getAcknowledgementId(), gameStateManager.model.getGameState().getNumberOfPlayers());
+        acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), acknowledgementManager.getAcknowledgementId());
     }
 
     /**

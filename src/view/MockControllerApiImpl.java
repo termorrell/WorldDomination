@@ -1,8 +1,6 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import updates.Claim;
 import updates.Distribute;
@@ -13,10 +11,16 @@ import updates.Update;
 public class MockControllerApiImpl implements ControllerApiInterface{
 	
 	BufferedReader reader;
+
+    boolean manual = false;
 	
 	public MockControllerApiImpl() {
-		this.reader = new BufferedReader(new InputStreamReader(System.in));
-	}
+        try {
+            this.reader = new BufferedReader(new FileReader("testscripts/newsetup.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void addUpdate(Update update) {
@@ -64,6 +68,15 @@ public class MockControllerApiImpl implements ControllerApiInterface{
 		String line;
 		try {
 			line = reader.readLine();
+
+            if(line == null) {
+                reader = new BufferedReader(new InputStreamReader(System.in));
+                manual = true;
+            }
+
+            if(!manual) {
+                System.out.print(line);
+            }
 			return Integer.parseInt(line);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

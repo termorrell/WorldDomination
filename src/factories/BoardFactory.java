@@ -291,7 +291,6 @@ public class BoardFactory {
 		Territory[] neighbours31 = { defaultBoard.getTerritories()[27],
 				defaultBoard.getTerritories()[29],
 				defaultBoard.getTerritories()[30],
-				defaultBoard.getTerritories()[32],
 				defaultBoard.getTerritories()[34] };
 		defaultBoard.getTerritories()[31].setNeighbours(neighbours31);
 		

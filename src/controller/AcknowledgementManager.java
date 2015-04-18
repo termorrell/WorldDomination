@@ -16,19 +16,16 @@ public class AcknowledgementManager {
     }
 
     public boolean isAcknowledgedByAllPlayers(int numberOfPlayers) {
-        if (numberOfPlayers == 0 || acknowledgedByAllPlayers) {
+        if (acknowledgedByAllPlayers) {
             return true;
         }
-        if (players.size() == numberOfPlayers) {
+        if (players.size() == numberOfPlayers - 1) {
             acknowledgedByAllPlayers = true;
         }
         return acknowledgedByAllPlayers;
     }
 
-    public int addAcknowledgement(int playerId, int id, int numberOfPlayers) {
-        if(isAcknowledgedByAllPlayers(numberOfPlayers)) {
-            expectAcknowledgement();
-        }
+    public int addAcknowledgement(int playerId, int id) {
         if (this.id == id) {
             players.add(playerId);
             return 0;

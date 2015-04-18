@@ -130,4 +130,11 @@ public class Player {
 		this.colour = colour;
 	}
 
+    public static Comparator<Player> PlayerComparator = new Comparator<Player>() {
+        @Override
+        public int compare(Player o1, Player o2) {
+            return o1.getId() - o2.getId();
+        }
+    };
+
 }
