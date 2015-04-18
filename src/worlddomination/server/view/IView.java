@@ -1,6 +1,8 @@
-package worlddomination.server.view;
+package view;
 
-import worlddomination.server.model.Move;
+import model.Move;
+
+import java.io.BufferedReader;
 
 public interface IView {
 	public String getInput(String message);

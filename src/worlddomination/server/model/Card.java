@@ -1,4 +1,6 @@
-package worlddomination.server.model;
+package model;
+
+import java.util.LinkedList;
 
 public class Card {
 	private int id;

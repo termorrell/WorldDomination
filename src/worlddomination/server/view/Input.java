@@ -1,6 +1,8 @@
-package worlddomination.server.view;
+package view;
 
-import worlddomination.server.model.Move;
+import model.Move;
+
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;

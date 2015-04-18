@@ -1,13 +1,13 @@
-package worlddomination.server.tests;
+package tests;
 
 import static org.junit.Assert.*;
 
-import worlddomination.server.factories.CardFactory;
-import worlddomination.server.model.*;
-import worlddomination.server.controller.*;
+import factories.CardFactory;
+import model.*;
+import controller.*;
 import org.junit.Before;
 import org.junit.Test;
-import worlddomination.server.view.*;
+import view.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

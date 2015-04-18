@@ -1,14 +1,22 @@
-package worlddomination.server.model;
+package model;
 
 public class PlayerInfo {
 	String userName;
-	
-	public String getUserName() {
+    private int id;
+
+    public String getUserName() {
 		return userName;
 	}
 
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

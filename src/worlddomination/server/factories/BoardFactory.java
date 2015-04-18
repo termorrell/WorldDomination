@@ -1,8 +1,8 @@
-package worlddomination.server.factories;
+package factories;
 
-import worlddomination.server.model.Board;
-import worlddomination.server.model.Continent;
-import worlddomination.server.model.Territory;
+import model.Board;
+import model.Continent;
+import model.Territory;
 
 public class BoardFactory {
 
@@ -291,7 +291,6 @@ public class BoardFactory {
 		Territory[] neighbours31 = { defaultBoard.getTerritories()[27],
 				defaultBoard.getTerritories()[29],
 				defaultBoard.getTerritories()[30],
-				defaultBoard.getTerritories()[32],
 				defaultBoard.getTerritories()[34] };
 		defaultBoard.getTerritories()[31].setNeighbours(neighbours31);
 		

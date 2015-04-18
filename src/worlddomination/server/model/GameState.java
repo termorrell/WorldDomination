@@ -1,9 +1,9 @@
-package worlddomination.server.model;
+package model;
+
+import factories.BoardFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import worlddomination.server.factories.BoardFactory;
 
 public class GameState {
 	Board board;
@@ -16,6 +16,8 @@ public class GameState {
 	public GameState() {
 		BoardFactory factory = new BoardFactory();
 		this.board = factory.getBoard();
+		this.numberOfPlayers = 0;
+		this.players = new ArrayList<Player>();
 	}
 
 	public int getNumberOfPlayers() {
@@ -26,7 +28,14 @@ public class GameState {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-
+    public Player getPlayerById(int id) {
+        for(Player player : players) {
+            if(player.getId() == id) {
+                return player;
+            }
+        }
+        return null;
+    }
 
 	public Board getBoard() {
 		return board;
@@ -51,8 +60,6 @@ public class GameState {
 	public void setCards(LinkedList<Card> cards) {
 		this.cards = cards;
 	}
-
-
 
 	public int getCardsTradedIn() {
 		return cardsTradedIn;

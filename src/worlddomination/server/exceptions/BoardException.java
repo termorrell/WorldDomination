@@ -1,4 +1,4 @@
-package worlddomination.server.exceptions;
+package exceptions;
 
 public class BoardException extends Exception {
 

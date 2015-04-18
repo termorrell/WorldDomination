@@ -1,17 +1,17 @@
-package worlddomination.server.tests;
+package tests;
 
 import java.util.ArrayList;
 
-import worlddomination.server.model.Model;
-import worlddomination.server.model.Player;
+import model.Model;
+import model.Player;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import worlddomination.server.controller.Moves;
-import worlddomination.server.exceptions.BoardException;
-import worlddomination.server.exceptions.IllegalMoveException;
+import controller.Moves;
+import exceptions.BoardException;
+import exceptions.IllegalMoveException;
 
 public class MoveTests {
 	Model model;

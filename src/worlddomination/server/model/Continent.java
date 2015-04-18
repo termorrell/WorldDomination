@@ -1,4 +1,4 @@
-package worlddomination.server.model;
+package model;
 
 public class Continent {
 	int id;
