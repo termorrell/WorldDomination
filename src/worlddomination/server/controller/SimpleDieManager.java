@@ -1,4 +1,4 @@
-package controller;
+package worlddomination.server.controller;
 
 import java.util.ArrayList;
 import java.util.List;

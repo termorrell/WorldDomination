@@ -1,4 +1,4 @@
-package view;
+package worlddomination.server.view;
 
 import java.util.Map;
 

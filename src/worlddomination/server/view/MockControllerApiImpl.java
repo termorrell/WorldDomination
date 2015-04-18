@@ -1,12 +1,12 @@
-package view;
+package worlddomination.server.view;
 
 import java.io.*;
 
-import updates.Claim;
-import updates.Distribute;
-import updates.LocalPlayerName;
-import updates.PingReady;
-import updates.Update;
+import worlddomination.shared.updates.ClaimTerritory;
+import worlddomination.shared.updates.DistributeArmy;
+import worlddomination.shared.updates.LocalPlayerName;
+import worlddomination.shared.updates.PingReady;
+import worlddomination.shared.updates.Update;
 
 public class MockControllerApiImpl implements ControllerApiInterface{
 	
@@ -34,10 +34,10 @@ public class MockControllerApiImpl implements ControllerApiInterface{
 			return getLocalPlayerName((LocalPlayerName) update);
 		} else if(update instanceof PingReady) {
 			return pingReady((PingReady) update);
-		} else if(update instanceof Claim) {
-			return claim((Claim) update);
-		} else if(update instanceof Distribute) {
-			return distribute((Distribute) update);
+		} else if(update instanceof ClaimTerritory) {
+			return claim((ClaimTerritory) update);
+		} else if(update instanceof DistributeArmy) {
+			return distribute((DistributeArmy) update);
 		}
 		return null;
 	}
@@ -48,19 +48,19 @@ public class MockControllerApiImpl implements ControllerApiInterface{
 	}
 	
 	PingReady pingReady(PingReady pingReady) {
-		pingReady.setReady(true);
+		pingReady.setIsReady(true);
 		return pingReady;
 	}
 	
-	Claim claim (Claim claim) {
+	ClaimTerritory claim (ClaimTerritory claim) {
 		System.out.println("Choose a territory to claim:");
-		claim.setTerritoryId(getInt());
+		claim.setTerritoryID(getInt());
 		return claim;
 	}
 	
-	Distribute distribute (Distribute distribute) {
+	DistributeArmy distribute (DistributeArmy distribute) {
 		System.out.println("Choose a territory to distribute armies to:");
-		distribute.setTerritoryId(getInt());
+		distribute.setTerritoryID(getInt());
 		return distribute;
 	}
 	

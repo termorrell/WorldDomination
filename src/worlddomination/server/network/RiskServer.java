@@ -1,11 +1,11 @@
-package network;
+package worlddomination.server.network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
-import controller.ServerController;
+import worlddomination.server.controller.ServerController;
 import org.json.JSONObject;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package network;
+package worlddomination.server.network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;

@@ -1,6 +1,5 @@
-package controller;
+package worlddomination.server.controller;
 
-import java.util.HashMap;
 
 public class ServerController {
     // TODO store player names and ids

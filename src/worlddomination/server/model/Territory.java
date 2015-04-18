@@ -1,8 +1,8 @@
-package model;
+package worlddomination.server.model;
 
 import java.util.LinkedList;
 
-import exceptions.IllegalMoveException;
+import worlddomination.server.exceptions.IllegalMoveException;
 
 public class Territory {
 	int id;

@@ -1,8 +1,8 @@
-package factories;
+package worlddomination.server.factories;
 
-import model.Board;
-import model.Continent;
-import model.Territory;
+import worlddomination.server.model.Board;
+import worlddomination.server.model.Continent;
+import worlddomination.server.model.Territory;
 
 public class BoardFactory {
 

@@ -1,4 +1,4 @@
-package model;
+package worlddomination.server.model;
 
 public class PlayerInfo {
 	String userName;

@@ -1,4 +1,4 @@
-package network;
+package worlddomination.server.network;
 
 /**
  * Created by ${mm280} on 18/02/15.

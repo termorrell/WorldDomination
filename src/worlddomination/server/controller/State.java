@@ -1,4 +1,4 @@
-package controller;
+package worlddomination.server.controller;
 
 /**
  * Created by Caroline on 03/04/2015.

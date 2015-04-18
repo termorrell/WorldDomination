@@ -1,4 +1,4 @@
-package program;
+package worlddomination.server.program;
 
 
 public class Constants {

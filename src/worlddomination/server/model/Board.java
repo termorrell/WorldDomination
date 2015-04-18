@@ -1,6 +1,6 @@
-package model;
+package worlddomination.server.model;
 
-import exceptions.BoardException;
+import worlddomination.server.exceptions.BoardException;
 
 public class Board {
 	Continent[] continents;

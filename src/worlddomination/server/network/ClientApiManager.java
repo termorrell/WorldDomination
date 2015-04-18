@@ -1,6 +1,6 @@
-package network;
+package worlddomination.server.network;
 
-import controller.ClientController;
+import worlddomination.server.controller.ClientController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

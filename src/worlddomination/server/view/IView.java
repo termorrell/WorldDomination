@@ -1,6 +1,6 @@
-package view;
+package worlddomination.server.view;
 
-import model.Move;
+import worlddomination.server.model.Move;
 
 import java.io.BufferedReader;
 

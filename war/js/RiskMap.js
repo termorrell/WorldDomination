@@ -112,21 +112,22 @@ var RiskMap = {
     update: function(data) {
 
         var territoryObjs = $.parseJSON(data);
-        console.log(territoryObjs);
-        $.each(territoryObjs.Territories, function(idx, territory) {
+        if (territoryObjs) {
+            $.each(territoryObjs.Territories, function (idx, territory) {
 
-            var territoryObj = null;
-            $.each(Territories, function(key, value) {
-                if(value.id == territory.territoryID) {
-                    territoryObj = value;
-                }
+                var territoryObj = null;
+                $.each(Territories, function (key, value) {
+                    if (value.id == territory.territoryID) {
+                        territoryObj = value;
+                    }
+                });
+                var player = null;
+                player = $.grep(Players, function (val) {
+                    if (val.id == territory.playerId) return val;
+                })[0];
+                RiskMap.updateTerritory(territoryObj, player, territory.armies);
             });
-            var player = null;
-            player = $.grep(Players, function(val) {
-                if (val.id == territory.playerID) return val;
-            })[0];
-            RiskMap.updateTerritory(territoryObj, player, territory.armies);
-        });
+        }
     },
 
     reinforce: function(armies, callback) {

@@ -1,4 +1,4 @@
-package model;
+package worlddomination.server.model;
 
 import java.util.LinkedList;
 

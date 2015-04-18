@@ -1,22 +1,22 @@
-package controller;
+package worlddomination.server.controller;
 
-import actions.*;
-import model.Player;
-import network.ClientResponseGenerator;
-import network.RiskClient;
+import worlddomination.server.actions.*;
+import worlddomination.server.model.Player;
+import worlddomination.server.network.ClientResponseGenerator;
+import worlddomination.server.network.RiskClient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import program.Constants;
-import updates.*;
-import view.ControllerApiInterface;
+import worlddomination.server.program.Constants;
+import worlddomination.shared.updates.*;
+import worlddomination.server.view.ControllerApiInterface;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.Map;
 
-public class ClientController {
+public class ClientController implements Runnable {
 
     ControllerApiInterface view;
     GameStateManager gameStateManager;
@@ -195,19 +195,19 @@ public class ClientController {
     }
 
     private void claimTerritory( Map<Integer, Integer> numberOfArmies) {
-        boolean allTerritoriesClaimed = false;
+        boolean allTerritoriesClaimTerritoryed = false;
 
-        while (!allTerritoriesClaimed) {
-            view.addUpdate(new updates.Map(gameStateManager.serializeMap()));
+        while (!allTerritoriesClaimTerritoryed) {
+            view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
             numberOfArmies.put(currentPlayer, numberOfArmies.get(currentPlayer) - 1);
             if (currentPlayer == gameStateManager.getLocalPlayerId()) {
                 executeAllCurrentAcknowledgements();
-                Claim claim = (Claim) view.addUpdateAndWaitForResponse(new Claim());
+                ClaimTerritory claim = (ClaimTerritory) view.addUpdateAndWaitForResponse(new ClaimTerritory("Please claim a territory"));
                 localSetupTurn(claim);
             } else {
                 executeActionsUntilIncludingType(new Setup(0, 0, 0));
             }
-            allTerritoriesClaimed = gameStateManager.allTerritoriesClaimed();
+            allTerritoriesClaimTerritoryed = gameStateManager.allTerritoriesClaimed();
         }
 
         state = State.DISTRIBUTE;
@@ -215,11 +215,11 @@ public class ClientController {
 
     private void distributeTerritory( Map<Integer, Integer> numberOfArmies) {
         while(numberOfArmies.get(currentPlayer) > 0) {
-            view.addUpdate(new updates.Map(gameStateManager.serializeMap()));
+            view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
             numberOfArmies.put(currentPlayer, numberOfArmies.get(currentPlayer) - 1);
             if (currentPlayer == gameStateManager.getLocalPlayerId()) {
                 executeAllCurrentAcknowledgements();
-                Distribute distribute = (Distribute) view.addUpdateAndWaitForResponse(new Distribute());
+                DistributeArmy distribute = (DistributeArmy) view.addUpdateAndWaitForResponse(new DistributeArmy("Please select a territory"));
                 localSetupTurn(distribute);
             } else {
                 executeActionsUntilIncludingType(new Setup(0, 0, 0));
@@ -256,8 +256,10 @@ public class ClientController {
 
     private void playersJoined(PlayersJoined action) {
         Map<Integer, String[]> players = action.getPlayers();
-        view.addUpdate(new Lobby("There are somee Players in the lobby"));
+        Lobby lobby = new Lobby();
+        //TODO: Needs to send an array list of players
         for (Map.Entry<Integer, String[]> player : players.entrySet()) {
+        	lobby.addPlayerToListOfPlayers(new LobbyPlayer(player.getKey(), player.getValue()[0], player.getValue()[1]));
             if (!gameStateManager.checkPlayerExists(player.getKey())) {
                 if (player.getValue().length == 2) {
                     gameStateManager.addPlayer(player.getKey(), player.getValue()[0], player.getValue()[1]);
@@ -267,6 +269,8 @@ public class ClientController {
                 }
             }
         }
+        
+        view.addUpdate(lobby);
     }
 
     private void ping(Ping ping) {
@@ -279,7 +283,7 @@ public class ClientController {
 
     private void hostPing(Ping ping) {
         PingReady ready = (PingReady) view.addUpdateAndWaitForResponse(new PingReady());
-        if (ready.isReady()) {
+        if (ready.getIsReady()) {
             // respond to ping
             responseGenerator.pingGenerator(gameStateManager.model.getGameState().getNumberOfPlayers(), gameStateManager.getLocalPlayerId());
             acknowledgementManager.addAcknowledgement(gameStateManager.getLocalPlayerId(), -1);
@@ -397,24 +401,24 @@ public class ClientController {
     }
 
     private void localSetupTurn(Update update) {
-        if(update instanceof Claim) {
-            localClaimTurn((Claim) update);
-        } else if(update instanceof Distribute) {
-            localDistributeTurn((Distribute) update);
+        if(update instanceof ClaimTerritory) {
+            localClaimTerritoryTurn((ClaimTerritory) update);
+        } else if(update instanceof DistributeArmy) {
+            localDistributeArmyTurn((DistributeArmy) update);
         }
 
         acknowledgementManager.expectAcknowledgement();
         collectingAcknowledgements = true;
     }
 
-    private void localClaimTurn(Claim claim) {
-        responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(), claim.getTerritoryId(), 1);
-        claim(gameStateManager.getLocalPlayerId(), claim.getTerritoryId());
+    private void localClaimTerritoryTurn(ClaimTerritory claim) {
+        responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(), claim.getTerritoryID(), 1);
+        claim(gameStateManager.getLocalPlayerId(), claim.getTerritoryID());
     }
 
-    private void localDistributeTurn(Distribute distribute) {
-        responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(), distribute.getTerritoryId(), 1);
-        distribute(gameStateManager.getLocalPlayerId(), distribute.getTerritoryId());
+    private void localDistributeArmyTurn(DistributeArmy distribute) {
+        responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(), distribute.getTerritoryID(), 1);
+        distribute(gameStateManager.getLocalPlayerId(), distribute.getTerritoryID());
     }
 
     private void distribute(int playerId, int territoryId) {

@@ -1,18 +1,15 @@
-package program;
+package worlddomination.server.program;
 
 
 import java.io.*;
 
-import controller.Controller;
-import controller.ClientController;
-import network.RiskServer;
+import worlddomination.server.controller.Controller;
+import worlddomination.server.network.RiskServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import view.INetworkView;
-import view.IView;
-import view.Input;
-import model.Model;
-import view.MockNetworkView;
+import worlddomination.server.view.IView;
+import worlddomination.server.view.Input;
+import worlddomination.server.model.Model;
 
 public class Main {
 

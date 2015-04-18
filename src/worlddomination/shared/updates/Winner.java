@@ -5,13 +5,13 @@ public class Winner extends Update {
 	
 	private String logUpdate;
 	private boolean isMe;
-	private Player[] positions;
+	private LobbyPlayer[] positions;
 	
 	public Winner() {
 		super();
 	}
 	
-	public Winner(String logUpdate, boolean isMe, Player[] positions) {
+	public Winner(String logUpdate, boolean isMe, LobbyPlayer[] positions) {
 		super();
 		this.logUpdate = logUpdate;
 		this.isMe = isMe;
@@ -26,7 +26,7 @@ public class Winner extends Update {
 		return isMe;
 	}
 	
-	public Player[] getPositions() {
+	public LobbyPlayer[] getPositions() {
 		return positions;
 	}
 }

@@ -1,15 +1,13 @@
-package tests;
+package worlddomination.server.tests;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import view.ControllerApiInterface;
-import view.INetworkView;
-import view.MockControllerApiImpl;
-import view.MockNetworkView;
-import controller.ClientController;
-import actions.*;
+import worlddomination.server.view.ControllerApiInterface;
+import worlddomination.server.view.MockControllerApiImpl;
+import worlddomination.server.controller.ClientController;
+import worlddomination.server.actions.*;
 
 public class ClientControllerTest {
 	static LinkedList<Action> networkActions = new LinkedList<>();

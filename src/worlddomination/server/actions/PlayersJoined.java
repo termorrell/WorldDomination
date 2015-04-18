@@ -1,4 +1,4 @@
-package actions;
+package worlddomination.server.actions;
 
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package network;
+package worlddomination.server.network;
 
 import org.json.JSONObject;
 

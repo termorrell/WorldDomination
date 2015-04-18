@@ -1,6 +1,6 @@
-package model;
+package worlddomination.server.model;
 
-import factories.BoardFactory;
+import worlddomination.server.factories.BoardFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,14 +1,15 @@
-package controller;
+package worlddomination.server.controller;
 
-import exceptions.BoardException;
-import exceptions.IllegalMoveException;
-import model.GameState;
-import model.Model;
-import model.Player;
-
-import model.Territory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import worlddomination.server.exceptions.BoardException;
+import worlddomination.server.exceptions.IllegalMoveException;
+import worlddomination.server.model.Model;
+import worlddomination.server.model.Player;
+import worlddomination.server.model.Territory;
 
 public class GameStateManager {
     Model model;
@@ -106,9 +107,25 @@ public class GameStateManager {
     }
 
     public String serializeMap() {
-        // TODO Maria's excellent JSON skills to serialize the map :)
-        model.getGameState().getBoard().printAvailableTerritories();
-        return null;
+    	JSONObject object = new JSONObject();
+		JSONArray territories = new JSONArray();
+		Territory[] territoriesArray = model.getGameState().getBoard().getTerritories();
+		for (int i = 0; i < territoriesArray.length; i++) {
+			JSONObject details = new JSONObject();
+			Territory territory = territoriesArray[i];
+			details.put("territoryID", territoriesArray[i].getId());
+			if (territory.getOwner() == null) {
+
+				details.put("playerId", JSONObject.NULL);
+			} else {
+
+				details.put("playerId", territoriesArray[i].getOwner().getId());
+			}
+			details.put("armies", territoriesArray[i].getOccupyingArmies().size());
+			territories.put(details);
+		}
+		object.put("Territories", territories);
+        return object.toString();
     }
 
     public boolean allTerritoriesClaimed() {

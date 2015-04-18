@@ -1,4 +1,4 @@
-package actions;
+package worlddomination.server.actions;
 
 public class AttackCapture extends Action{
     int originTerritory;

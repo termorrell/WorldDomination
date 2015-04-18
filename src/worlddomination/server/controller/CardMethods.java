@@ -1,13 +1,14 @@
-package controller;
+package worlddomination.server.controller;
 
-import exceptions.BoardException;
-import exceptions.IllegalMoveException;
-import model.*;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import view.IView;
+import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
+import worlddomination.server.exceptions.BoardException;
+import worlddomination.server.exceptions.IllegalMoveException;
+import worlddomination.server.model.Card;
+import worlddomination.server.model.Model;
+import worlddomination.server.model.Player;
+import worlddomination.server.view.IView;
 
 /**
  * Created by ${mm280} on 03/02/15.

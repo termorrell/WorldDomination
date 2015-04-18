@@ -1,4 +1,4 @@
-package actions;
+package worlddomination.server.actions;
 
 
 public class AcceptJoinGame extends Action {

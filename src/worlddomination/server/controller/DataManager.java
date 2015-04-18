@@ -1,12 +1,11 @@
-package controller;
+package worlddomination.server.controller;
 
-import java.io.BufferedReader;
 import java.util.LinkedList;
 
-import factories.BoardFactory;
-import factories.CardFactory;
-import model.Board;
-import model.Card;
+import worlddomination.server.factories.BoardFactory;
+import worlddomination.server.factories.CardFactory;
+import worlddomination.server.model.Board;
+import worlddomination.server.model.Card;
 
 public class DataManager {
 

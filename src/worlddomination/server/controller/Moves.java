@@ -1,15 +1,15 @@
-package controller;
+package worlddomination.server.controller;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
-import exceptions.BoardException;
-import exceptions.IllegalMoveException;
-import model.Army;
-import model.GameState;
-import model.Player;
-import model.Territory;
+import worlddomination.server.exceptions.BoardException;
+import worlddomination.server.exceptions.IllegalMoveException;
+import worlddomination.server.model.Army;
+import worlddomination.server.model.GameState;
+import worlddomination.server.model.Player;
+import worlddomination.server.model.Territory;
 import org.apache.logging.log4j.Logger;
 
 public class Moves {

@@ -1,6 +1,6 @@
-package view;
+package worlddomination.server.view;
 
-import updates.Update;
+import worlddomination.shared.updates.Update;
 
 /**
  * Created by Caroline on 02/04/2015.

@@ -429,10 +429,23 @@ var RiskGame = {
 
                 var isAttack;
                 if (sourceTerritory.player === RiskGame.currentPlayer) {
-                    if (destinationTerritory.player === RiskGame.currentPlayer){
-                        isAttack = false;
+                    var isNeighbour = false;
+                    $.each(sourceTerritory.neighbours, function(idx, value) {
+                        if (value.id == destinationTerritory.id) {
+                            isNeighbour = true;
+                        }
+                    });
+                    if (isNeighbour) {
+                        if (destinationTerritory.player === RiskGame.currentPlayer) {
+                            isAttack = false;
+                        } else {
+                            isAttack = true;
+                        }
                     } else {
-                        isAttack = true;
+
+                        resetTurn();
+                        RiskLog.addEntry("You need to choose a neighbouring territory as the source");
+                        return;
                     }
                 } else {
 

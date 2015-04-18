@@ -1,10 +1,10 @@
-package factories;
+package worlddomination.server.factories;
 
 import java.util.LinkedList;
 
-import model.Board;
-import model.Card;
-import model.GameState;
+import worlddomination.server.model.Board;
+import worlddomination.server.model.Card;
+import worlddomination.server.model.GameState;
 
 public class CardFactory {
     LinkedList<Card> cards;

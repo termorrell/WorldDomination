@@ -1,4 +1,4 @@
-package model;
+package worlddomination.server.model;
 
 import java.net.InetAddress;
 import java.util.*;

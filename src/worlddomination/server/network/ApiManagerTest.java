@@ -1,6 +1,6 @@
-package network;
+package worlddomination.server.network;
 
-import model.Model;
+import worlddomination.server.model.Model;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;

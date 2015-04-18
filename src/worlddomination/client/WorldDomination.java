@@ -37,7 +37,7 @@ public class WorldDomination implements EntryPoint {
 	private static Button addNameButton = new Button("Add");
 	private static Button continueButton = new Button("Continue");
 	private static Label gameStateLabel = new Label();
-	private static ArrayList<Player> allPlayers = new ArrayList<Player>();
+	private static ArrayList<LobbyPlayer> allPlayers = new ArrayList<LobbyPlayer>();
 	private static ArrayList<String> playerColours = new ArrayList<String>(Arrays.asList("green","blue","yellow","orange","purple","red"));
 	private static Timer refreshTimer;
 	private static WorldDominationServiceAsync worldDominationSvc = GWT.create(WorldDominationService.class);
@@ -224,7 +224,7 @@ public class WorldDomination implements EntryPoint {
 		$wnd.RiskGame.rejectionEvent(errorMessage);
 	}-*/;
 	
-	private static void lobbyEvent(ArrayList<Player> listOfPlayers) {
+	private static void lobbyEvent(ArrayList<LobbyPlayer> listOfPlayers) {
 
 		waitForReadyState();
 		
@@ -232,7 +232,7 @@ public class WorldDomination implements EntryPoint {
 		namesFlexTable.removeAllRows();
 		setUpNameTable();
 		clearPlayers();
-		for (Player player : listOfPlayers) {
+		for (LobbyPlayer player : listOfPlayers) {
 
 			addPlayer(player.getId(), player.getName(), player.getPublicKey());
 			namesFlexTable.setHTML(idx, 0, player.getName() + "<span class=\"publicKey\">" + player.getPublicKey() + "</span>");
@@ -254,7 +254,7 @@ public class WorldDomination implements EntryPoint {
 	
 	private static void readyEventResponse() {
 		
-		Ready ready = (Ready)currentUpdate;
+		PingReady ready = (PingReady)currentUpdate;
 		ready.setIsReady(true);
 		
 		sendUpdateResponse(ready);
@@ -433,6 +433,8 @@ public class WorldDomination implements EntryPoint {
 	    AsyncCallback<Update> callback = new AsyncCallback<Update>() {
 	      public void onFailure(Throwable caught) {
 
+	    	  logger.log(Level.SEVERE, "received error");
+
 	    	  if (caught instanceof InvocationException) {
 	    		  showNoConnection();
 	    	  } else {
@@ -449,6 +451,7 @@ public class WorldDomination implements EntryPoint {
 	      }
 	    };
 
+  	  	logger.log(Level.SEVERE, "ABOUT TO GET UPDATE");
 	     // Make the call to the stock price service.
 	    worldDominationSvc.getNextUpdate(callback);
 	}
@@ -502,7 +505,7 @@ public class WorldDomination implements EntryPoint {
 			
 			// No response necessary restart refresh timer
 			restartRefreshTimer();
-		} else if (update instanceof Ready) {
+		} else if (update instanceof PingReady) {
 			
 			readyEvent();
 		} else if (update instanceof CurrentPlayer) {

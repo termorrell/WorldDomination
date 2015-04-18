@@ -1,4 +1,4 @@
-package actions;
+package worlddomination.server.actions;
 
 public class Deploy extends Action{
     int[][] armies; // array of pairs: [0] - territory id and [1] - number of armies

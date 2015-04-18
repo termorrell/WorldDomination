@@ -5,18 +5,18 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class Lobby extends Update {
 	
-	private ArrayList<Player> listOfPlayers;
+	private ArrayList<LobbyPlayer> listOfPlayers;
 
 	public Lobby() {
 		super();
-		listOfPlayers = new ArrayList<Player> ();
+		listOfPlayers = new ArrayList<LobbyPlayer> ();
 	}
 
-	public ArrayList<Player> getListOfPlayers() {
+	public ArrayList<LobbyPlayer> getListOfPlayers() {
 		return listOfPlayers;
 	}
 	
-	public ArrayList<Player> addPlayerToListOfPlayers(Player player) {
+	public ArrayList<LobbyPlayer> addPlayerToListOfPlayers(LobbyPlayer player) {
 		listOfPlayers.add(player);
 		return listOfPlayers;
 	}

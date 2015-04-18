@@ -1,6 +1,6 @@
-package view;
+package worlddomination.server.view;
 
-import updates.Update;
+import worlddomination.shared.updates.Update;
 
 import java.util.LinkedList;
 import java.util.Queue;
