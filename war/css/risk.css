@@ -267,6 +267,7 @@ body {
                 color: #95a5a6;
                 padding-left: 20px; }
         body .content-container .side-content #controller .names tr {
+          cursor: pointer;
           -webkit-transition: all .50s ease-out; }
           body .content-container .side-content #controller .names tr:nth-child(2) {
             border-left: 5px solid #3498db; }
@@ -368,20 +369,20 @@ body {
         width: 50%; }
       body .modal.leaveGame.leaveGame, body .modal.gameOver.leaveGame, body .modal.allocateArmies.leaveGame, body .modal.alert.leaveGame {
         z-index: 100; }
-    body .modal.allocateArmies, body .modal.completeTurn {
+    body .modal.allocateArmies, body .modal.completeTurn, body .modal.defendTerritory {
       display: none; }
-      body .modal.allocateArmies p, body .modal.completeTurn p {
+      body .modal.allocateArmies p, body .modal.completeTurn p, body .modal.defendTerritory p {
         margin-top: 20px;
         text-align: center; }
-      body .modal.allocateArmies input[type=number], body .modal.completeTurn input[type=number] {
+      body .modal.allocateArmies input[type=number], body .modal.completeTurn input[type=number], body .modal.defendTerritory input[type=number] {
         margin-left: 20px;
         margin-right: 20px;
         width: 80px; }
-      body .modal.allocateArmies button, body .modal.completeTurn button {
+      body .modal.allocateArmies button, body .modal.completeTurn button, body .modal.defendTerritory button {
         margin-bottom: 0px; }
-      body .modal.allocateArmies img, body .modal.completeTurn img {
+      body .modal.allocateArmies img, body .modal.completeTurn img, body .modal.defendTerritory img {
         width: 50%; }
-        body .modal.allocateArmies img.arrow, body .modal.completeTurn img.arrow {
+        body .modal.allocateArmies img.arrow, body .modal.completeTurn img.arrow, body .modal.defendTerritory img.arrow {
           margin-top: 100%; }
     body .modal.noConnection, body .modal.error {
       display: none;

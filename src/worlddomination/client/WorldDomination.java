@@ -314,11 +314,11 @@ public class WorldDomination implements EntryPoint {
 		sendUpdateResponse(reinforce);
 	}
 	
-	private static native void makeTurnEvent(String timeOut) /*-{
+	private static native void makeTurnEvent(String timeOut, boolean allowTradeIn) /*-{
 	 	var callback = $entry(function(type, sourceTerritory, destinationTerritory, numberOfArmies) {
 	    	@worlddomination.client.WorldDomination::makeTurnEventResponse(Ljava/lang/String;III)(type, sourceTerritory, destinationTerritory, numberOfArmies);
 	 	});
-		$wnd.RiskGame.makeTurnEvent(timeOut, callback);
+		$wnd.RiskGame.makeTurnEvent(timeOut, allowTradeIn, callback);
 	}-*/;
 	
 	private static native void allocateCardEvent(int territoryID, String type) /*-{
@@ -338,7 +338,21 @@ public class WorldDomination implements EntryPoint {
 		
 		sendUpdateResponse(makeTurn);
 	}
+
+	private static native void defendTerritoryEvent(int sourceTerritory, int destinationTerritory, int maximumNumberOfArmies) /*-{
+	 	var callback = $entry(function(val) {
+	    	@worlddomination.client.WorldDomination::defendTerritoryEventResponse(I)(val);
+	 	});
+		$wnd.RiskGame.defendTerritoryEvent(sourceTerritory, destinationTerritory, maximumNumberOfArmies, callback);
+	}-*/;
 	
+	private static void defendTerritoryEventResponse(int result) {
+		
+		DefendTerritory defendTerritory = (DefendTerritory)currentUpdate;
+		defendTerritory.setArmiesUsed(result);
+		
+		sendUpdateResponse(defendTerritory);
+	}
 
 	private static native void allocateArmiesEvent(int sourceTerritory, int destinationTerritory, int maximumNumberOfArmies) /*-{
 	 	var callback = $entry(function(val) {
@@ -556,7 +570,13 @@ public class WorldDomination implements EntryPoint {
 			MakeTurn makeTurn = (MakeTurn)update;
 			addLogEntry(makeTurn.getLogUpdate());
 
-			makeTurnEvent(makeTurn.getTimeOut());
+			makeTurnEvent(makeTurn.getTimeOut(), makeTurn.getAllowTradeIn());
+		} else if (update instanceof MakeTurn) {
+			
+			DefendTerritory defendTerritory = (DefendTerritory)update;
+			addLogEntry(defendTerritory.getLogUpdate());
+
+			defendTerritoryEvent(defendTerritory.getSourceTerritory(), defendTerritory.getDestinationTerritory(), defendTerritory.getMaximumNumberOfArmies());
 		} else if (update instanceof AllocateCard) {
 			
 			AllocateCard allocateCard = (AllocateCard)update;

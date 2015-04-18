@@ -1,6 +1,7 @@
 var RiskGame = {
 
     currentPlayer: null,
+    arrayOfSelectedCards: [],
 
     /**
      * Initialise the page for the first game state
@@ -185,8 +186,17 @@ var RiskGame = {
         $(".gameOver").fadeOut();
     },
 
+    showDefendTerritory: function() {
+        $('#defendNumber').val(1);
+        $(".defendTerritory").fadeIn();
+    },
+
+    hideDefendTerritory: function() {
+        $(".defendTerritory").fadeOut();
+    },
+
     showAllocateArmies: function() {
-        $('#turnNumber').val(1);
+        $('#allocateNumber').val(1);
         $(".allocateArmies").fadeIn();
     },
 
@@ -203,30 +213,35 @@ var RiskGame = {
         $(".completeTurn").fadeOut();
     },
 
-    setCardsEnabled: function() {
+    setCardsEnabled: function(allowTradeIn, callback) {
 
-        var arrayOfSelectedCards = [];
+        this.arrayOfSelectedCards = [];
 
+        $('.cards').off('click');
         $('.cards').on('click', function() {
             if (Cards.length > 0) {
 
-                displayCards();
+                RiskGame.displayCards(allowTradeIn, false, callback);
             }
         });
+    },
 
-        function displayCards() {
+    displayCards: function(allowTradeIn, shouldTradeIn, callback) {
 
-            $('.cards').off('click');
+        $('.cards').off('click');
+        if (!shouldTradeIn) {
             $('.cards-close .close').fadeIn();
-            $('.cards-close .close').on('click', function() {
-                minimiseCards();
+            $('.cards-close .close').on('click', function () {
+                RiskGame.minimiseCards(allowTradeIn, callback);
             });
-            $('.cards').addClass('display');
-            $('.cards').on('click','.card', function() {
+        }
+        $('.cards').addClass('display');
+        if (allowTradeIn) {
+            $('.cards').on('click', '.card', function () {
 
                 var selected = false;
                 var originalID = $(this).data('territoryID');
-                $.each(arrayOfSelectedCards, function(key, dom) {
+                $.each(RiskGame.arrayOfSelectedCards, function (key, dom) {
                     var id = $(dom).data('territoryID');
                     if (id === originalID) {
                         selected = true;
@@ -236,11 +251,11 @@ var RiskGame = {
                 if (!selected) {
 
                     $(this).addClass('selected');
-                    arrayOfSelectedCards.push(this);
+                    RiskGame.arrayOfSelectedCards.push(this);
 
-                    if (arrayOfSelectedCards.length === 3) {
-                        $(arrayOfSelectedCards).remove();
-                        $.each(arrayOfSelectedCards, function (key, dom) {
+                    if (RiskGame.arrayOfSelectedCards.length === 3) {
+                        $(RiskGame.arrayOfSelectedCards).remove();
+                        $.each(RiskGame.arrayOfSelectedCards, function (key, dom) {
                             var id = $(dom).data('territoryID');
                             var selectedCardIndex;
                             $.each(Cards, function (idx, card) {
@@ -250,8 +265,8 @@ var RiskGame = {
                             });
                             Cards.splice(selectedCardIndex, 1);
                         });
-                        //TODO: need to send the cards being traded in
-                        arrayOfSelectedCards = [];
+                        callback();
+                        RiskGame.arrayOfSelectedCards = [];
                     }
                     if (Cards.length === 0) {
                         minimiseCards();
@@ -259,21 +274,23 @@ var RiskGame = {
                 }
             });
         }
+    },
 
-        function minimiseCards() {
+    minimiseCards: function(allowTradeIn, callback) {
 
-            $('.cards').off('click');
-            $('.cards .card').removeClass('selected');
-            $('.cards-close .close').fadeOut();
-            $('.cards-close .close').off('click');
-            $('.cards').removeClass('display');
-            $('.cards').on('click', function() {
-                if (Cards.length > 0) {
+        RiskGame.arrayOfSelectedCards = [];
 
-                    displayCards();
-                }
-            });
-        }
+        $('.cards').off('click');
+        $('.cards .card').removeClass('selected');
+        $('.cards-close .close').fadeOut();
+        $('.cards-close .close').off('click');
+        $('.cards').removeClass('display');
+        $('.cards').on('click', function() {
+            if (Cards.length > 0) {
+
+                RiskGame.displayCards(allowTradeIn, false, callback);
+            }
+        });
     },
 
     setTimer: function(timeOut) {
@@ -305,7 +322,7 @@ var RiskGame = {
     ready: function() {
 
         this.hideMapActivityIndicator();
-        this.setCardsEnabled();
+        this.setCardsEnabled(false);
     },
 
     joinGame: function() {
@@ -383,7 +400,7 @@ var RiskGame = {
         RiskMap.reinforce(armies, callback);
     },
     
-    makeTurnEvent: function (timeOut, callback) {
+    makeTurnEvent: function (timeOut, allowTradeIn, callback) {
 
         //Setup the map to register input
         RiskMap.sourceTerritory = null;
@@ -391,6 +408,21 @@ var RiskGame = {
         RiskMap.makeTurn();
         this.showTurnControls();
         this.setTimer(timeOut);
+
+        if (Cards.length >= 5) {
+
+            RiskGame.displayCards(allowTradeIn, true, function() {
+                finishTurn();
+                RiskGame.minimiseCards(false);
+                callback('TradeIn');
+            });
+        } else {
+            this.setCardsEnabled(allowTradeIn, function() {
+                finishTurn();
+                RiskGame.minimiseCards(false);
+                callback('TradeIn');
+            });
+        }
 
         function finishTurn() {
 
@@ -420,8 +452,6 @@ var RiskGame = {
             if (RiskMap.sourceTerritory) arrayOfTerritories.push($(RiskMap.sourceTerritory).attr('id'));
             if (RiskMap.destinationTerritory) arrayOfTerritories.push($(RiskMap.destinationTerritory).attr('id'));
 
-            //TODO: Need to verify is a neighboring territory
-
             if (arrayOfTerritories.length === 2) {
 
                 var sourceTerritory = Territories[$(RiskMap.sourceTerritory).attr('id')];
@@ -444,7 +474,7 @@ var RiskGame = {
                     } else {
 
                         resetTurn();
-                        RiskLog.addEntry("You need to choose a neighbouring territory as the source");
+                        RiskLog.addEntry("Choose a neighbouring territory as the destination");
                         return;
                     }
                 } else {
@@ -511,6 +541,30 @@ var RiskGame = {
         });
     },
 
+    defendTerritoryEvent: function (sourceTerritory, destinationTerritory, maximumNumberOfArmies, callback) {
+
+        this.showDefendTerritory();
+
+        var sourceImageName, destinationImageName;
+        $.each(Territories, function(key, value) {
+            if(value.id === sourceTerritory) {
+                sourceImageName = value.svg;
+            } else if (value.id === destinationTerritory) {
+                destinationImageName = value.svg;
+            }
+        });
+        $('.defendTerritory img#defendSource').attr('src', 'img/territories/' + sourceImageName);
+        $('.defendTerritory img#defendDestination').attr('src', 'img/territories/' + destinationImageName);
+        $('#defendNumber').attr('max', maximumNumberOfArmies);
+
+        $('#defendTerritory').on('click', function () {
+            $('#defendTerritory').off('click');
+            RiskGame.hideDefendTerritory();
+            var value = $('#defendNumber').val();
+            callback(value);
+        });
+    },
+
     allocateCardEvent: function(territoryID, type) {
 
         var card = new Card(territoryID, type);
@@ -555,13 +609,11 @@ var RiskGame = {
     
     winnerEvent: function (players) {
 
-        $.each(players, function(key, value) {
+        $.each(players, function (key, value) {
             $('.players').append('<li>' + value.name_0 + '</li>');
         });
 
         this.showGameOver();
-
-        //TODO: Need to show the winners
     }
     
 };

@@ -19,7 +19,7 @@ public class MapUpdate extends Update {
 	public String getLogUpdate() {
 		return logUpdate;
 	}
-
+	
 	public String getMapState() {
 		return mapState;
 	}

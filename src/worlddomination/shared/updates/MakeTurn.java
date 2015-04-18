@@ -4,8 +4,9 @@ package worlddomination.shared.updates;
 public class MakeTurn extends Update {
 
 	private String logUpdate;
-	private String type;
 	private String timeOut;
+	private boolean allowTradeIn; 
+	private String type;
 	private int sourceTerritory;
 	private int destinationTerritory;
 	private int numberOfArmies;
@@ -14,23 +15,29 @@ public class MakeTurn extends Update {
 		super();
 	}
 	
-	public MakeTurn(String logUpdate) {
+	public MakeTurn(String logUpdate, String timeOut, boolean allowTradeIn) {
 		super();
 		this.logUpdate = logUpdate;
+		this.timeOut = timeOut;
+		this.allowTradeIn = allowTradeIn;
 	}
 
 	public String getLogUpdate() {
 		return logUpdate;
+	}
+	
+	public String getTimeOut() {
+		return timeOut;
+	}
+	
+	public boolean getAllowTradeIn() {
+		return allowTradeIn;
 	}
 
 	public void setType(String type) {
 		this.type = type;
 	}
 	
-	public void setTimeOut(String date) {
-		this.timeOut = date;
-	}
-
 	public void setSourceTerritory(int sourceTerritory) {
 		this.sourceTerritory = sourceTerritory;
 	}
@@ -46,11 +53,6 @@ public class MakeTurn extends Update {
 	public String getType() {
 		return type;
 	}
-	
-	public String getTimeOut() {
-		return timeOut;
-	}
-
 	public int getSourceTerritory() {
 		return sourceTerritory;
 	}
