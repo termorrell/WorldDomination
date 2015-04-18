@@ -1,0 +1,3 @@
+# Module worlddomination
+# RPC service class, partial path of RPC policy file
+worlddomination.client.WorldDominationService, ED4DD029DD63AA1A4CA512DD096B72CF.gwt.rpc

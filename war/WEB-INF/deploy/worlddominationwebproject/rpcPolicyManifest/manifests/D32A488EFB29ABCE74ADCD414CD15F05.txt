@@ -1,0 +1,2 @@
+serviceClass: edu.cs3099.worlddomination.client.WorldDominationService
+path: 42A38D92505795E1B5B8B7132B8D7B5D.gwt.rpc

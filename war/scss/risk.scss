@@ -1,0 +1,586 @@
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+
+  @for $i from 1 through $max {
+	$animations: #{$animations + nth($animate, $i)};
+
+	@if $i < $max {
+	  $animations: #{$animations + ", "};
+	}
+  }
+  -webkit-animation: $animations;
+  -moz-animation:    $animations;
+  -o-animation:      $animations;
+  animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+	@content;
+  }
+  @-moz-keyframes #{$animationName} {
+	@content;
+  }
+  @-o-keyframes #{$animationName} {
+	@content;
+  }
+  @keyframes #{$animationName} {
+	@content;
+  }
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
+
+  -webkit-box-shadow:$top $left $blur $color #{$inset};
+  -moz-box-shadow:$top $left $blur $color #{$inset};
+  box-shadow:$top $left $blur $color #{$inset};
+}
+
+div.gwt-PopupPanel {
+  z-index: 15;
+}
+body {
+  color: #2c3e50;
+  overflow: hidden;
+  button {
+	background: rgba(255, 255, 255, 0.9);
+	&.button-error {
+	  color: #FFF;
+	  background-color: #e74c3c;
+	  border-color: #e74c3c;
+	  &:active, &:focus {
+		background-color: #c0392b;
+		border-color: #c0392b;
+	  }
+	}
+  }
+  .navbar {
+	h3 {
+	  padding-top: 17px;
+	  float: left;
+	}
+	#nav-buttons {
+	  opacity: 0.0;
+	  button {
+		margin-top: 21px;
+		margin-bottom: 21px;
+		&#leaveGame {
+		  display: none;
+		}
+	  }
+	}
+	padding-left: 15px;
+	padding-right: 15px;
+	height: 80px;
+	border-bottom: 1px solid #eee;
+  }
+  .content-container {
+	position: absolute;
+	top: 81px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	-webkit-transition: -webkit-filter .50s;
+	opacity: 0;
+	.main-content {
+	  width: 66.6666666667%;
+	  position: absolute;
+	  top: 0;
+	  left:0;
+	  bottom:0;
+	  overflow: hidden;
+	  z-index: 1;
+	  .timer {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 2px;
+		width: 0;
+		background: #3498db;
+		display: none;
+	  }
+	  .controls {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		button {
+		  margin-bottom: 0px;
+		  border-radius: 0px;
+		  font-size: 20px;
+		  padding: 0 15px;
+		  font-weight: 100;
+		  float: right;
+		  &:first-of-type {
+			border-radius: 0px 4px 4px 0px;
+			border-left: 0px;
+		  }
+		  &:last-of-type {
+			border-radius: 4px 0px 0px 4px;
+		  }
+		}
+	  }
+	  .turnControls {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		display: none;
+	  }
+	  .cards-close {
+		position: absolute;
+		bottom: 450px;
+		left: 10px;
+		.close {
+		  display: none;
+		  cursor: pointer;
+		}
+	  }
+	  .cards {
+		bottom: -400px;
+		position: absolute;
+		right: 120px;
+		left: 120px;
+		height: 450px;
+		transition: all 500ms ease-out;
+		&:hover, &:focus {
+		  bottom: -300px;
+		  .card {
+			cursor: pointer;
+			@include box-shadow(0, 3px, 3px, rgba(0, 0, 0, 0.095));
+			&:nth-child(2) {
+			  top: 40px;
+			  margin-left: -180px;
+			  transform: rotate(-10deg);
+			}
+			&:nth-child(3) {
+			  top: 20px;
+			  margin-left: -160px;
+			  transform: rotate(-5deg);
+			}
+			&:nth-child(4) {
+			  top: 40px;
+			  margin-left: -100px;
+			  transform: rotate(10deg);
+			}
+			&:nth-child(5) {
+			  top: 20px;
+			  margin-left: -120px;
+			  transform: rotate(5deg);
+			}
+		  }
+		}
+		&.display {
+		  overflow-x: scroll;
+		  left: 0px;
+		  right: 0px;
+		  bottom: 0;
+		  &:hover, &:focus {
+			bottom: inherit;
+		  }
+		  .card {
+			margin-left: 0px !important;
+			top: 0 !important;
+			&:nth-child(1) {
+			  left: 10px;
+			  transform: rotate(0deg);
+			}
+			&:nth-child(2) {
+			  left: 350px;
+			  transform: rotate(0deg);
+			}
+			&:nth-child(3) {
+			  left: 690px;
+			  transform: rotate(0deg);
+			}
+			&:nth-child(4) {
+			  left: 1030px;
+			  transform: rotate(0deg);
+			}
+			&:nth-child(5) {
+			  left: 1370px;
+			  transform: rotate(0deg);
+			}
+			&:nth-child(6) {
+			  left: 1710px;
+			  margin-right: 10px;
+			  transform: rotate(0deg);
+			}
+		  }
+		}
+		.card {
+		  text-align: center;
+		  position: absolute;
+		  border-radius: 4px;
+		  width: 280px;
+		  height: 400px;
+		  background: rgba(255, 255, 255, 0.9);
+		  border: 1px solid #eee;
+		  left: 50%;
+		  padding: 20px;
+		  margin-left: -140px;
+		  transition: all 500ms ease-out;
+		  @include box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.075));
+		  img {
+			width: 50%;
+			margin-top: 50px;
+		  }
+		  &.selected {
+			@include animation('selected 1s infinite alternate ease-out');
+		  }
+		  &:nth-child(2) {
+			top: 20px;
+			margin-left: -180px;
+			transform: rotate(-5deg);
+		  }
+		  &:nth-child(3) {
+			top: 10px;
+			margin-left: -160px;
+			transform: rotate(-2.5deg);
+		  }
+		  &:nth-child(4) {
+			top: 20px;
+			margin-left: -100px;
+			transform: rotate(5deg);
+		  }
+		  &:nth-child(5) {
+			top: 10px;
+			margin-left: -120px;
+			transform: rotate(2.5deg);
+		  }
+		}
+	  }
+	  #continue {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		z-index: 2;
+		margin-bottom: 0px;
+		display: none;
+	  }
+	  .overlay {
+		z-index: 1;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		position: absolute;
+		background: rgba(255, 255, 255, 0.8);
+	  }
+	  #map {
+		-webkit-filter: blur(0px);
+		-webkit-transition: -webkit-filter .280s ease-out;
+		cursor: move;
+		width: 100%;
+		height: 100%;
+		svg {
+		  width: 100%;
+		  height: 100%;
+		  g {
+			g.territory path.territoryPath {
+			  cursor: inherit;
+			}
+			&.active {
+			  cursor: pointer;
+			  g.territory {
+				path.territoryPath {
+				  fill: rgba(248, 248, 248, 0.0);
+				}
+				g.army{
+				  transform: rotate3d(0, 0, 0, 0deg);
+				  &.swing {
+					transform-origin: top center;
+					@include animation('swing 1s both');
+				  }
+				}
+				&.selected path.territoryPath {
+				  @include animation('pulse 1s infinite alternate ease-out');
+				}
+				&.owned path.territoryPath {
+				  transition: fill .280s ease-out;
+				  @include animation('pulse 1s infinite alternate ease-out');
+				}
+				&:hover, &focus {
+				  path.territoryPath {
+					fill: rgba(248, 248, 248, 0.3);
+				  }
+				}
+			  }
+			}
+		  }
+		}
+		&.blur {
+		  -webkit-filter: blur(20px);
+		}
+	  }
+	}
+	.side-content {
+	  border-left: 1px solid #eee;
+	  width: 33.3333333333%;
+	  position: absolute;
+	  top: 0;
+	  right:0;
+	  bottom:0;
+	  z-index: 2;
+	  p {
+		padding: 40px;
+		text-align: center;
+		color: #dddddd;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+	  }
+	  #controller {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom:80px;
+		overflow-y: scroll;
+		overflow-x: hidden;
+		.borderless {
+		  width: 100%;
+		  background: white;
+		  > tbody > tr {
+			> td {
+			  border: 0px;
+			  th:first-child, td:first-child, th:last-child, td:last-child {
+				padding-left: 15px;
+				padding-right: 15px;
+				.publicKey {
+				  color: #95a5a6;
+				  padding-left: 20px;
+				}
+			  }
+			}
+		  }
+		}
+		.names tr {
+		  -webkit-transition: all .50s ease-out;
+		  &:nth-child(2) {
+			border-left: 5px solid #3498db;
+		  }
+		  &:nth-child(3) {
+			border-left: 5px solid #e74c3c;
+		  }
+		  &:nth-child(4) {
+			border-left: 5px solid #f1c40f;
+		  }
+		  &:nth-child(5) {
+			border-left: 5px solid #9b59b6;
+		  }
+		  &:nth-child(6) {
+			border-left: 5px solid #1abc9c;
+		  }
+		  &:nth-child(7) {
+			border-left: 5px solid #e67e22;
+		  }
+		}
+	  }
+	  #log {
+		background: #34495e;
+		padding: 20px;
+		position: absolute;
+		bottom: 80px;
+		left: 0;
+		right: 0;
+		height: 0px;
+		opacity: 0;
+		border-top: 1px solid #eee;
+		transition: all 360ms 0ms ease-out;
+		.text {
+		  color: #ecf0f1;
+		  text-align: justify;
+		  overflow-y: scroll;
+		  overflow-x: hidden;
+		  position: relative;
+		  height: 100%;
+		  width: 100%;
+		  span {
+			margin-top: 10px;
+			display: block;
+			line-height: 1.2;
+		  }
+		}
+	  }
+	  #hint {
+		padding: 20px;
+		background: #2c3e50;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 40px;
+		color: white;
+		text-align: center;
+		h5 {
+		  line-height: 1.0;
+		}
+	  }
+	  &.active {
+		#controller {
+		  bottom:auto;
+		}
+	  }
+	}
+  }
+  .activityIndicator {
+	background: rgba(240, 244, 245, 0.0);
+	width: 77px;
+	height: 77px;
+	border-radius: 4px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -38px;
+	margin-top: -38px;
+	z-index: 100;
+	img {
+	  margin: 10px 0px 0px 10px;
+	}
+	&#mapActivityIndicator {
+	  display: none;
+	}
+  }
+  .modal {
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid #eee;
+	top: 20px;
+	left: 25%;
+	right: 25%;
+	position: absolute;
+	z-index: 99;
+	border-radius: 4px;
+	text-align: center;
+	padding: 30px;
+	max-height: calc(100% - 101px);
+	overflow-y: scroll;
+	&.initialiseModal {
+	  .game-type {
+		margin-left: 50px;
+		cursor: pointer;
+		margin-bottom: 20px;
+		&:first-of-type {
+		  margin-left: 0;
+		}
+	  }
+	}
+	&.hostAndPlayModal {
+	  display: none;
+	  button {
+		text-align: right;
+		margin-bottom: 0px;
+	  }
+	}
+	&.leaveGame, &.gameOver, &.allocateArmies, &.alert {
+	  display: none;
+	  h5 {
+		text-align: left;
+	  }
+	  p {
+		text-align: left;
+	  }
+	  ol {
+		text-align: left;
+	  }
+	  .one-third, .one-half {
+		img {
+		  width: 50%;
+		}
+	  }
+	  &.leaveGame {
+		z-index: 100;
+	  }
+	}
+	&.allocateArmies, &.completeTurn {
+	  display: none;
+	  p {
+		margin-top: 20px;
+		text-align: center;
+	  }
+	  input[type=number] {
+		margin-left: 20px;
+		margin-right: 20px;
+		width: 80px;
+	  }
+	  button {
+		margin-bottom: 0px;
+	  }
+	  img {
+		width:50%;
+		&.arrow {
+		  margin-top: 100%;
+		}
+	  }
+	}
+	&.noConnection, &.error {
+	  display: none;
+	  width: 280px;
+	  left: 20px;
+	  bottom: 20px;
+	  right: auto;
+	  top: auto;
+	  padding: 20px;
+	  p {
+		margin-bottom: 0;
+	  }
+	  .one-third {
+		img {
+		  width:50%;
+		}
+	  }
+	}
+	.close {
+	  position: absolute;
+	  top:8px;
+	  right:8px;
+	  cursor: pointer;
+	}
+  }
+}
+@include keyframes(pulse) {
+  50% {
+	fill: rgba(248,248,248,0.3);
+  }
+
+  100% {
+	fill: rgba(248,248,248,0.5);
+  }
+}
+
+@include keyframes(selected) {
+  0% {
+	border: 1px solid #eee;
+  }
+
+  50% {
+	border: 1px solid #33C3F0;
+  }
+
+  100% {
+	border: 1px solid #33C3F0;
+  }
+}
+
+
+@include keyframes(swing) {
+  20% {
+	transform: rotate3d(0, 0, 1, 15deg);
+  }
+
+  40% {
+	transform: rotate3d(0, 0, 1, -10deg);
+  }
+
+  60% {
+	transform: rotate3d(0, 0, 1, 5deg);
+  }
+
+  80% {
+	transform: rotate3d(0, 0, 1, -5deg);
+  }
+
+  100% {
+	transform: rotate3d(0, 0, 1, 0deg);
+  }
+}

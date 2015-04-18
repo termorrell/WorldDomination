@@ -1,0 +1,495 @@
+div.gwt-PopupPanel {
+  z-index: 15; }
+
+body {
+  color: #2c3e50;
+  overflow: hidden; }
+  body button {
+    background: rgba(255, 255, 255, 0.9); }
+    body button.button-error {
+      color: #FFF;
+      background-color: #e74c3c;
+      border-color: #e74c3c; }
+      body button.button-error:active, body button.button-error:focus {
+        background-color: #c0392b;
+        border-color: #c0392b; }
+  body .navbar {
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 80px;
+    border-bottom: 1px solid #eee; }
+    body .navbar h3 {
+      padding-top: 17px;
+      float: left; }
+    body .navbar #nav-buttons {
+      opacity: 0.0; }
+      body .navbar #nav-buttons button {
+        margin-top: 21px;
+        margin-bottom: 21px; }
+        body .navbar #nav-buttons button#leaveGame {
+          display: none; }
+  body .content-container {
+    position: absolute;
+    top: 81px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-transition: -webkit-filter .50s;
+    opacity: 0; }
+    body .content-container .main-content {
+      width: 66.6666666667%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow: hidden;
+      z-index: 1; }
+      body .content-container .main-content .timer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background: #3498db;
+        display: none; }
+      body .content-container .main-content .controls {
+        position: absolute;
+        bottom: 20px;
+        right: 20px; }
+        body .content-container .main-content .controls button {
+          margin-bottom: 0px;
+          border-radius: 0px;
+          font-size: 20px;
+          padding: 0 15px;
+          font-weight: 100;
+          float: right; }
+          body .content-container .main-content .controls button:first-of-type {
+            border-radius: 0px 4px 4px 0px;
+            border-left: 0px; }
+          body .content-container .main-content .controls button:last-of-type {
+            border-radius: 4px 0px 0px 4px; }
+      body .content-container .main-content .turnControls {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: none; }
+      body .content-container .main-content .cards-close {
+        position: absolute;
+        bottom: 450px;
+        left: 10px; }
+        body .content-container .main-content .cards-close .close {
+          display: none;
+          cursor: pointer; }
+      body .content-container .main-content .cards {
+        bottom: -400px;
+        position: absolute;
+        right: 120px;
+        left: 120px;
+        height: 450px;
+        transition: all 500ms ease-out; }
+        body .content-container .main-content .cards:hover, body .content-container .main-content .cards:focus {
+          bottom: -300px; }
+          body .content-container .main-content .cards:hover .card, body .content-container .main-content .cards:focus .card {
+            cursor: pointer;
+            -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.095) ;
+            -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.095) ;
+            box-shadow: 0 3px 3px rgba(0, 0, 0, 0.095) ; }
+            body .content-container .main-content .cards:hover .card:nth-child(2), body .content-container .main-content .cards:focus .card:nth-child(2) {
+              top: 40px;
+              margin-left: -180px;
+              transform: rotate(-10deg); }
+            body .content-container .main-content .cards:hover .card:nth-child(3), body .content-container .main-content .cards:focus .card:nth-child(3) {
+              top: 20px;
+              margin-left: -160px;
+              transform: rotate(-5deg); }
+            body .content-container .main-content .cards:hover .card:nth-child(4), body .content-container .main-content .cards:focus .card:nth-child(4) {
+              top: 40px;
+              margin-left: -100px;
+              transform: rotate(10deg); }
+            body .content-container .main-content .cards:hover .card:nth-child(5), body .content-container .main-content .cards:focus .card:nth-child(5) {
+              top: 20px;
+              margin-left: -120px;
+              transform: rotate(5deg); }
+        body .content-container .main-content .cards.display {
+          overflow-x: scroll;
+          left: 0px;
+          right: 0px;
+          bottom: 0; }
+          body .content-container .main-content .cards.display:hover, body .content-container .main-content .cards.display:focus {
+            bottom: inherit; }
+          body .content-container .main-content .cards.display .card {
+            margin-left: 0px !important;
+            top: 0 !important; }
+            body .content-container .main-content .cards.display .card:nth-child(1) {
+              left: 10px;
+              transform: rotate(0deg); }
+            body .content-container .main-content .cards.display .card:nth-child(2) {
+              left: 350px;
+              transform: rotate(0deg); }
+            body .content-container .main-content .cards.display .card:nth-child(3) {
+              left: 690px;
+              transform: rotate(0deg); }
+            body .content-container .main-content .cards.display .card:nth-child(4) {
+              left: 1030px;
+              transform: rotate(0deg); }
+            body .content-container .main-content .cards.display .card:nth-child(5) {
+              left: 1370px;
+              transform: rotate(0deg); }
+            body .content-container .main-content .cards.display .card:nth-child(6) {
+              left: 1710px;
+              margin-right: 10px;
+              transform: rotate(0deg); }
+        body .content-container .main-content .cards .card {
+          text-align: center;
+          position: absolute;
+          border-radius: 4px;
+          width: 280px;
+          height: 400px;
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid #eee;
+          left: 50%;
+          padding: 20px;
+          margin-left: -140px;
+          transition: all 500ms ease-out;
+          -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) ;
+          -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) ;
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) ; }
+          body .content-container .main-content .cards .card img {
+            width: 50%;
+            margin-top: 50px; }
+          body .content-container .main-content .cards .card.selected {
+            -webkit-animation: selected 1s infinite alternate ease-out;
+            -moz-animation: selected 1s infinite alternate ease-out;
+            -o-animation: selected 1s infinite alternate ease-out;
+            animation: selected 1s infinite alternate ease-out; }
+          body .content-container .main-content .cards .card:nth-child(2) {
+            top: 20px;
+            margin-left: -180px;
+            transform: rotate(-5deg); }
+          body .content-container .main-content .cards .card:nth-child(3) {
+            top: 10px;
+            margin-left: -160px;
+            transform: rotate(-2.5deg); }
+          body .content-container .main-content .cards .card:nth-child(4) {
+            top: 20px;
+            margin-left: -100px;
+            transform: rotate(5deg); }
+          body .content-container .main-content .cards .card:nth-child(5) {
+            top: 10px;
+            margin-left: -120px;
+            transform: rotate(2.5deg); }
+      body .content-container .main-content #continue {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        z-index: 2;
+        margin-bottom: 0px;
+        display: none; }
+      body .content-container .main-content .overlay {
+        z-index: 1;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8); }
+      body .content-container .main-content #map {
+        -webkit-filter: blur(0px);
+        -webkit-transition: -webkit-filter .280s ease-out;
+        cursor: move;
+        width: 100%;
+        height: 100%; }
+        body .content-container .main-content #map svg {
+          width: 100%;
+          height: 100%; }
+          body .content-container .main-content #map svg g g.territory path.territoryPath {
+            cursor: inherit; }
+          body .content-container .main-content #map svg g.active {
+            cursor: pointer; }
+            body .content-container .main-content #map svg g.active g.territory path.territoryPath {
+              fill: rgba(248, 248, 248, 0); }
+            body .content-container .main-content #map svg g.active g.territory g.army {
+              transform: rotate3d(0, 0, 0, 0deg); }
+              body .content-container .main-content #map svg g.active g.territory g.army.swing {
+                transform-origin: top center;
+                -webkit-animation: swing 1s both;
+                -moz-animation: swing 1s both;
+                -o-animation: swing 1s both;
+                animation: swing 1s both; }
+            body .content-container .main-content #map svg g.active g.territory.selected path.territoryPath {
+              -webkit-animation: pulse 1s infinite alternate ease-out;
+              -moz-animation: pulse 1s infinite alternate ease-out;
+              -o-animation: pulse 1s infinite alternate ease-out;
+              animation: pulse 1s infinite alternate ease-out; }
+            body .content-container .main-content #map svg g.active g.territory.owned path.territoryPath {
+              transition: fill .280s ease-out;
+              -webkit-animation: pulse 1s infinite alternate ease-out;
+              -moz-animation: pulse 1s infinite alternate ease-out;
+              -o-animation: pulse 1s infinite alternate ease-out;
+              animation: pulse 1s infinite alternate ease-out; }
+            body .content-container .main-content #map svg g.active g.territory:hover path.territoryPath, body .content-container .main-content #map svg g.active g.territoryfocus path.territoryPath {
+              fill: rgba(248, 248, 248, 0.3); }
+        body .content-container .main-content #map.blur {
+          -webkit-filter: blur(20px); }
+    body .content-container .side-content {
+      border-left: 1px solid #eee;
+      width: 33.3333333333%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2; }
+      body .content-container .side-content p {
+        padding: 40px;
+        text-align: center;
+        color: #dddddd;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0; }
+      body .content-container .side-content #controller {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 80px;
+        overflow-y: scroll;
+        overflow-x: hidden; }
+        body .content-container .side-content #controller .borderless {
+          width: 100%;
+          background: white; }
+          body .content-container .side-content #controller .borderless > tbody > tr > td {
+            border: 0px; }
+            body .content-container .side-content #controller .borderless > tbody > tr > td th:first-child, body .content-container .side-content #controller .borderless > tbody > tr > td td:first-child, body .content-container .side-content #controller .borderless > tbody > tr > td th:last-child, body .content-container .side-content #controller .borderless > tbody > tr > td td:last-child {
+              padding-left: 15px;
+              padding-right: 15px; }
+              body .content-container .side-content #controller .borderless > tbody > tr > td th:first-child .publicKey, body .content-container .side-content #controller .borderless > tbody > tr > td td:first-child .publicKey, body .content-container .side-content #controller .borderless > tbody > tr > td th:last-child .publicKey, body .content-container .side-content #controller .borderless > tbody > tr > td td:last-child .publicKey {
+                color: #95a5a6;
+                padding-left: 20px; }
+        body .content-container .side-content #controller .names tr {
+          -webkit-transition: all .50s ease-out; }
+          body .content-container .side-content #controller .names tr:nth-child(2) {
+            border-left: 5px solid #3498db; }
+          body .content-container .side-content #controller .names tr:nth-child(3) {
+            border-left: 5px solid #e74c3c; }
+          body .content-container .side-content #controller .names tr:nth-child(4) {
+            border-left: 5px solid #f1c40f; }
+          body .content-container .side-content #controller .names tr:nth-child(5) {
+            border-left: 5px solid #9b59b6; }
+          body .content-container .side-content #controller .names tr:nth-child(6) {
+            border-left: 5px solid #1abc9c; }
+          body .content-container .side-content #controller .names tr:nth-child(7) {
+            border-left: 5px solid #e67e22; }
+      body .content-container .side-content #log {
+        background: #34495e;
+        padding: 20px;
+        position: absolute;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        height: 0px;
+        opacity: 0;
+        border-top: 1px solid #eee;
+        transition: all 360ms 0ms ease-out; }
+        body .content-container .side-content #log .text {
+          color: #ecf0f1;
+          text-align: justify;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          position: relative;
+          height: 100%;
+          width: 100%; }
+          body .content-container .side-content #log .text span {
+            margin-top: 10px;
+            display: block;
+            line-height: 1.2; }
+      body .content-container .side-content #hint {
+        padding: 20px;
+        background: #2c3e50;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        color: white;
+        text-align: center; }
+        body .content-container .side-content #hint h5 {
+          line-height: 1.0; }
+      body .content-container .side-content.active #controller {
+        bottom: auto; }
+  body .activityIndicator {
+    background: rgba(240, 244, 245, 0);
+    width: 77px;
+    height: 77px;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -38px;
+    margin-top: -38px;
+    z-index: 100; }
+    body .activityIndicator img {
+      margin: 10px 0px 0px 10px; }
+    body .activityIndicator#mapActivityIndicator {
+      display: none; }
+  body .modal {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #eee;
+    top: 20px;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    z-index: 99;
+    border-radius: 4px;
+    text-align: center;
+    padding: 30px;
+    max-height: calc(100% - 101px);
+    overflow-y: scroll; }
+    body .modal.initialiseModal .game-type {
+      margin-left: 50px;
+      cursor: pointer;
+      margin-bottom: 20px; }
+      body .modal.initialiseModal .game-type:first-of-type {
+        margin-left: 0; }
+    body .modal.hostAndPlayModal {
+      display: none; }
+      body .modal.hostAndPlayModal button {
+        text-align: right;
+        margin-bottom: 0px; }
+    body .modal.leaveGame, body .modal.gameOver, body .modal.allocateArmies, body .modal.alert {
+      display: none; }
+      body .modal.leaveGame h5, body .modal.gameOver h5, body .modal.allocateArmies h5, body .modal.alert h5 {
+        text-align: left; }
+      body .modal.leaveGame p, body .modal.gameOver p, body .modal.allocateArmies p, body .modal.alert p {
+        text-align: left; }
+      body .modal.leaveGame ol, body .modal.gameOver ol, body .modal.allocateArmies ol, body .modal.alert ol {
+        text-align: left; }
+      body .modal.leaveGame .one-third img, body .modal.leaveGame .one-half img, body .modal.gameOver .one-third img, body .modal.gameOver .one-half img, body .modal.allocateArmies .one-third img, body .modal.allocateArmies .one-half img, body .modal.alert .one-third img, body .modal.alert .one-half img {
+        width: 50%; }
+      body .modal.leaveGame.leaveGame, body .modal.gameOver.leaveGame, body .modal.allocateArmies.leaveGame, body .modal.alert.leaveGame {
+        z-index: 100; }
+    body .modal.allocateArmies, body .modal.completeTurn {
+      display: none; }
+      body .modal.allocateArmies p, body .modal.completeTurn p {
+        margin-top: 20px;
+        text-align: center; }
+      body .modal.allocateArmies input[type=number], body .modal.completeTurn input[type=number] {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: 80px; }
+      body .modal.allocateArmies button, body .modal.completeTurn button {
+        margin-bottom: 0px; }
+      body .modal.allocateArmies img, body .modal.completeTurn img {
+        width: 50%; }
+        body .modal.allocateArmies img.arrow, body .modal.completeTurn img.arrow {
+          margin-top: 100%; }
+    body .modal.noConnection, body .modal.error {
+      display: none;
+      width: 280px;
+      left: 20px;
+      bottom: 20px;
+      right: auto;
+      top: auto;
+      padding: 20px; }
+      body .modal.noConnection p, body .modal.error p {
+        margin-bottom: 0; }
+      body .modal.noConnection .one-third img, body .modal.error .one-third img {
+        width: 50%; }
+    body .modal .close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      cursor: pointer; }
+
+@-webkit-keyframes pulse {
+  50% {
+    fill: rgba(248, 248, 248, 0.3); }
+  100% {
+    fill: rgba(248, 248, 248, 0.5); } }
+@-moz-keyframes pulse {
+  50% {
+    fill: rgba(248, 248, 248, 0.3); }
+  100% {
+    fill: rgba(248, 248, 248, 0.5); } }
+@-o-keyframes pulse {
+  50% {
+    fill: rgba(248, 248, 248, 0.3); }
+  100% {
+    fill: rgba(248, 248, 248, 0.5); } }
+@keyframes pulse {
+  50% {
+    fill: rgba(248, 248, 248, 0.3); }
+  100% {
+    fill: rgba(248, 248, 248, 0.5); } }
+@-webkit-keyframes selected {
+  0% {
+    border: 1px solid #eee; }
+  50% {
+    border: 1px solid #33C3F0; }
+  100% {
+    border: 1px solid #33C3F0; } }
+@-moz-keyframes selected {
+  0% {
+    border: 1px solid #eee; }
+  50% {
+    border: 1px solid #33C3F0; }
+  100% {
+    border: 1px solid #33C3F0; } }
+@-o-keyframes selected {
+  0% {
+    border: 1px solid #eee; }
+  50% {
+    border: 1px solid #33C3F0; }
+  100% {
+    border: 1px solid #33C3F0; } }
+@keyframes selected {
+  0% {
+    border: 1px solid #eee; }
+  50% {
+    border: 1px solid #33C3F0; }
+  100% {
+    border: 1px solid #33C3F0; } }
+@-webkit-keyframes swing {
+  20% {
+    transform: rotate3d(0, 0, 1, 15deg); }
+  40% {
+    transform: rotate3d(0, 0, 1, -10deg); }
+  60% {
+    transform: rotate3d(0, 0, 1, 5deg); }
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg); }
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg); } }
+@-moz-keyframes swing {
+  20% {
+    transform: rotate3d(0, 0, 1, 15deg); }
+  40% {
+    transform: rotate3d(0, 0, 1, -10deg); }
+  60% {
+    transform: rotate3d(0, 0, 1, 5deg); }
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg); }
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg); } }
+@-o-keyframes swing {
+  20% {
+    transform: rotate3d(0, 0, 1, 15deg); }
+  40% {
+    transform: rotate3d(0, 0, 1, -10deg); }
+  60% {
+    transform: rotate3d(0, 0, 1, 5deg); }
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg); }
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg); } }
+@keyframes swing {
+  20% {
+    transform: rotate3d(0, 0, 1, 15deg); }
+  40% {
+    transform: rotate3d(0, 0, 1, -10deg); }
+  60% {
+    transform: rotate3d(0, 0, 1, 5deg); }
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg); }
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg); } }

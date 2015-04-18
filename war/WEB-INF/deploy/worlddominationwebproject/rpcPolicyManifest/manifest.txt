@@ -1,0 +1,3 @@
+# Module worlddominationwebproject
+# RPC service class, partial path of RPC policy file
+edu.cs3099.worlddomination.client.WorldDominationService, 42A38D92505795E1B5B8B7132B8D7B5D.gwt.rpc

@@ -1,0 +1,2 @@
+serviceClass: worlddomination.client.WorldDominationService
+path: ED4DD029DD63AA1A4CA512DD096B72CF.gwt.rpc
