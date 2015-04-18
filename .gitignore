@@ -9,6 +9,7 @@
 # IntelliJ Files
 .idea/
 WorldDomination.iml
+**/.idea/workspace.xml
 
 # Package Files #
 !library/**/*.jar
