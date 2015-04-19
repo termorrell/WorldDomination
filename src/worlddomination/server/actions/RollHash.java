@@ -1,6 +1,6 @@
 package worlddomination.server.actions;
 
-public class RollHash extends Action {
+public class RollHash extends Action{
     String hash;
     int playerId;
 

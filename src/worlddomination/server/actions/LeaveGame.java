@@ -1,7 +1,7 @@
 package worlddomination.server.actions;
 
 
-public class LeaveGame extends Action {
+public class LeaveGame extends Action{
     int playerId;
     int responseCode;
     String message;

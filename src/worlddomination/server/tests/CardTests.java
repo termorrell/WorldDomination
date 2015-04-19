@@ -1,9 +1,11 @@
 package worlddomination.server.tests;
 
+import worlddomination.server.controller.ClientCardMethod;
 import worlddomination.server.factories.CardFactory;
 import worlddomination.server.model.Card;
 import worlddomination.server.model.Model;
 import worlddomination.server.model.Player;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,7 +90,7 @@ public class CardTests {
      */
     @Test
     public void checkCollectCards() {
-        controller.ClientCardMethod.collectCard(model.getGameState().getPlayers().get(0), model);
+        ClientCardMethod.collectCard(model.getGameState().getPlayers().get(0), model);
         assertEquals(model.getGameState().getPlayers().get(0).getCards().size(), 1);
     }
 
@@ -98,7 +100,7 @@ public class CardTests {
     @Test
     public void checkAssignedCollectCards() {
         model.getGameState().getCards().get(0).setAssigned(true);
-        controller.ClientCardMethod.collectCard(model.getGameState().getPlayers().get(0), model);
+        ClientCardMethod.collectCard(model.getGameState().getPlayers().get(0), model);
         assertTrue(model.getGameState().getPlayers().get(0).getCards().contains(model.getGameState().getCards().get(1)));
     }
 
@@ -119,14 +121,14 @@ public class CardTests {
                 }
             }
         }
-        assertTrue(controller.ClientCardMethod.checkAllSameType(sameTypeCards));
-        assertFalse(controller.ClientCardMethod.checkOneWildCard(sameTypeCards));
-        assertFalse(controller.ClientCardMethod.checkAllDifferentType(sameTypeCards));
+        assertTrue(ClientCardMethod.checkAllSameType(sameTypeCards));
+        assertFalse(ClientCardMethod.checkOneWildCard(sameTypeCards));
+        assertFalse(ClientCardMethod.checkAllDifferentType(sameTypeCards));
 
     }
 
     /**
-     * Check cards of different type are accepted as valid
+    Check cards of different type are accepted as valid
      */
     @Test
     public void checkCardsOfDifferentTypeAcceptedForTrade() {
@@ -140,48 +142,48 @@ public class CardTests {
                 difTypeCards[2] = model.getGameState().getCards().get(i);
             }
         }
-        assertTrue(controller.ClientCardMethod.checkAllDifferentType(difTypeCards));
-        assertFalse(controller.ClientCardMethod.checkAllSameType(difTypeCards));
-        assertFalse(controller.ClientCardMethod.checkOneWildCard(difTypeCards));
+        assertTrue(ClientCardMethod.checkAllDifferentType(difTypeCards));
+        assertFalse(ClientCardMethod.checkAllSameType(difTypeCards));
+        assertFalse(ClientCardMethod.checkOneWildCard(difTypeCards));
     }
 
     /**
      * Check card set with wild card present is accepted
      */
     @Test
-    public void checkWildCardSetAccepted() {
+    public void checkWildCardSetAccepted(){
         Card[] wildCardList = new Card[3];
-        int allocated = 1;
-        for (int i = 0; i < model.getGameState().getCards().size(); i++) {
-            if (model.getGameState().getCards().get(i).getType().equals("Wild")) {
+        int allocated =1;
+        for(int i=0;i<model.getGameState().getCards().size();i++){
+            if(model.getGameState().getCards().get(i).getType().equals("Wild")){
                 wildCardList[0] = model.getGameState().getCards().get(i);
-            } else {
+            }else{
                 wildCardList[allocated] = model.getGameState().getCards().get(i);
-                if (allocated == 1) {
+                if(allocated==1) {
                     allocated++;
                 }
             }
         }
-        assertTrue(controller.ClientCardMethod.checkOneWildCard(wildCardList));
-        assertFalse(controller.ClientCardMethod.checkAllDifferentType(wildCardList));
-        assertFalse(controller.ClientCardMethod.checkAllSameType(wildCardList));
+        assertTrue(ClientCardMethod.checkOneWildCard(wildCardList));
+        assertFalse(ClientCardMethod.checkAllDifferentType(wildCardList));
+        assertFalse(ClientCardMethod.checkAllSameType(wildCardList));
     }
 
-    /**
-     * Check armies awarded calculated correctly
-     */
+/**
+ * Check armies awarded calculated correctly
+ */
     @Test
-    public void checkArmiesAwarded() {
+    public void checkArmiesAwarded(){
         model.getGameState().setCardsTradedIn(0);
-        assertEquals(controller.ClientCardMethod.calculateArmiesAwarded(model),4);
+        assertEquals(ClientCardMethod.calculateArmiesAwarded(model),4);
         model.getGameState().setCardsTradedIn(4);
-        assertEquals(controller.ClientCardMethod.calculateArmiesAwarded(model),12);
+        assertEquals(ClientCardMethod.calculateArmiesAwarded(model),12);
         model.getGameState().setCardsTradedIn(5);
-        assertEquals(controller.ClientCardMethod.calculateArmiesAwarded(model),15);
+        assertEquals(ClientCardMethod.calculateArmiesAwarded(model),15);
         model.getGameState().setCardsTradedIn(6);
-        assertEquals(controller.ClientCardMethod.calculateArmiesAwarded(model), 20);
+        assertEquals(ClientCardMethod.calculateArmiesAwarded(model), 20);
         model.getGameState().setCardsTradedIn(9);
-        assertEquals(controller.ClientCardMethod.calculateArmiesAwarded(model), 35);
+        assertEquals(ClientCardMethod.calculateArmiesAwarded(model), 35);
     }
 
     @Test
@@ -197,7 +199,7 @@ public class CardTests {
             }
         }
         model.getGameState().getPlayers().get(0).setCards(cards);
-        assertTrue(controller.ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0),model));
+        assertTrue(ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0),model));
     }
 
     @Test
@@ -215,7 +217,7 @@ public class CardTests {
         }
         System.out.println(cards.size());
         model.getGameState().getPlayers().get(0).setCards(cards);
-        assertTrue(controller.ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0), model));
+        assertTrue(ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0), model));
     }
     @Test
     public void checkCantTradeInCardsWith2Set(){
@@ -223,7 +225,7 @@ public class CardTests {
         cards.add(model.getGameState().getCards().get(2));
         cards.add(model.getGameState().getCards().get(4));
         model.getGameState().getPlayers().get(0).setCards(cards);
-        assertFalse(controller.ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0), model));
+        assertFalse(ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0), model));
     }
     @Test
     public void checkCantTradeInCardsWith3InvalidSet(){
@@ -242,7 +244,7 @@ public class CardTests {
             }
         }
             model.getGameState().getPlayers().get(0).setCards(cards);
-            assertFalse(controller.ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0), model));
+            assertFalse(ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0), model));
 
     }
     @Test
@@ -258,7 +260,7 @@ public class CardTests {
             }
         }
         model.getGameState().getPlayers().get(0).setCards(cards);
-        assertTrue(controller.ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0),model));
+        assertTrue(ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0),model));
     }
     @Test
     public void checkCanTradeInCardsWith3ValidSetArtillery(){
@@ -273,7 +275,7 @@ public class CardTests {
             }
         }
         model.getGameState().getPlayers().get(0).setCards(cards);
-        assertTrue(controller.ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0),model));
+        assertTrue(ClientCardMethod.canTradeInCards(model.getGameState().getPlayers().get(0),model));
 
     }
 

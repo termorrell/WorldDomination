@@ -29,8 +29,9 @@ public class ClientResponseGenerator {
      * @param name               optional, string specifying the real name of the player.
      * @return json object for join_game command
      */
-    public void joinGameGenerator(float[] supported_versions, String[] supported_features, String name) {
+    public void joinGameGenerator(Float[] supported_versions, String[] supported_features, String name) {
         JSONObject response = new JSONObject();
+        JSONObject message = new JSONObject();
         response.put("command", "join_game");
         JSONObject payload = new JSONObject();
         JSONArray supported_version = new JSONArray(supported_versions);
@@ -39,8 +40,12 @@ public class ClientResponseGenerator {
         payload.put("supported_features", supported_feature);
         payload.put("name", name);
         response.put("payload", payload);
-        //connection.sendClientMessage(response);
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        System.out.println(message);
     }
+//{"message":"{\"payload\":{\"supported_versions\":[1.0],\"supported_features\":[],\"name\":\"angussmells\"},\"command\":\"join_game\"}\n"}
 
     /**
      * Sent by a host at the start of a game, and by all clients in response to this initial ping.
@@ -51,12 +56,15 @@ public class ClientResponseGenerator {
      * @param player_id      May be null in the case of a non-player host.
      */
     public JSONObject pingGenerator(int players_joined, int player_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "ping");
-        response.put("payload", "null");
+        response.put("payload", JSONObject.NULL);
         response.put("player_id", player_id);
-        System.out.println(response);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -69,18 +77,20 @@ public class ClientResponseGenerator {
      * @return setup command jsonObject
      */
     public JSONObject setupGenerator(int player_id, int territory_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "setup");
         response.put("payload", territory_id);
-
         if (player_id == -1) {
-            response.put("player_id", "null");
+            response.put("player_id", JSONObject.NULL);
         } else {
             response.put("player_id", player_id);
         }
-
         response.put("ack_id", ack_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -95,12 +105,12 @@ public class ClientResponseGenerator {
      * @return JSONOBject for play cards command
      */
     public JSONObject playCardsGenerator(int[][] card_ids, int armies, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "play_cards");
         JSONObject payload = new JSONObject();
-
         if (card_ids == null && armies == 0) {
-            response.put("payload", "null");
+            response.put("payload", JSONObject.NULL);
         } else {
             JSONArray card = new JSONArray(card_ids);
             payload.put("cards", card);
@@ -109,9 +119,10 @@ public class ClientResponseGenerator {
         }
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-        System.out.println(response.toString());
-
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -124,12 +135,16 @@ public class ClientResponseGenerator {
      * @return JSONObject for draw cards command
      */
     public JSONObject drawCardsGenerator(int card_id, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "draw_card");
         response.put("payload", card_id);
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -142,16 +157,17 @@ public class ClientResponseGenerator {
      * @return JSONObject for deploy
      */
     public JSONObject deployGenerator(int[][] armies, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "deploy");
         JSONArray payload = new JSONArray(armies);
         response.put("payload", payload);
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-
-        System.out.println(response.toString());
-
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -166,13 +182,17 @@ public class ClientResponseGenerator {
      * @return attack command JSONObject
      */
     public JSONObject attackGenerator(int[] attack, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(attack);
         response.put("command", "attack");
         response.put("payload", payload);
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -186,12 +206,16 @@ public class ClientResponseGenerator {
      * @return JSONObject for defend command
      */
     public JSONObject defendGenerator(int armies_no, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "defend");
         response.put("payload", armies_no);
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -204,13 +228,17 @@ public class ClientResponseGenerator {
      * @return JSONObject for the attack capture command
      */
     public JSONObject attackCaptureGenerator(int[] attack, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(attack);
         response.put("command", "attack_capture");
         response.put("payload", payload);
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -224,13 +252,21 @@ public class ClientResponseGenerator {
      * @return JSONObject for the fortify command
      */
     public JSONObject fortifyGenerator(int[] armies, int player_id, int ack_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
-        JSONArray payload = new JSONArray(armies);
         response.put("command", "fortify");
-        response.put("payload", payload);
+        if (armies != null) {
+            JSONArray payload = new JSONArray(armies);
+            response.put("payload", payload);
+        } else {
+            response.put("payload", JSONObject.NULL);
+        }
         response.put("player_id", player_id);
         response.put("ack_id", ack_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -238,16 +274,18 @@ public class ClientResponseGenerator {
      *
      * @param ack_id    the id of the acknowledgement
      * @param player_id the id of the player sending the message
-
      * @return JSONObject for the acknowledgement command
      */
     public JSONObject ackGenerator(int ack_id, int player_id) {
-        // TODO not up to date
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "acknowledgement");
         response.put("payload", ack_id);
         response.put("player_id", player_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -259,11 +297,15 @@ public class ClientResponseGenerator {
      * @return JSONObject for the roll hash command
      */
     public JSONObject rollHashGenerator(String sha, int player_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "roll_hash");
         response.put("payload", sha);
         response.put("player_id", player_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 
     /**
@@ -275,10 +317,14 @@ public class ClientResponseGenerator {
      * @return JSONObject for the roll number command
      */
     public JSONObject rollNumberGenerator(String sha, int player_id) {
+        JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "roll_number");
         response.put("payload", sha);
         response.put("player_id", player_id);
-        return response;
+        String object = response.toString();
+        object = object.replaceAll("\"", "\\\"");
+        message.put("message", object);
+        return message;
     }
 }
