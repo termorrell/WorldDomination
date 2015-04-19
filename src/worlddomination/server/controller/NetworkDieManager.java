@@ -1,7 +1,6 @@
 package worlddomination.server.controller;
 
 
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,15 +27,15 @@ public class NetworkDieManager {
 
     public String generateLocalHash() throws NoSuchAlgorithmException {
         messageDigest = MessageDigest.getInstance("SHA-256");
-        numbers.put(localPlayerId,new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
+        numbers.put(localPlayerId, new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
         hashes.put(localPlayerId, String.valueOf(messageDigest.digest(numbers.get(localPlayerId).toByteArray())));
-       // TODO find out what exactly is hashed
+        // TODO find out what exactly is hashed
         return hashes.get(localPlayerId);
     }
 
     public boolean addHash(int playerId, String hash, int numberOfPlayers) {
         hashes.put(playerId, hash);
-        if(hashes.size() == numberOfPlayers) {
+        if (hashes.size() == numberOfPlayers) {
             return true;
         }
         return false;
@@ -60,7 +59,7 @@ public class NetworkDieManager {
     }
 
     public boolean isDieRollPossible(int numberOfPlayers) {
-        if(numbers.size() == numberOfPlayers) {
+        if (numbers.size() == numberOfPlayers) {
             return true;
         }
         return false;
@@ -85,8 +84,8 @@ public class NetworkDieManager {
 
         // TODO once the protocol is more stable
         Random random = new Random(100);
-        for(int i = 0; i < rolls.length; i++) {
-        	rolls[i] = random.nextInt(numberOfFaces);
+        for (int i = 0; i < rolls.length; i++) {
+            rolls[i] = random.nextInt(numberOfFaces);
         }
 
         return rolls;
@@ -94,18 +93,18 @@ public class NetworkDieManager {
 
     public String convertByteToHex(byte[] bytes) {
         StringBuilder builder = new StringBuilder(bytes.length * 2);
-        for(byte b : bytes) {
+        for (byte b : bytes) {
             builder.append(String.format("%02x", b & 0xff));
         }
         return builder.toString();
     }
 
     public byte[] convertHexToByte(String hex) {
-        byte[] bytes = new byte[hex.length()/2];
-        for(int i = 0; i< bytes.length; i++) {
+        byte[] bytes = new byte[hex.length() / 2];
+        for (int i = 0; i < bytes.length; i++) {
             int firstHalf = Character.digit(hex.charAt(i * 2), 16) << 4;
             int secondHalf = Character.digit(hex.charAt(i * 2 + 1), 16);
-            bytes[i] = (byte)(firstHalf + secondHalf);
+            bytes[i] = (byte) (firstHalf + secondHalf);
         }
         return bytes;
     }

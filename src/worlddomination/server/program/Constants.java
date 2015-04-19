@@ -5,7 +5,7 @@ public class Constants {
     // TODO to be replaced with a configuration file
 
     public static float[] getSupportedVersions() {
-        float[] versions = {1};
+        float[] versions = {1f};
         return versions;
     }
 

@@ -1,15 +1,13 @@
 package worlddomination.server.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import worlddomination.server.exceptions.BoardException;
 import worlddomination.server.exceptions.IllegalMoveException;
+import worlddomination.server.model.Card;
 import worlddomination.server.model.Model;
 import worlddomination.server.model.Player;
 import worlddomination.server.model.Territory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameStateManager {
     Model model;
@@ -107,25 +105,9 @@ public class GameStateManager {
     }
 
     public String serializeMap() {
-    	JSONObject object = new JSONObject();
-		JSONArray territories = new JSONArray();
-		Territory[] territoriesArray = model.getGameState().getBoard().getTerritories();
-		for (int i = 0; i < territoriesArray.length; i++) {
-			JSONObject details = new JSONObject();
-			Territory territory = territoriesArray[i];
-			details.put("territoryID", territoriesArray[i].getId());
-			if (territory.getOwner() == null) {
-
-				details.put("playerId", JSONObject.NULL);
-			} else {
-
-				details.put("playerId", territoriesArray[i].getOwner().getId());
-			}
-			details.put("armies", territoriesArray[i].getOccupyingArmies().size());
-			territories.put(details);
-		}
-		object.put("Territories", territories);
-        return object.toString();
+        // TODO Maria's excellent JSON skills to serialize the map :)
+        model.getGameState().getBoard().printAvailableTerritories();
+        return null;
     }
 
     public boolean allTerritoriesClaimed() {
@@ -140,6 +122,30 @@ public class GameStateManager {
         return true;
     }
 
+    public int tradeInCards(int playerId, int[] cards, int numberOfArmies) throws BoardException, IllegalMoveException {
+        Card[] realCards = new Card[cards.length];
+        for (int i = 0; i < cards.length; i ++){
+            realCards[i] = model.getGameState().getCardsById(cards[i]);
+        }
+        ClientCardMethod.tradeInCards(model.getGameState().getPlayerById(playerId), realCards, model);
+        return playerId;
+    }
+
+    public boolean defend(int attackingPlayer, int attackingTerritory, int defendingTerritory, int numberOfAttackingArmies, int numberOfDefendingArmies, int[] dieRolls) throws BoardException, IllegalMoveException {
+
+            return Moves.defendTerritory(model.getGameState().getPlayerById(attackingPlayer),model.getGameState(), attackingTerritory,defendingTerritory,numberOfAttackingArmies, numberOfDefendingArmies, dieRolls );
+
+    }
+
+    public void attackCapture(int attackingPlayer, int attackingTerritory, int defendingTerritory, int numberOfArmies) throws BoardException, IllegalMoveException {
+            Moves.capture(model.getGameState().getPlayerById(attackingPlayer),model.getGameState(),attackingTerritory,defendingTerritory, numberOfArmies);
+    }
+
+    public void fortify(int playerId, int sourceTerritory, int destinationTerritory, int numberOfArmies) throws BoardException, IllegalMoveException {
+         Moves.fortify(model.getGameState().getPlayerById(playerId),model.getGameState(),sourceTerritory, destinationTerritory, numberOfArmies);
+    }
+
+    
     public int calculateNumberOfArmies(int playerId) {
         int numberOfArmies = 0;
         Player player = model.getGameState().getPlayerById(playerId);
@@ -155,7 +161,6 @@ public class GameStateManager {
     }
     
     public Model getModel() {
-    	
     	return model;
     }
 }

@@ -1,10 +1,11 @@
 package worlddomination.server.network;
 
+import worlddomination.server.actions.*;
 import worlddomination.server.controller.ServerController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ServerApiManager implements ApiMethods{
+public class ServerApiManager implements ApiMethods {
 
     ServerController controller;
 
@@ -14,20 +15,19 @@ public class ServerApiManager implements ApiMethods{
 
     /**
      * Parses a string into a Json objects
+     *
      * @param response the string to be parsed
      * @return a new json object
      */
     public JSONObject parseResponse(String response) {
-        JSONObject obj = new JSONObject(response);
-        return obj;
+        return new JSONObject(response);
     }
 
-    public void checkCommandRequest(JSONObject request) {
+    public void checkCommandRequest(int player_id, JSONObject request) {
         String command = request.getString("command");
-        command.toLowerCase();
         switch (command) {
             case "join_game":
-                joinGameReceived(request);
+                joinGameReceived(player_id,request);
                 break;
             case "ping":
                 pingReceived(request);
@@ -36,16 +36,31 @@ public class ServerApiManager implements ApiMethods{
                 acknowledgementReceived(request);
                 break;
             case "roll":
-                rollReceived(request);
+                //todo call forward message
                 break;
             case "roll_hash":
-                rollHashReceived(request);
+                //todo forward message
                 break;
             case "roll_number":
-                rollNumberReceived(request);
+                //todo call forward message
                 break;
             case "leave_game":
                 leaveGameReceived(request);
+                break;
+            case "setup":
+                setUpReceived(request);
+                break;
+            case "play_cards":
+                //TODO CALL FORWARD MESSAGE
+                break;
+            case "deploy":
+                //TODO CALL FORWARD MESSAGE
+                break;
+            case "attack":
+                //TODO CALL FORWARD MESSAGE
+                break;
+            case "defend":
+                //TODO CALL FORWARD MESSAGE
                 break;
             default:
                 forwardCommand(request);
@@ -53,54 +68,61 @@ public class ServerApiManager implements ApiMethods{
         }
     }
 
-    private void joinGameReceived(JSONObject json) {
+
+    private void joinGameReceived(int player_id,JSONObject json) {
         JSONObject payload = json.getJSONObject("payload");
         JSONArray supported_versions = payload.getJSONArray("supported_versions");
-        JSONArray supported_features = payload.getJSONArray("custom_map");
+        JSONArray supported_features = payload.getJSONArray("supported_features");
+        String name = payload.getString("name");
+        String [] versions = new String[supported_versions.length()];
+        String [] features = new String[supported_features.length()];
+        for(int i =0;i<versions.length;i++){
+            versions[i] = supported_versions.getString(i);
+        }
+        for(int i =0;i<features.length;i++){
+            features[i] = supported_features.getString(i);
+        }
+        JoinGame join = new JoinGame(name,features,versions);
+        controller.handleAction(join);
     }
 
 
+
+    private void setUpReceived(JSONObject JSON){
+        int territory_id = JSON.getInt("payload");
+        int player_id = JSON.getInt("player_id");
+        int ack_id = JSON.getInt("ack_id");
+        Setup setup = new Setup(player_id,territory_id,ack_id);
+        controller.handleAction(setup);
+    }
     private void leaveGameReceived(JSONObject json) {
         JSONObject payload = json.getJSONObject("payload");
         int response_code = payload.getInt("response");
+        String message = payload.getString("message");
         boolean receive_updates = payload.getBoolean("receive_updates");
         int player_id = json.getInt("player_id");
+        LeaveGame leave = new LeaveGame(player_id,response_code,message,receive_updates);
+        controller.handleAction(leave);
     }
 
     private void pingReceived(JSONObject json) {
-        int payload = json.getInt("payload");
+        String numberOfPlayers = json.getString("payload");
+        int numberPlayers;
+        if(!numberOfPlayers.equals("null")){
+            numberPlayers = Integer.parseInt(numberOfPlayers);
+        }else{
+            numberPlayers = -1;
+        }
         int player_id = json.getInt("player_id");
-        //TODO controller add player
-        // name will hopefully be added in the next representative meeting.
-    }
-
-    private void rollReceived(JSONObject json) {
-        JSONObject payload = json.getJSONObject("payload");
-        int dice_count = payload.getInt("dice_count");
-        int dice_faces = payload.getInt("dice_faces");
-        int player_id = json.getInt("player_id");
-        //TODO CHECK ROLL
-    }
-
-    private void rollHashReceived(JSONObject json) {
-        String payloadHash = json.getString("payload");
-        int player_id = json.getInt("player_id");
-        //TODO ROLL HASH
-    }
-
-    private void rollNumberReceived(JSONObject json) {
-        String payloadHash = json.getString("payload");
-        int player_id = json.getInt("player_id");
-        //TODO ROLL NUMBER
+        Ping ping = new Ping(numberPlayers,player_id);
+        controller.handleAction(ping);
     }
 
     private void acknowledgementReceived(JSONObject json) {
         int player_id = json.getInt("player_id");
-        JSONObject payload = json.getJSONObject("payload");
-        int ack_id = payload.getInt("ack_id");
-        int response = payload.getInt("response");
-        String data = payload.getString("data");
-
+        int ack_id = json.getInt("payload");
+        Acknowledgement ack = new Acknowledgement(ack_id,player_id);
+        controller.handleAction(ack);
     }
 
     private void forwardCommand(JSONObject json) {

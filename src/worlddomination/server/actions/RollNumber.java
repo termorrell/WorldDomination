@@ -1,7 +1,7 @@
 package worlddomination.server.actions;
 
 
-public class RollNumber extends Action{
+public class RollNumber extends Action {
     String number;
     int playerId;
 

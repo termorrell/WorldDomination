@@ -1,15 +1,15 @@
 package worlddomination.server.actions;
 
 public class InitialiseGame extends Action {
-    float version;
+    double version;
     String[] supportedFeatures;
 
-    public InitialiseGame(float version, String[] supportedFeatures) {
+    public InitialiseGame(double version, String[] supportedFeatures) {
         this.version = version;
         this.supportedFeatures = supportedFeatures;
     }
 
-    public float getVersion() {
+    public double getVersion() {
         return version;
     }
 

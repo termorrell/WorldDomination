@@ -3,51 +3,50 @@ package worlddomination.server.model;
 import java.util.LinkedList;
 
 public class Card {
-	private int id;
-	private Territory territory;
-	private String type;
-	private boolean assigned;
+    private int id;
+    private Territory territory;
+    private String type;
+    private boolean assigned;
 
-	
-	public Card(int id, Territory territory, String type, boolean assigned) {
-		this.id = id;
-		this.territory = territory;
-		this.type = type;
-		this.assigned = assigned;
-	}
 
-	public int getId() {
-		return id;
-	}
+    public Card(int id, Territory territory, String type, boolean assigned) {
+        this.id = id;
+        this.territory = territory;
+        this.type = type;
+        this.assigned = assigned;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Territory getTerritory() {
-		return territory;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setTerritory(Territory territory) {
-		this.territory = territory;
-	}
+    public Territory getTerritory() {
+        return territory;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setTerritory(Territory territory) {
+        this.territory = territory;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public boolean isAssigned() {
-		return assigned;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setAssigned(boolean assigned) {
-		this.assigned = assigned;
-	}
+    public boolean isAssigned() {
+        return assigned;
+    }
 
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
+    }
 
 
 }

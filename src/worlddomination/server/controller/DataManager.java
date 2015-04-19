@@ -1,5 +1,6 @@
 package worlddomination.server.controller;
 
+import java.io.BufferedReader;
 import java.util.LinkedList;
 
 import worlddomination.server.factories.BoardFactory;

@@ -1,15 +1,17 @@
 package worlddomination.server.actions;
 
 
-public class LeaveGame extends Action{
+public class LeaveGame extends Action {
     int playerId;
     int responseCode;
     String message;
+    boolean receiveUpdates;
 
-    public LeaveGame(int playerId, int responseCode, String message) {
+    public LeaveGame(int playerId, int responseCode, String message, boolean receiveUpdates) {
         this.playerId = playerId;
         this.responseCode = responseCode;
         this.message = message;
+        this.receiveUpdates = receiveUpdates;
     }
 
     public String getMessage() {
@@ -23,4 +25,6 @@ public class LeaveGame extends Action{
     public int getResponseCode() {
         return responseCode;
     }
+    public boolean getReceiveUpdates(){return receiveUpdates;}
 }
+

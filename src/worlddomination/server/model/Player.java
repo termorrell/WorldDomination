@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.*;
 
 public class Player {
+
 	static int nextId = 0;
 	
 	int id;
@@ -13,14 +14,13 @@ public class Player {
 	String publicKey;
 	Map<Army, Territory> armies; // mapping armies to the territories they are occupying
 	LinkedList<Card> cards;
-	int noCards;
+	//int noCards;
 	String colour;
 
 	public Player() {
 		this.armies = new HashMap<Army, Territory>();
 		this.id = this.nextId;
 		this.nextId++;
-		this.noCards = 0;
 		this.cards = new LinkedList<Card>();
 	}
 
@@ -112,14 +112,6 @@ public class Player {
 
 	public void setArmies(Map<Army, Territory> armies) {
 		this.armies = armies;
-	}
-
-	public int getNoCards() {
-		return noCards;
-	}
-
-	public void setNoCards(int noCards) {
-		this.noCards = noCards;
 	}
 
 	public String getColour() {

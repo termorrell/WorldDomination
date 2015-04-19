@@ -8,14 +8,14 @@ import java.util.Queue;
 /**
  * Created by Caroline on 02/04/2015.
  */
-public class GuiApiServiceImpl implements GuiApiService, ControllerApiInterface{
+public class GuiApiServiceImpl implements GuiApiService, ControllerApiInterface {
 
     Queue<Update> updates = new LinkedList<>();
 
     Update response = null;
 
     private synchronized boolean ready() {
-        if(response != null) {
+        if (response != null) {
             return true;
         }
         return false;
@@ -23,13 +23,14 @@ public class GuiApiServiceImpl implements GuiApiService, ControllerApiInterface{
 
     @Override
     public void addUpdate(Update update) {
+        System.out.print(update.toString());
         updates.add(update);
     }
 
     @Override
     public Update addUpdateAndWaitForResponse(Update update) {
         updates.add(update);
-        while(!ready()) {
+        while (!ready()) {
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
@@ -42,10 +43,10 @@ public class GuiApiServiceImpl implements GuiApiService, ControllerApiInterface{
 
     @Override
     public synchronized Update getNextUpdate(Update response) {
-        if(response != null) {
+        if (response != null) {
             this.response = response;
         }
-        if(updates.isEmpty()) {
+        if (updates.isEmpty()) {
             return null;
         }
         return updates.poll();

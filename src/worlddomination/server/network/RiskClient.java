@@ -1,65 +1,69 @@
 package worlddomination.server.network;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.minlog.Log;
+import worlddomination.server.controller.ClientController;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by ${mm280} on 18/02/15.
+ * Created by 120011588 on 18/02/15.
  */
 public class RiskClient {
-    public Client client;
 
-    private NetworkPacket clientResponse;
+    private static BufferedReader serverMessages;
+    private static BufferedWriter clientMessages;
+    private BlockingQueue<JSONObject> messages;
+    private int port;
+    private String host;
+    private Socket client;
+    private ClientApiManager api;
 
-    public RiskClient() {
-        clientResponse = new NetworkPacket();
-        client = new Client();
-        register();
-        client.addListener(new Listener() {
-            public void connected(Connection connection) {
-                Log.info("[Client] Connecting.");
-            }
-
-            public void disconnected(Connection connection) {
-                Log.info("[Client] Disconnected.");
-            }
-
-            public void received(Connection connection, Object object) {
-                if (object instanceof NetworkPacket) {
-                    NetworkPacket serverMessage = (NetworkPacket) object;
-                    //TODO CALL CONTROLLER TO UPDATE CLIENT RESPONSE
+    public RiskClient(int port, String host, ClientController controller){
+        this.port = port;
+        this.host = host;
+        messages =  new ArrayBlockingQueue<JSONObject>(10);
+        api =  new ClientApiManager(controller);
+        runClient();
+    }
+    public void runClient(){
+        //todo make sure controller assigns playerid
+        try {
+            client = new Socket(host,port);
+            String serverMessage = "";
+            clientMessages = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+            serverMessages = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            while(true) {
+                if (!messages.isEmpty()) {
+                    clientMessages.write(messages.take().toString());
+                    clientMessages.flush();
+                }
+                if(serverMessages.ready()) {
+                    if(serverMessages.ready() && (serverMessage = serverMessages.readLine())!=null) {
+                        JSONObject request  = api.parseResponse(serverMessage);
+                        api.checkCommandRequest(0,request);
+                    }
                 }
             }
-        });
-
-        new Thread(client).start();
-        try {
-            //TODO FEED IN FROM GUI
-            client.connect(5000, "127.0.0.1", 54555);
         } catch (IOException e) {
-            System.err.println("A problem occured connecting to the server.");
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    public void sendMessage(String content) {
-        NetworkPacket packet = new NetworkPacket();
-        packet.setJsonStringResponse(content);
-        client.sendTCP(packet);
+    public void sendClientMessage(JSONObject message){
+        messages.add(message);
     }
 
-    public void register() {
-        Kryo kryo = client.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
-        kryo.register(NetworkPacket.class);
-        kryo.register(org.json.JSONObject.class);
-        kryo.register(java.util.HashMap.class);
-        kryo.register(org.json.JSONArray.class);
-        kryo.register(java.util.ArrayList.class);
+    public void closeClient(){
+        try {
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

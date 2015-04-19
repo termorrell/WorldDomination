@@ -7,5 +7,6 @@ import worlddomination.shared.updates.Update;
  */
 public interface ControllerApiInterface {
     public void addUpdate(Update update);
+
     public Update addUpdateAndWaitForResponse(Update update);
 }

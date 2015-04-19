@@ -1,81 +1,76 @@
 package worlddomination.server.network;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 import worlddomination.server.controller.ServerController;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 /**
- * erver server
- * Created by ${mm280} on 18/02/15.
+ * Created by 120011588 on 18/02/15.
  */
 public class RiskServer {
 
-    private Server server;
-    private NetworkPacket serverResponse = null;
-    ServerController controller;
+    public static ArrayList<ServerClientThread> clientThreads =  new ArrayList<ServerClientThread>();
+    private int port;
+    private ServerSocket ssocket;
+    private int ackTimeout;
+    private int moveTimeout;
+    private ServerController controller;
 
-    public RiskServer() throws IOException {
-        serverResponse = new NetworkPacket();
-        server = new Server();
-        registerPackets();
-        server.addListener(new Listener() {
-            public void connected(Connection connection) {
-                Log.info("[Server] Someone is trying to connect.");
+    public RiskServer(int port, int ackTimeout, int moveTimeout, ServerController controller){
+        this.port = port;
+        this.ackTimeout = ackTimeout;
+        this.moveTimeout = moveTimeout;
+        this.controller = controller;
+        runServer();
+    }
+    private void runServer(){
+        try {
+            int i=0;
+            ssocket = new ServerSocket(port);
+            System.out.println("listening");
+            while(true){
+                Socket socket = ssocket.accept();
+                ServerClientThread client = new ServerClientThread(i,socket, ackTimeout,moveTimeout, controller);
+                clientThreads.add(client);
+                Thread t = new Thread(client);
+                t.start();
+                System.out.println("connected");
+                i++;
             }
-
-            public void received(Connection connection, Object object) {
-                if (object instanceof NetworkPacket) {
-                    NetworkPacket clientMessage = (NetworkPacket) object;
-                    server.sendToAllExceptTCP(connection.getID(),clientMessage);
-                    //TODO CALL CONTROLLER
-                    if (serverResponse != null) {
-                        server.sendToAllTCP(serverResponse);
-                    } else {
-                        Log.info("[SERVER] Received null response object from controller");
-                    }
-                }
-            }
-
-            public void disconnected(Connection connection) {
-                Log.info("[Server] Someone is trying to disconnect.");
-            }
-        });
-        //todo feed in from gui
-        server.bind(54555);
-        //TODO TIME OUT
-        server.start();
-
-
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void closeServer(){
+        try {
+            ssocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Used by controller to send messages to the server to be sent to clients
-     *
-     * @param message a JSONObject with message to be sent
-     */
-    public void sendServerResponse(JSONObject message) {
-        serverResponse.setJsonStringResponse(message.toString());
+    public static void sendMessageToAll(JSONObject message){
+        System.out.println(clientThreads.size());
+        for (ServerClientThread clientThread : clientThreads) {
+            clientThread.sendServerMessage(message);
+        }
     }
-
-    //Register all of packets that will be sent, packet will be something that
-    // will contain a bunch of variables and client will read variables
-    private void registerPackets() {
-        Kryo kryo = server.getKryo(); //Kryo is a serializer (code info to readable manner to be sent over networks)
-        kryo.register(NetworkPacket.class);
-        kryo.register(org.json.JSONObject.class);
-        kryo.register(java.util.HashMap.class);
-        kryo.register(org.json.JSONArray.class);
-        kryo.register(java.util.ArrayList.class);
-
+    public static void sendMessageToAllExceptSender(int playerId, JSONObject message){
+        for (ServerClientThread clientThread : clientThreads) {
+            if (clientThread.getPlayerId() != playerId) {
+                clientThread.sendServerMessage(message);
+            }
+        }
     }
-
-    public void setServerResponse(NetworkPacket serverResponse) {
-        this.serverResponse = serverResponse;
+    public void sendToOne(int playerId, JSONObject message){
+        for (ServerClientThread clientThread : clientThreads) {
+            if (clientThread.getPlayerId() == playerId) {
+                clientThread.sendServerMessage(message);
+            }
+        }
     }
 }

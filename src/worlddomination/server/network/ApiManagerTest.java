@@ -15,9 +15,9 @@ public class ApiManagerTest {
 
     @Before
     public void setUp() throws Exception {
-       // api = new ClientApiManager();
+        // api = new ClientApiManager();
         model = new Model();
-        jsonJoinRequest ="{\n" +
+        jsonJoinRequest = "{\n" +
                 "\t\"command\": \"join_game\",\n" +
                 "\t\"payload\": {\n" +
                 "\t\t\"supported_versions\": [1],\n" +
@@ -28,7 +28,7 @@ public class ApiManagerTest {
     }
 
     @Test
-    public void checkParseJsonCorrectly(){
+    public void checkParseJsonCorrectly() {
 
 
         JSONObject obj = api.parseResponse(jsonJoinRequest);

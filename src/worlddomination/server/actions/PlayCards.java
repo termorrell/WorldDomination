@@ -3,12 +3,12 @@ package worlddomination.server.actions;
 
 public class PlayCards extends Action {
     int numberOfSetsTraded;
-    int[] setsTradedIn; // ids of cards in sets
+    int[][] setsTradedIn; // ids of cards in sets
     int numberOfArmiesForCards; // TODO verify that this is actually meant in the protocol
     int playerId;
     int acknowledgementId;
 
-    public PlayCards(int numberOfSetsTraded, int[] setsTradedIn, int numberOfArmiesForCards, int playerId, int acknowledgementId) {
+    public PlayCards(int numberOfSetsTraded, int[][] setsTradedIn, int numberOfArmiesForCards, int playerId, int acknowledgementId) {
         this.numberOfSetsTraded = numberOfSetsTraded;
         this.setsTradedIn = setsTradedIn;
         this.numberOfArmiesForCards = numberOfArmiesForCards;
@@ -20,7 +20,7 @@ public class PlayCards extends Action {
         return numberOfSetsTraded;
     }
 
-    public int[] getSetsTradedIn() {
+    public int[][] getSetsTradedIn() {
         return setsTradedIn;
     }
 

@@ -1,44 +1,44 @@
 package worlddomination.server.model;
 
 public class Continent {
-	int id;
-	String name;
-	Territory[] territories;
-	final int reinforcementArmies;
-	
-	public Continent(int id, String name, Territory[] territories, int reinforcementArmies) {
-		this.id = id;
-		this.name = name;
-		this.territories = territories;
-		this.reinforcementArmies = reinforcementArmies;
-	}
+    int id;
+    String name;
+    Territory[] territories;
+    final int reinforcementArmies;
 
-	public int getId() {
-		return id;
-	}
+    public Continent(int id, String name, Territory[] territories, int reinforcementArmies) {
+        this.id = id;
+        this.name = name;
+        this.territories = territories;
+        this.reinforcementArmies = reinforcementArmies;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Territory[] getTerritories() {
-		return territories;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setTerritories(Territory[] territories) {
-		this.territories = territories;
-	}
+    public Territory[] getTerritories() {
+        return territories;
+    }
 
-	public int getReinforcementArmies() {
-		return reinforcementArmies;
-	}
+    public void setTerritories(Territory[] territories) {
+        this.territories = territories;
+    }
+
+    public int getReinforcementArmies() {
+        return reinforcementArmies;
+    }
 
 }

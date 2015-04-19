@@ -1,5 +1,7 @@
 package worlddomination.server.controller;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
@@ -111,7 +113,7 @@ public class Moves {
     }
 
 	/*
-	 * DEFEND
+     * DEFEND
 	 * 
 	 * Checks that a defence is legal and plays attack-defend scenario.
 	 */
@@ -155,6 +157,57 @@ public class Moves {
         }
 
         return captured;
+    }
+
+
+
+    public static boolean defendTerritory(Player attacker, GameState gameState, int attackingTerritoryId, int defendingTerritoryId, int numberOfAttackingArmies, int numberOfDefendingArmies, int[] dieRolls) throws BoardException, IllegalMoveException {
+
+        boolean captured = false;
+
+        Territory attackingTerritory = gameState.getBoard().getTerritoriesById(attackingTerritoryId);
+        Territory defendingTerritory = gameState.getBoard().getTerritoriesById(defendingTerritoryId);
+        Player defendingPlayer = defendingTerritory.getOwner();
+
+        if (checkDefendIsLegal(attacker, defendingPlayer, gameState, attackingTerritory, defendingTerritory, numberOfAttackingArmies, numberOfDefendingArmies)) {
+
+            int[] attackerDie = Arrays.copyOfRange(dieRolls,0, numberOfAttackingArmies);
+            int[] defenderDie = Arrays.copyOfRange(dieRolls, numberOfAttackingArmies, dieRolls.length);
+
+            for (int i = 0; i < defenderDie.length && i < attackerDie.length; i++) {
+                if (attackerDie[i] > defenderDie[i]) {
+                    removeArmyFromTerritory(defendingTerritory);
+                } else {
+                    removeArmyFromTerritory(attackingTerritory);
+                }
+            }
+
+            if (defendingTerritory.getOccupyingArmies().size() == 0) {
+                captured = true;
+
+            }
+
+        } else {
+            throw new IllegalMoveException();
+        }
+
+        return captured;
+    }
+
+
+    public static void capture (Player attacker, GameState gameState, int attackingTerritoryId, int defendingTerritoryId, int numberOfMovingArmies) throws BoardException, IllegalMoveException {
+
+        Territory attackingTerritory = gameState.getBoard().getTerritoriesById(attackingTerritoryId);
+        Territory defendingTerritory = gameState.getBoard().getTerritoriesById(defendingTerritoryId);
+        Player defendingPlayer = defendingTerritory.getOwner();
+
+        defendingTerritory.setOwner(attacker);
+        for (int i = 0; i < numberOfMovingArmies; i++) {
+            removeArmyFromTerritory(attackingTerritory);
+            Army army = new Army(attacker, defendingTerritory);
+            attacker.addArmies(army, defendingTerritory);
+            defendingTerritory.addOccupyingArmy(army);
+        }
     }
 
     private static void removeArmyFromTerritory(Territory lostTerritory) {
@@ -216,4 +269,6 @@ public class Moves {
         }
         return false;
     }
+
+
 }

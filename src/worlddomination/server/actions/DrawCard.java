@@ -1,7 +1,7 @@
 package worlddomination.server.actions;
 
 
-public class DrawCard extends Action{
+public class DrawCard extends Action {
     int cardId;
     int playerId;
     int acknowledgementId;

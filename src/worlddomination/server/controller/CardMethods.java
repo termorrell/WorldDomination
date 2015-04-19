@@ -1,13 +1,12 @@
 package worlddomination.server.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import worlddomination.server.exceptions.BoardException;
 import worlddomination.server.exceptions.IllegalMoveException;
 import worlddomination.server.model.Card;
 import worlddomination.server.model.Model;
 import worlddomination.server.model.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import worlddomination.server.view.IView;
 
 /**
@@ -17,16 +16,11 @@ public class CardMethods {
 
     static Logger log = LogManager.getLogger(CardMethods.class.getName());    // Called at end of each turn if territory gained
 
-    // TODO SHUFFLE CARDS?
     public static void collectCard(Player activePlayer, Model model) {
         for (int i = 0; i < model.getGameState().getCards().size(); i++) {
             if (!model.getGameState().getCards().get(i).isAssigned()) {
                 activePlayer.getCards().add(model.getGameState().getCards().get(i));
                 model.getGameState().getCards().get(i).setAssigned(true);
-                int playerCards = activePlayer.getNoCards();
-                playerCards++;
-                activePlayer.setNoCards(playerCards);
-                log.debug(activePlayer.getName().toString() + " collected a " + model.getGameState().getCards().get(i).getType() + " card");
                 System.out.println(activePlayer.getName() + ", you have gained a " + model.getGameState().getCards().get(i).getType() + " card");
                 break;
             }
@@ -36,14 +30,14 @@ public class CardMethods {
     // Called at beginning of turn
     public static void tradeInCards(Player activePlayer, IView view, Model model) throws BoardException, IllegalMoveException {
         // Force player to trade in cards
-        if (activePlayer.getNoCards() >= 5) {
+        if (activePlayer.getCards().size() >= 5) {
             System.out.println("You have to trade in some of your cards");
             activePlayer.printCards(activePlayer.getCards());
             cardTrader(activePlayer, view, model);
 
         } else {
             // Ask player to if they want to
-            if (activePlayer.getNoCards() > 3) {
+            if (activePlayer.getCards().size() > 3) {
                 activePlayer.printCards(activePlayer.getCards());
                 String input = view.getInput("Would you like to trade in your cards?(Y/N)");
                 input.toLowerCase();
@@ -56,7 +50,7 @@ public class CardMethods {
 
     public static void cardTrader(Player activePlayer, IView view, Model model) throws BoardException, IllegalMoveException {
         Card[] selectedCards = new Card[3];
-        int playerCards = activePlayer.getNoCards();
+        int playerCards = activePlayer.getCards().size();
         // Gather selected cards
         for (int i = 0; i < 3; i++) {
             int response = view.getNumber("Please enter the number of a card you would like to trade:");
@@ -70,7 +64,7 @@ public class CardMethods {
                 activePlayer.getCards().remove(selectedCards[i]);
             }
             playerCards = playerCards - 3;
-            activePlayer.setNoCards(playerCards);
+
             log.debug(activePlayer.getName().toString() + " traded in a set of cards");
         } else {
             System.out.println("Those cards can't be traded");

@@ -1,7 +1,7 @@
 package worlddomination.server.actions;
 
 
-public class Ready extends Action{
+public class Ready extends Action {
     int playerId;
     int ackId;
 
