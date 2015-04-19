@@ -5,21 +5,33 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import worlddomination.client.WorldDominationService;
-import worlddomination.server.actions.*;
-import worlddomination.server.controller.*;
+import worlddomination.client.WorldDominationDefaultService;
+import worlddomination.server.actions.AcceptJoinGame;
+import worlddomination.server.actions.Acknowledgement;
+import worlddomination.server.actions.Action;
+import worlddomination.server.actions.InitialiseGame;
+import worlddomination.server.actions.Ping;
+import worlddomination.server.actions.PlayCards;
+import worlddomination.server.actions.PlayersJoined;
+import worlddomination.server.actions.Ready;
+import worlddomination.server.actions.RollHash;
+import worlddomination.server.actions.RollNumber;
+import worlddomination.server.actions.Setup;
+import worlddomination.server.controller.ClientController;
+import worlddomination.server.controller.ControllerManager;
 import worlddomination.server.view.ControllerApiInterface;
 import worlddomination.shared.updates.Update;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class WorldDominationServiceImpl extends RemoteServiceServlet implements
-		WorldDominationService, ControllerApiInterface {
+public class WorldDominationDefaultServiceImpl extends RemoteServiceServlet implements
+		WorldDominationDefaultService, ControllerApiInterface {
 
 	private static LinkedList<Action> networkActions = new LinkedList<>();
 	private Queue<Update> updates = new LinkedList<>();
 	private Update response = null;
+	private boolean shouldLeaveGame;
 
 	public void initialiseController(String ipAddress, int port) {
 
@@ -211,7 +223,9 @@ public class WorldDominationServiceImpl extends RemoteServiceServlet implements
 	 */
 	public void leaveGame() {
 
-		System.out.println("Ready leave game");
+//		Update leaveGame = new Update();
+//		leaveGame.setToTerminate();
+		
 	}
 
 	private static void initNetworkActions() {

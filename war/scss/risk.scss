@@ -466,7 +466,7 @@ body {
 		}
 	  }
 	}
-	&.hostAndPlayModal {
+	&.hostAndPlayModal, &.artificialIntelligenceModal {
 	  display: none;
 	  button {
 		text-align: right;

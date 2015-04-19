@@ -1,8 +1,8 @@
 package worlddomination.client;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import worlddomination.shared.updates.Update;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface WorldDominationServiceAsync {
 

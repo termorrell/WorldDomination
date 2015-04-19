@@ -352,9 +352,9 @@ body {
       margin-bottom: 20px; }
       body .modal.initialiseModal .game-type:first-of-type {
         margin-left: 0; }
-    body .modal.hostAndPlayModal {
+    body .modal.hostAndPlayModal, body .modal.artificialIntelligenceModal {
       display: none; }
-      body .modal.hostAndPlayModal button {
+      body .modal.hostAndPlayModal button, body .modal.artificialIntelligenceModal button {
         text-align: right;
         margin-bottom: 0px; }
     body .modal.leaveGame, body .modal.gameOver, body .modal.allocateArmies, body .modal.alert {

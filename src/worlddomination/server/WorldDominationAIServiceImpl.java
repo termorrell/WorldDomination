@@ -4,8 +4,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import worlddomination.client.WorldDominationAIService;
+import worlddomination.server.artificialintelligence.ArtificialIntelligence;
 import worlddomination.server.controller.ClientController;
 import worlddomination.server.controller.ControllerManager;
+import worlddomination.server.model.Model;
 import worlddomination.server.view.ControllerApiInterface;
 import worlddomination.shared.updates.Update;
 
@@ -16,31 +18,35 @@ public class WorldDominationAIServiceImpl extends RemoteServiceServlet implement
 		WorldDominationAIService, ControllerApiInterface {
 
 	private Queue<Update> updates = new LinkedList<>();
-	private Update response = null;
+	private ArtificialIntelligence artificialIntelligence;
 
 	public void initialiseController(String ipAddress, int port) {
 
+		// TODO: Should play as an AI
 		ClientController controller = ControllerManager.sharedManager(this);
 
 		Thread thread = new Thread(controller);
 
 		thread.start();
+		
+		Model model = controller.getGameStateManager().getModel();
+		
+		artificialIntelligence = ArtificialIntelligence.getInstance(model);
 	}
 
 	public void initialiseControllerAsHost(boolean shouldJoin) {
 
+		
+		// TODO: Should play as an AI
 		ClientController controller = ControllerManager.sharedManager(this);
 
 		Thread thread = new Thread(controller);
 
 		thread.start();
-	}
 
-	private synchronized boolean ready() {
-		if (response != null) {
-			return true;
-		}
-		return false;
+		Model model = controller.getGameStateManager().getModel();
+		
+		artificialIntelligence = ArtificialIntelligence.getInstance(model);
 	}
 
 	/**
@@ -54,17 +60,7 @@ public class WorldDominationAIServiceImpl extends RemoteServiceServlet implement
 	 * 
 	 */
 	public Update addUpdateAndWaitForResponse(Update update) {
-		updates.add(update);
-		while (!ready()) {
-			try {
-				Thread.sleep(300);
-			} catch (InterruptedException e) {
-				// TODO
-				e.printStackTrace();
-			}
-		}
-		Update currentResponse = response;
-		response = null;
+		Update currentResponse = artificialIntelligence.getUpdateResponse(update);
 		return currentResponse;
 	}
 
@@ -83,9 +79,8 @@ public class WorldDominationAIServiceImpl extends RemoteServiceServlet implement
 	 * 
 	 */
 	public void sendUpdateResponse(Update response) {
-		if (response != null) {
-			this.response = response;
-		}
+
+		// Should never get called
 	}
 
 	/**

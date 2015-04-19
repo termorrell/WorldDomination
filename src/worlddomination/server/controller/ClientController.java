@@ -475,6 +475,11 @@ public class ClientController implements Runnable {
     public synchronized void handleAction(Action action) {
         actions.add(action);
     }
+    
+    public GameStateManager getGameStateManager() {
+    	
+    	return gameStateManager;
+    }
 
     private void shutDown() {
         // TODO close resources etc

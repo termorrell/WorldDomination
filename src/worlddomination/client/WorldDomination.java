@@ -40,12 +40,13 @@ public class WorldDomination implements EntryPoint {
 	private static ArrayList<LobbyPlayer> allPlayers = new ArrayList<LobbyPlayer>();
 	private static ArrayList<String> playerColours = new ArrayList<String>(Arrays.asList("green","blue","yellow","orange","purple","red"));
 	private static Timer refreshTimer;
-	private static WorldDominationServiceAsync worldDominationSvc = GWT.create(WorldDominationService.class);
+	private static WorldDominationServiceAsync worldDominationSvc;
     private static Update currentUpdate;
     private static String ipAddress = new String();
     private static int port;
     private static boolean isHost;
     private static boolean shouldJoin;
+    private static boolean shouldUseAI = false;
     private static Logger logger = Logger.getLogger("NameOfYourLogger");
     
 	/**
@@ -55,6 +56,7 @@ public class WorldDomination implements EntryPoint {
 		
 		exportHostGameFunction();
 		exportJoinGameFunction();
+		exportUseAIFunction();
 		exportLeaveGameFunction();
 	}
 	
@@ -377,7 +379,7 @@ public class WorldDomination implements EntryPoint {
 		
 		// Initialise the service proxy.
 	    if (worldDominationSvc == null) {
-	      worldDominationSvc = GWT.create(WorldDominationService.class);
+	      worldDominationSvc = getService();
 	    }
 	    refreshTimer.cancel();
 	    // Set up the callback object.
@@ -407,8 +409,10 @@ public class WorldDomination implements EntryPoint {
 
 		// Initialise the service proxy.
 	    if (worldDominationSvc == null) {
-	      worldDominationSvc = GWT.create(WorldDominationService.class);
+	      worldDominationSvc = getService();
 	    }
+	    
+		logger.log(Level.SEVERE, "Trying to setup callback");
 
 	    // Set up the callback object.
 	    AsyncCallback<Void> callback = new AsyncCallback<Void>() {
@@ -426,6 +430,7 @@ public class WorldDomination implements EntryPoint {
 	      }
 	    };
 
+		logger.log(Level.SEVERE, "Trying to initialise game");
 	    if (isHost) {
 		     // Make the call to the initialise controller service.
 		    worldDominationSvc.initialiseControllerAsHost(shouldJoin, callback);
@@ -440,7 +445,7 @@ public class WorldDomination implements EntryPoint {
 		
 		// Initialise the service proxy.
 	    if (worldDominationSvc == null) {
-	      worldDominationSvc = GWT.create(WorldDominationService.class);
+	      worldDominationSvc = getService();
 	    }
 	    refreshTimer.cancel();
 	    // Set up the callback object.
@@ -474,7 +479,7 @@ public class WorldDomination implements EntryPoint {
 		
 		// Initialise the service proxy.
 	    if (worldDominationSvc == null) {
-	      worldDominationSvc = GWT.create(WorldDominationService.class);
+	      worldDominationSvc = getService();
 	    }
 	    if (refreshTimer != null) {
 	    	refreshTimer.cancel();
@@ -616,6 +621,10 @@ public class WorldDomination implements EntryPoint {
 	  $wnd.joinGame = @worlddomination.client.WorldDomination::joinGame(Ljava/lang/String;I);
 	}-*/;
 	
+	public native void exportUseAIFunction()/*-{
+	  $wnd.setShouldUseAI = @worlddomination.client.WorldDomination::setShouldUseAI(Z);
+	}-*/;
+	
 	public native void exportLeaveGameFunction()/*-{
 	  $wnd.leaveGame = @worlddomination.client.WorldDomination::leaveGame(*);
 	}-*/;
@@ -644,6 +653,11 @@ public class WorldDomination implements EntryPoint {
 		}
 	}
 	
+	public static void setShouldUseAI(boolean useAI) {
+		
+		shouldUseAI = useAI;
+	}
+	
 	public static void setUpRefreshTimer() {
 
 		// Setup timer to refresh list automatically.
@@ -660,5 +674,18 @@ public class WorldDomination implements EntryPoint {
 
 		logger.log(Level.SEVERE, "restarting timer");
 		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+	}
+	
+	private static WorldDominationServiceAsync getService() {
+		
+		logger.log(Level.SEVERE, "Generating service");
+		
+		if (shouldUseAI) {
+			logger.log(Level.SEVERE, "Generating AI service");
+			return GWT.create(WorldDominationAIService.class);
+		} else {
+			logger.log(Level.SEVERE, "Generating default service");
+			return GWT.create(WorldDominationDefaultService.class);
+		}
 	}
 }

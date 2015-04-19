@@ -97,6 +97,26 @@ var RiskGame = {
         $(".hostAndPlayModal").fadeOut();
     },
 
+    showArtificialIntelligenceModal: function(callback) {
+        $(".artificialIntelligenceModal").fadeIn();
+        $("#selectAI").on('click', function() {
+            $("#selectAI").off('click');
+            window.setShouldUseAI(true);
+            RiskGame.hideArtificialIntelligenceModal();
+            callback();
+        });
+        $("#selectPerson").on('click', function() {
+            $("#selectPerson").off('click');
+            window.setShouldUseAI(false);
+            RiskGame.hideArtificialIntelligenceModal();
+            callback();
+        });
+    },
+
+    hideArtificialIntelligenceModal: function() {
+        $(".artificialIntelligenceModal").fadeOut();
+    },
+
     removeLoader: function() {
         this.hideInitialActivityIndicator();
     },
@@ -326,29 +346,37 @@ var RiskGame = {
     },
 
     joinGame: function() {
-        this.initialiseGame(true);
+        this.showArtificialIntelligenceModal(function() {
+
+            var ip = $('#ipAddressInput').val();
+            var port = parseInt($('#portNumberInput').val());
+            window.joinGame(ip, port);
+        });
+        this.initialiseGame();
         this.hideInitialiseModal();
-        var ip = $('#ipAddressInput').val();
-        var port = parseInt($('#portNumberInput').val());
-        window.joinGame(ip, port);
     },
 
     hostGame: function() {
         this.showHostAndPlayModal();
+        this.initialiseGame();
         this.hideInitialiseModal();
     },
 
     hostGameOnly: function() {
-        this.initialiseGame();
+        this.showArtificialIntelligenceModal(function() {
+
+            this.waitForReadyState();
+            window.hostGame(false);
+        });
         this.hideHostAndPlayModal();
-        this.waitForReadyState();
-        window.hostGame(false);
     },
 
     hostAndJoinGame: function() {
-        this.initialiseGame(true);
+        this.showArtificialIntelligenceModal(function() {
+
+            window.hostGame(true);
+        });
         this.hideHostAndPlayModal();
-        window.hostGame(true);
     },
 
     clearPlayers: function() {

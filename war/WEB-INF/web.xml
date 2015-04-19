@@ -7,13 +7,13 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>worldDominationServiceImpl</servlet-name>
-    <servlet-class>worlddomination.server.WorldDominationServiceImpl</servlet-class>
+    <servlet-name>worldDominationDefaultServiceImpl</servlet-name>
+    <servlet-class>worlddomination.server.WorldDominationDefaultServiceImpl</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>worldDominationServiceImpl</servlet-name>
-    <url-pattern>/worlddomination/gameState</url-pattern>
+    <servlet-name>worldDominationDefaultServiceImpl</servlet-name>
+    <url-pattern>/worlddomination/defaultGameState</url-pattern>
   </servlet-mapping>
   
   <servlet>

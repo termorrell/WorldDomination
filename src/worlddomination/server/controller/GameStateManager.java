@@ -153,5 +153,10 @@ public class GameStateManager {
         numberOfArmies += model.getGameState().getBoard().getContinentBonus(player);
         return numberOfArmies;
     }
+    
+    public Model getModel() {
+    	
+    	return model;
+    }
 }
 
