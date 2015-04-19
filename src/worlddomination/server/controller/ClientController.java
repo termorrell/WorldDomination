@@ -320,7 +320,7 @@ public class ClientController implements Runnable {
     	// trade in cards
         boolean canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager.getModel().getGameState().getPlayerById(currentPlayer), gameStateManager.model);
         String logMessage = "It's your turn.";
-        CurrentPlayer currentPlayerUpdate = new CurrentPlayer(logMessage, currentPlayer, true, canTradeInCards);
+        CurrentPlayer currentPlayerUpdate = new CurrentPlayer(logMessage, currentPlayer, true);
         view.addUpdate(currentPlayerUpdate);
         
         int numberOfArmies = 0;
@@ -381,8 +381,7 @@ public class ClientController implements Runnable {
 	}
 
 	private int tradeInCards() {
-		MakeTurn tradeIn = new MakeTurn("Would you like to trade in cards?",
-				"", true);
+		MakeTurn tradeIn = new MakeTurn("Would you like to trade in cards?", "", true);
 		tradeIn = (MakeTurn) view.addUpdateAndWaitForResponse(tradeIn);
 
 		if (tradeIn.getType().equalsIgnoreCase("tradein")) {
