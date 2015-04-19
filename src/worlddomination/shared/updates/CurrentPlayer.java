@@ -6,18 +6,16 @@ public class CurrentPlayer extends Update {
 	private String logUpdate;
 	private int id;
 	private boolean isMe;
-	private boolean hasCards;
 
 	public CurrentPlayer() {
 		super();
 	}
 	
-	public CurrentPlayer(String logUpdate, int id, boolean isMe, boolean hasCards) {
+	public CurrentPlayer(String logUpdate, int id, boolean isMe) {
 		super();
 		this.logUpdate = logUpdate;
 		this.id = id;
 		this.isMe = isMe;
-		this.hasCards = hasCards;
 	}
 	
 	public String getLogUpdate() {
@@ -31,9 +29,4 @@ public class CurrentPlayer extends Update {
 	public boolean getIsMe() {
 		return isMe;
 	}
-
-	public boolean getHasCards() {
-		return hasCards;
-	}
-
 }

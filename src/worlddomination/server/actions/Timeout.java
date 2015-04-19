@@ -1,6 +1,6 @@
 package worlddomination.server.actions;
 
-public class Timeout extends Action {
+public class Timeout extends Action{
     int lostPlayerId;
     int acknowledgementId;
 

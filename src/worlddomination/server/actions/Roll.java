@@ -1,6 +1,6 @@
 package worlddomination.server.actions;
 
-public class Roll extends Action {
+public class Roll extends Action{
     int numberOfRolls;
     int nubmerOfFaces;
     int playerId;

@@ -1,6 +1,6 @@
 package worlddomination.server.actions;
 
-public class Acknowledgement extends Action {
+public class Acknowledgement extends Action{
     int acknowledgementId;
     int playerId;
 
