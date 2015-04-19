@@ -571,7 +571,7 @@ public class WorldDomination implements EntryPoint {
 			addLogEntry(makeTurn.getLogUpdate());
 
 			makeTurnEvent(makeTurn.getTimeOut(), makeTurn.getAllowTradeIn());
-		} else if (update instanceof MakeTurn) {
+		} else if (update instanceof DefendTerritory) {
 			
 			DefendTerritory defendTerritory = (DefendTerritory)update;
 			addLogEntry(defendTerritory.getLogUpdate());

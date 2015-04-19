@@ -16,6 +16,16 @@
     <url-pattern>/worlddomination/gameState</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>worldDominationAIServiceImpl</servlet-name>
+    <servlet-class>worlddomination.server.WorldDominationAIServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>worldDominationAIServiceImpl</servlet-name>
+    <url-pattern>/worlddomination/aiGameState</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WorldDomination.html</welcome-file>

@@ -17,9 +17,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class WorldDominationServiceImpl extends RemoteServiceServlet implements
 		WorldDominationService, ControllerApiInterface {
 
-	static LinkedList<Action> networkActions = new LinkedList<>();
-	Queue<Update> updates = new LinkedList<>();
-	Update response = null;
+	private static LinkedList<Action> networkActions = new LinkedList<>();
+	private Queue<Update> updates = new LinkedList<>();
+	private Update response = null;
 
 	public void initialiseController(String ipAddress, int port) {
 
@@ -44,11 +44,13 @@ public class WorldDominationServiceImpl extends RemoteServiceServlet implements
 		initNetworkActions();
 		ClientController controller = ControllerManager.sharedManager(this);
 
+		Thread thread = new Thread(controller);
+		
 		for (Action action : networkActions) {
 			controller.handleAction(action);
 		}
 
-		controller.run();
+		thread.start();
 	}
 
 	private synchronized boolean ready() {
