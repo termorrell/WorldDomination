@@ -276,7 +276,7 @@ public class ClientController implements Runnable {
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				executeAllCurrentAcknowledgements();
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
-						.addUpdateAndWaitForResponse(new ClaimTerritory());
+						.addUpdateAndWaitForResponse(new ClaimTerritory("Please claim a territory"));
 				localSetupTurn(claimTerritory);
 			} else {
 				executeActionsUntilIncludingType(new Setup(0, 0, 0));
@@ -295,7 +295,7 @@ public class ClientController implements Runnable {
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				executeAllCurrentAcknowledgements();
 				DistributeArmy distributeArmy = (DistributeArmy) view
-						.addUpdateAndWaitForResponse(new DistributeArmy());
+						.addUpdateAndWaitForResponse(new DistributeArmy("Please select a territory"));
 				localSetupTurn(distributeArmy);
 			} else {
 				executeActionsUntilIncludingType(new Setup(0, 0, 0));
