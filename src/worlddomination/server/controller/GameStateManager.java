@@ -109,7 +109,7 @@ public class GameStateManager {
 
     public String serializeMap() {
     	// TODO take out one day
-    	model.getGameState().getBoard().printAvailableTerritories();
+    	// model.getGameState().getBoard().printAvailableTerritories();
     	
     	
     	JSONObject object = new JSONObject();
