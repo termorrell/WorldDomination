@@ -28,7 +28,7 @@ public class ArtificialIntelligence {
 	private Random random = new Random();
 	private static ArtificialIntelligence instance = null;
 	private static final int DISTRIBUTION_DENSITY_RATIO = 5;
-	
+
 	protected ArtificialIntelligence() {}
 
 	protected ArtificialIntelligence(Model gameModel) {
@@ -37,10 +37,10 @@ public class ArtificialIntelligence {
 	}
 
 	public static ArtificialIntelligence getInstance(Model gameModel) {
-		
+
 		if(instance == null) {
 			instance = new ArtificialIntelligence(gameModel);
-	    }
+		}
 		return instance;
 	}
 
@@ -190,11 +190,11 @@ public class ArtificialIntelligence {
 				max = neighbouringOpponents.size();	// Exclusive value
 				min = 0; 							// Inclusive value
 				index = random.nextInt(max - min) + min;
-				
+
 				// TODO: Add some sort of weighting to choose territories to attack
 				// TODO: Might fail if surrounded by own
 				Territory destinationTerritory = neighbouringOpponents.get(index);
-				
+
 				// Make an attack
 				makeTurn.setType("Attack");
 				makeTurn.setSourceTerritory(sourceTerritory.getId());
@@ -274,27 +274,27 @@ public class ArtificialIntelligence {
 		// Return the ArrayList which has had empty territories added
 		return availableTerritories;
 	}
-	
+
 	private ArrayList<Territory> getAvailableTerritoriesForContinent(Continent continent) {
 
 		// Create a list of all available territories
 		ArrayList<Territory> availableTerritories = new ArrayList<Territory> ();
-		
+
 		// Iterate through all territories in a continent
 		Territory[] continentTerritoriesArray = continent.getTerritories();
 		ArrayList<Territory> continentTerritories = new ArrayList<Territory> (Arrays.asList(continentTerritoriesArray));
 		for (Territory territory: continentTerritories) {
 			if (territory.getOwner() == null) {
-				
+
 				// If the territory is empty add it
 				availableTerritories.add(territory);
 			}
 		}
 		return availableTerritories;
 	}
-	
+
 	private ArrayList<Territory> getAvailableFocusTerritories() {
-		
+
 		// Create a list of all territories on the board
 		Continent[] allContinentsArray = gameModel.getGameState().getBoard().getContinents();
 		ArrayList<Continent> allContinents = new ArrayList<Continent> (Arrays.asList(allContinentsArray));
@@ -319,9 +319,9 @@ public class ArtificialIntelligence {
 		// Return the ArrayList which has had empty territories added
 		return availableTerritories;
 	}
-	
+
 	private ArrayList<Territory> getOwnedFocusTerritories(int numberOfArmies) {
-		
+
 
 		// Create a list of all territories on the board
 		Continent[] allContinentsArray = gameModel.getGameState().getBoard().getContinents();
@@ -389,9 +389,9 @@ public class ArtificialIntelligence {
 		// Return the ArrayList which has had neighbouring own territories added
 		return ownTerritories;
 	}
-	
-	public boolean shouldReinforceContinent(Continent continent) {
-		
+
+	private boolean shouldReinforceContinent(Continent continent) {
+
 		int totalArmiesInContinent = 0;
 		int totalTerritoriesOccupied = 0;
 
@@ -400,61 +400,82 @@ public class ArtificialIntelligence {
 		ArrayList<Territory> continentTerritories = new ArrayList<Territory> (Arrays.asList(continentTerritoriesArray));
 		for (Territory territory: continentTerritories) {
 			if (territory.getOwner() != null) {
-				
+
 				// Check if the territory is owned by the AI
 				if (territory.getOwner().getId() == aiPlayerId) {
-					
+
 					totalArmiesInContinent += territory.getOccupyingArmies().size();
 					totalTerritoriesOccupied ++;
 				}
 			}
 		}
-		
+
 		// Check if any territories are owned in the continent
 		if (totalTerritoriesOccupied > 0) {
-			
+
 			// Ensure the continent has a high distribution of armies
 			double distributionRatio = totalArmiesInContinent/totalTerritoriesOccupied;
 			if (distributionRatio < DISTRIBUTION_DENSITY_RATIO) {
-				
+
 				return true;
 			} else {
-				
+
 				return false;
 			}
 		}
-		
+
 		return false;
 	}
-	
-	public ArrayList<Territory> reinforceContinent(Continent continent, int numberOfArmies) {
+
+	private int getGlobalDistributionDenstityRatio() {
 		
+		int totalArmies = 0;
+		int totalTerritoriesOccupied = 0;
+
+		// Create a list of all territories on the board
+		Territory[] allTerritoriesArray = gameModel.getGameState().getBoard().getTerritories();
+		ArrayList<Territory> allTerritories = new ArrayList<Territory> (Arrays.asList(allTerritoriesArray));
+
+		// Iterate through all territories to find empty ones
+		for (Territory territory: allTerritories) {
+			if (territory.getOwner() != null) {
+				
+				totalArmies
+			}
+		}
+
+		// Return the ArrayList which has had empty territories added
+		return availableTerritories;
+	}
+
+	private ArrayList<Territory> reinforceContinent(Continent continent, int numberOfArmies) {
+
 		// Iterate through all territories in a continent
 		Territory[] continentTerritoriesArray = continent.getTerritories();
 		ArrayList<Territory> continentTerritories = new ArrayList<Territory> (Arrays.asList(continentTerritoriesArray));
-		
+
 		// Create a list of all neighbouring own territories
 		ArrayList<Territory> territoriesToArm = new ArrayList<Territory> ();
-		
+
 		for (Territory territory: continentTerritories) {
 			if (territory.getOwner() != null) {
-				
+
 				// Check if the territory is owned by the AI
 				if (territory.getOwner().getId() == aiPlayerId) {
-					
+
 					//TODO: Ratio should be relative to the number of armies on the board
 					if (territory.getOccupyingArmies().size() < DISTRIBUTION_DENSITY_RATIO) {
-						
+
 						territoriesToArm.add(territory);
 					}
 				}
 			}
 		}
-		
+
 		return territoriesToArm;
 	}
 
-	public interface Predicate<T> { 
+	private interface Predicate<T> { 
 		boolean sufficientArmies(T type); 
 	}
 
@@ -464,7 +485,7 @@ public class ArtificialIntelligence {
 		}
 	};
 
-	public static <T> ArrayList<T> filter(Collection<T> col, Predicate<T> predicate) {
+	private static <T> ArrayList<T> filter(Collection<T> col, Predicate<T> predicate) {
 		ArrayList<T> result = new ArrayList<T>();
 		for (T element: col) {
 			if (predicate.sufficientArmies(element)) {
