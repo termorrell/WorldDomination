@@ -22,9 +22,9 @@ public class ClientApiManager implements ApiMethods {
      * @return a new json object
      */
     public JSONObject parseResponse(String response) {
-
-        return new JSONObject(response);
-
+        JSONObject res = new JSONObject(response);
+        String obj = res.getString("message").replaceAll("\\\"", "\"");
+        return new JSONObject(obj);
     }
 
     /**
@@ -33,10 +33,8 @@ public class ClientApiManager implements ApiMethods {
      *
      * @param json command sent to the client in JSONObject form
      */
-
     public void checkCommandRequest(int player_id, JSONObject json) {
         String command = json.getString("command");
-
         switch (command) {
             case "accept_join_game":
                 acceptJoinGameReceived(json);
@@ -120,7 +118,6 @@ public class ClientApiManager implements ApiMethods {
         for (int i = 0; i < players.length(); i++) {
             String[] playerInfo = new String[2];
             playerInfo[0] = players.getString(1);
-            //TODO CHECK WITH GUI?
             playerInfo[1] = "";
             playersJoined.put(players.getInt(0), playerInfo);
         }
@@ -169,7 +166,6 @@ public class ClientApiManager implements ApiMethods {
         AcceptJoinGame joinGame = new AcceptJoinGame(playerId, acknowledgement_timeout, move_timeout);
         controller.handleAction(joinGame);
 
-
     }
 
     private void leaveGameReceived(JSONObject json) {
@@ -183,15 +179,14 @@ public class ClientApiManager implements ApiMethods {
     }
 
     private void pingReceived(JSONObject json) {
-        String numberOfPlayers = json.getString("payload");
-        int numberPlayers;
-        if (!numberOfPlayers.equals("null")) {
-            numberPlayers = Integer.parseInt(numberOfPlayers);
-        } else {
+        int numberPlayers = 0;
+        if(json.optInt("payload")!=0){
+            numberPlayers = json.getInt("payload");
+        }else{
             numberPlayers = -1;
         }
         int player_id = json.getInt("player_id");
-        Ping ping = new Ping(numberPlayers, player_id);
+        Ping ping = new Ping(numberPlayers,player_id);
         controller.handleAction(ping);
     }
 
@@ -212,7 +207,6 @@ public class ClientApiManager implements ApiMethods {
         int ack_id = json.getInt("ack_id");
         Defend defend = new Defend(no_armies, player_id, ack_id);
         controller.handleAction(defend);
-
     }
 
     private void rollHashReceived(JSONObject json) {

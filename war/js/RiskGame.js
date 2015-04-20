@@ -100,13 +100,13 @@ var RiskGame = {
     showArtificialIntelligenceModal: function(callback) {
         $(".artificialIntelligenceModal").fadeIn();
         $("#selectAI").on('click', function() {
-            $("#selectAI").off('click');
+            $(".artificialIntelligenceModal button").off('click');
             window.setShouldUseAI(true);
             RiskGame.hideArtificialIntelligenceModal();
             callback();
         });
         $("#selectPerson").on('click', function() {
-            $("#selectPerson").off('click');
+            $(".artificialIntelligenceModal button").off('click');
             window.setShouldUseAI(false);
             RiskGame.hideArtificialIntelligenceModal();
             callback();
@@ -115,6 +115,24 @@ var RiskGame = {
 
     hideArtificialIntelligenceModal: function() {
         $(".artificialIntelligenceModal").fadeOut();
+        $(".artificialIntelligenceModal button").off('click');
+    },
+
+    showTradeInModal: function(callback) {
+        $(".tradeInModal").fadeIn();
+        $("#cancel").on('click', function() {
+            $(".tradeInModal button").off('click');
+            RiskGame.hideTradeInModal();
+        });
+        $("#makeTurn").on('click', function() {
+            $(".tradeInModal button").off('click');
+            RiskGame.hideTradeInModal();
+            callback();
+        });
+    },
+
+    hideTradeInModal: function() {
+        $(".tradeInModal").fadeOut();
     },
 
     removeLoader: function() {
@@ -241,18 +259,27 @@ var RiskGame = {
         $('.cards').on('click', function() {
             if (Cards.length > 0) {
 
-                RiskGame.displayCards(allowTradeIn, false, callback);
+                RiskGame.displayCards(allowTradeIn, false, callback, callback);
             }
         });
     },
 
-    displayCards: function(allowTradeIn, shouldTradeIn, callback) {
+    displayCards: function(allowTradeIn, shouldTradeIn, cancelCallback, callback) {
 
         $('.cards').off('click');
         if (!shouldTradeIn) {
             $('.cards-close .close').fadeIn();
             $('.cards-close .close').on('click', function () {
-                RiskGame.minimiseCards(allowTradeIn, callback);
+                if (allowTradeIn) {
+                    RiskGame.showTradeInModal(function () {
+
+                        RiskGame.minimiseCards(false);
+                        cancelCallback('FinishedTradeIn');
+                    });
+                } else {
+
+                    RiskGame.minimiseCards(false);
+                }
             });
         }
         $('.cards').addClass('display');
@@ -268,16 +295,17 @@ var RiskGame = {
                     }
                 });
 
-                if (!selected) {
+                $(this).addClass('selected');
 
-                    $(this).addClass('selected');
+                if (!selected) {
                     RiskGame.arrayOfSelectedCards.push(this);
 
                     if (RiskGame.arrayOfSelectedCards.length === 3) {
-                        $(RiskGame.arrayOfSelectedCards).remove();
+                        var arrayOfCardIds = [];
                         $.each(RiskGame.arrayOfSelectedCards, function (key, dom) {
                             var id = $(dom).data('territoryID');
-                            var selectedCardIndex;
+                            arrayOfCardIds.push(id);
+                            var selectedCardIndex = 0;
                             $.each(Cards, function (idx, card) {
                                 if (id === card.territoryID) {
                                     selectedCardIndex = idx;
@@ -285,18 +313,16 @@ var RiskGame = {
                             });
                             Cards.splice(selectedCardIndex, 1);
                         });
-                        callback();
+                        $(RiskGame.arrayOfSelectedCards).remove();
                         RiskGame.arrayOfSelectedCards = [];
-                    }
-                    if (Cards.length === 0) {
-                        minimiseCards();
+                        callback('TradeIn', arrayOfCardIds);
                     }
                 }
             });
         }
     },
 
-    minimiseCards: function(allowTradeIn, callback) {
+    minimiseCards: function() {
 
         RiskGame.arrayOfSelectedCards = [];
 
@@ -308,7 +334,7 @@ var RiskGame = {
         $('.cards').on('click', function() {
             if (Cards.length > 0) {
 
-                RiskGame.displayCards(allowTradeIn, false, callback);
+                RiskGame.displayCards(false, false, null, null);
             }
         });
     },
@@ -437,18 +463,30 @@ var RiskGame = {
         this.showTurnControls();
         this.setTimer(timeOut);
 
-        if (Cards.length >= 5) {
+        if (allowTradeIn) {
 
-            RiskGame.displayCards(allowTradeIn, true, function() {
-                finishTurn();
-                RiskGame.minimiseCards(false);
-                callback('TradeIn');
-            });
+            if (Cards.length >= 5) {
+
+                RiskGame.displayCards(allowTradeIn, true, null, function(type, arrayOfCardIds) {
+                    finishTurn();
+                    RiskGame.minimiseCards();
+                    callback(type, null, null, null, arrayOfCardIds);
+                });
+            } else {
+
+                RiskGame.displayCards(allowTradeIn, false, function(type) {
+                    finishTurn();
+                    RiskGame.minimiseCards();
+                    callback(type, null, null, null, null);
+                }, function(type, arrayOfCardIds) {
+                    finishTurn();
+                    RiskGame.minimiseCards();
+                    callback(type, null, null, null, arrayOfCardIds);
+                });
+            }
         } else {
             this.setCardsEnabled(allowTradeIn, function() {
-                finishTurn();
-                RiskGame.minimiseCards(false);
-                callback('TradeIn');
+                RiskGame.minimiseCards();
             });
         }
 
@@ -531,7 +569,7 @@ var RiskGame = {
                 RiskGame.completeTurn(sourceTerritory.id, destinationTerritory.id, maxNumberOfArmies, function(numberOfArmies) {
 
                     var type = isAttack ? 'Attack' : 'Fortify';
-                    callback(type, sourceTerritory.id, destinationTerritory.id, numberOfArmies);
+                    callback(type, sourceTerritory.id, destinationTerritory.id, numberOfArmies, null);
                 });
             } else {
 
@@ -541,7 +579,7 @@ var RiskGame = {
         $('button#finishTurn').on('click', function() {
 
             finishTurn();
-            callback("Quit", null, null, null);
+            callback("Quit", null, null, null, null);
         });
     },
 

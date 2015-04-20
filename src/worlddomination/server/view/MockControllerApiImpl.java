@@ -93,13 +93,13 @@ public class MockControllerApiImpl implements ControllerApiInterface, GuiApiServ
         turnArray[1].setNumberOfArmies(3);
         
         turnArray[2] = new MakeTurn("","",false);
-        turnArray[2].setType("Fortify");
+        turnArray[2].setType("Quit");
         turnArray[2].setSourceTerritory(40);
         turnArray[2].setDestinationTerritory(39);
         turnArray[2].setNumberOfArmies(2);
     }
     
-    int i = -1;
+    static int i = -1;
     MakeTurn makeTurn(MakeTurn makeTurn) {
     	i++;
         return turnArray[i];

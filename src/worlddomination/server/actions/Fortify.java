@@ -1,6 +1,6 @@
 package worlddomination.server.actions;
 
-public class Fortify extends Action {
+public class Fortify extends Action{
     int originTerritory;
     int destinationTerritory;
     int numberOfArmies;

@@ -5,9 +5,10 @@ import worlddomination.server.controller.ServerController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ServerApiManager implements ApiMethods {
+public class ServerApiManager implements ApiMethods{
 
     ServerController controller;
+    ServerResponseGenerator ackGen = new ServerResponseGenerator();
 
     public ServerApiManager(ServerController controller) {
         this.controller = controller;
@@ -15,19 +16,21 @@ public class ServerApiManager implements ApiMethods {
 
     /**
      * Parses a string into a Json objects
-     *
      * @param response the string to be parsed
      * @return a new json object
      */
     public JSONObject parseResponse(String response) {
-        return new JSONObject(response);
+        JSONObject res = new JSONObject(response);
+        String obj = res.getString("message").replaceAll("\\\"", "\"");
+        return new JSONObject(obj);
     }
 
     public void checkCommandRequest(int player_id, JSONObject request) {
         String command = request.getString("command");
+        int ack_id;
         switch (command) {
             case "join_game":
-                joinGameReceived(player_id,request);
+                joinGameReceived(request);
                 break;
             case "ping":
                 pingReceived(request);
@@ -36,13 +39,15 @@ public class ServerApiManager implements ApiMethods {
                 acknowledgementReceived(request);
                 break;
             case "roll":
-                //todo call forward message
+                ack_id = request.getInt("ack_id");
+                controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
+                controller.server.sendMessageToAllExceptSender(player_id,request);
                 break;
             case "roll_hash":
-                //todo forward message
+                controller.server.sendMessageToAllExceptSender(player_id,request);
                 break;
             case "roll_number":
-                //todo call forward message
+                controller.server.sendMessageToAllExceptSender(player_id,request);
                 break;
             case "leave_game":
                 leaveGameReceived(request);
@@ -51,38 +56,47 @@ public class ServerApiManager implements ApiMethods {
                 setUpReceived(request);
                 break;
             case "play_cards":
-                //TODO CALL FORWARD MESSAGE
+                ack_id = request.getInt("ack_id");
+                controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
+                controller.server.sendMessageToAllExceptSender(player_id,request);
                 break;
             case "deploy":
-                //TODO CALL FORWARD MESSAGE
+                ack_id = request.getInt("ack_id");
+                controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
+                controller.server.sendMessageToAllExceptSender(player_id,request);
                 break;
             case "attack":
-                //TODO CALL FORWARD MESSAGE
+                ack_id = request.getInt("ack_id");
+                controller.server.sendMessageToAllExceptSender(player_id,request);
+                controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
                 break;
             case "defend":
-                //TODO CALL FORWARD MESSAGE
+                ack_id = request.getInt("ack_id");
+                controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
+                controller.server.sendMessageToAllExceptSender(player_id,request);
                 break;
             default:
                 forwardCommand(request);
+                controller.server.sendMessageToAllExceptSender(player_id, request);
                 break;
         }
     }
 
 
-    private void joinGameReceived(int player_id,JSONObject json) {
+    private void joinGameReceived(JSONObject json) {
         JSONObject payload = json.getJSONObject("payload");
         JSONArray supported_versions = payload.getJSONArray("supported_versions");
         JSONArray supported_features = payload.getJSONArray("supported_features");
         String name = payload.getString("name");
-        String [] versions = new String[supported_versions.length()];
+        float [] versions = new float[supported_versions.length()];
         String [] features = new String[supported_features.length()];
         for(int i =0;i<versions.length;i++){
-            versions[i] = supported_versions.getString(i);
+            versions[i] = (float)supported_versions.getDouble(i);
         }
         for(int i =0;i<features.length;i++){
             features[i] = supported_features.getString(i);
         }
-        JoinGame join = new JoinGame(name,features,versions);
+        JoinGame join = new JoinGame(name,versions,features);
         controller.handleAction(join);
     }
 
@@ -106,10 +120,9 @@ public class ServerApiManager implements ApiMethods {
     }
 
     private void pingReceived(JSONObject json) {
-        String numberOfPlayers = json.getString("payload");
         int numberPlayers;
-        if(!numberOfPlayers.equals("null")){
-            numberPlayers = Integer.parseInt(numberOfPlayers);
+        if(json.optInt("payload")!=0){
+            numberPlayers = json.getInt("payload");
         }else{
             numberPlayers = -1;
         }

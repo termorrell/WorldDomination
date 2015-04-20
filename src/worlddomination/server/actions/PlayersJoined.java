@@ -3,13 +3,13 @@ package worlddomination.server.actions;
 
 import java.util.Map;
 
-public class PlayersJoined extends Action {
+public class PlayersJoined extends Action{
     /**
      * Integer - player id
-     * <p/>
+     *
      * String[2]
-     * 0 - player name
-     * 1 - player public key or empty string
+     *  0 - player name
+     *  1 - player public key or empty string
      */
     Map<Integer, String[]> players;
 

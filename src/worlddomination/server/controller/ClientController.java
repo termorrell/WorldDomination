@@ -51,7 +51,7 @@ public class ClientController implements Runnable {
 
 	int numberOfArmiesForTradedCards = 4;
 
-	public ClientController(ControllerApiInterface view) {
+	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
 		// this.client = new RiskClient();
@@ -322,7 +322,7 @@ public class ClientController implements Runnable {
     	// trade in cards
         boolean canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager.getModel().getGameState().getPlayerById(currentPlayer), gameStateManager.model);
         String logMessage = "It's your turn.";
-        CurrentPlayer currentPlayerUpdate = new CurrentPlayer(logMessage, currentPlayer, true, canTradeInCards);
+        CurrentPlayer currentPlayerUpdate = new CurrentPlayer(logMessage, currentPlayer, true);
         view.addUpdate(currentPlayerUpdate);
         
         int numberOfArmies = 0;
@@ -349,8 +349,6 @@ public class ClientController implements Runnable {
         reinforceTerritories(territories);
         view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
         
-        boolean claimedTerritory =  true;
-        
         // attack or fortify loop
         boolean wantToTurn = true;
         
@@ -363,18 +361,24 @@ public class ClientController implements Runnable {
         	view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
         	if(turn.getType().equalsIgnoreCase("quit") || turn.getType().equalsIgnoreCase("fortify")) {
         		wantToTurn = false;
+        		if(turn.getType().equalsIgnoreCase("quit")) {
+        			acknowledgementManager.expectAcknowledgement();
+        			collectingAcknowledgements = true;
+        			responseGenerator.fortifyGenerator(new int[0],currentPlayer, acknowledgementManager.id );
+        			executeAllCurrentAcknowledgements();
+        		}
         	}
         }
         
-        if(claimedTerritory) {
+        
             drawCards();
-        }
+        
     }
 	
 	private void makeLocalTurn(MakeTurn turn) {
 		if(turn.getType().equalsIgnoreCase("Attack")) {
 			localAttack(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
-		} else if(turn.getType().equalsIgnoreCase("Attack")) {
+		} else if(turn.getType().equalsIgnoreCase("Fortify")) {
 			localFortify(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
 		}
 	}
@@ -436,8 +440,7 @@ public class ClientController implements Runnable {
 	}
 
 	private int tradeInCards() {
-		MakeTurn tradeIn = new MakeTurn("Would you like to trade in cards?",
-				"", true);
+		MakeTurn tradeIn = new MakeTurn("Would you like to trade in cards?", "", true);
 		tradeIn = (MakeTurn) view.addUpdateAndWaitForResponse(tradeIn);
 
 		if (tradeIn.getType().equalsIgnoreCase("tradein")) {
@@ -481,10 +484,10 @@ public class ClientController implements Runnable {
 		CurrentPlayer player = null;
 		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
 			message = "It's your turn.";
-			player = new CurrentPlayer(message, currentPlayer, true, false);
+			player = new CurrentPlayer(message, currentPlayer, true);
 		} else {
 			message = "It's " + gameStateManager.getModel().getGameState().getPlayerById(currentPlayer).getName() + "'s turn";
-			player = new CurrentPlayer(message, currentPlayer, false, false);
+			player = new CurrentPlayer(message, currentPlayer, false);
 		}
 		view.addUpdate(player);
 	}
@@ -519,7 +522,6 @@ public class ClientController implements Runnable {
 				}
 			}
 		}
-
 		view.addUpdate(lobby);
 	}
 

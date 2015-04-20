@@ -10,6 +10,7 @@ public class MakeTurn extends Update {
 	private int sourceTerritory;
 	private int destinationTerritory;
 	private int numberOfArmies;
+	private int[] arrayOfCardIds;
 	
 	public MakeTurn() {
 		super();
@@ -49,6 +50,10 @@ public class MakeTurn extends Update {
 	public void setNumberOfArmies(int numberOfArmies) {
 		this.numberOfArmies = numberOfArmies;
 	}
+	
+	public void setArrayOfCardIds(int[] arrayOfCardIds) {
+		this.arrayOfCardIds = arrayOfCardIds;
+	}
 
 	public String getType() {
 		return type;
@@ -63,5 +68,9 @@ public class MakeTurn extends Update {
 
 	public int getNumberOfArmies() {
 		return numberOfArmies;
+	}
+	
+	public int[] getArrayOfCardIds() {
+		return arrayOfCardIds;
 	}
 }

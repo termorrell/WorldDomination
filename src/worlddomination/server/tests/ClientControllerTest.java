@@ -10,88 +10,88 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class ClientControllerTest {
-    static LinkedList<Action> networkActions = new LinkedList<>();
+	static LinkedList<Action> networkActions = new LinkedList<>();
 
-    public static void main(String[] args) {
-        initNetworkActions();
-        ControllerApiInterface view = new MockControllerApiImpl();
-        ClientController controller = new ClientController(view);
+	public static void main(String[] args) {
+		System.out.println("Test program started");
+		initNetworkActions();
+		ControllerApiInterface view = new MockControllerApiImpl();
+		ClientController controller = new ClientController(view, null, 0);
 
-        for (Action action : networkActions) {
-            controller.handleAction(action);
-        }
+		for (Action action : networkActions) {
+			controller.handleAction(action);
+		}
+		controller.run();
+	}
 
-        controller.run();
-    }
+	// nonplaying host
+	private static void initNetworkActions() {
+		int hostId = -1;
+		int firstId = 1;
+		int localId = 2;
+		int thirdId = 3;
 
-    // nonplaying host
-    private static void initNetworkActions() {
-        int hostId = -1;
-        int firstId = 1;
-        int localId = 2;
-        int thirdId = 3;
+		// accept join game
+		networkActions.add(new AcceptJoinGame(localId, 1000, 10000));
 
-        // accept join game
-        networkActions.add(new AcceptJoinGame(localId, 1000, 10000));
+		// player's joined
+		Map<Integer, String[]> map = new HashMap<>();
+		String[] p1 = { "Alice", "Alice's public key." };
+		String[] p2 = { "Bob", "Bob's pulbic key." };
+		map.put(firstId, p1);
+		map.put(localId, p2);
+		networkActions.add(new PlayersJoined(map));
 
-        // player's joined
-        Map<Integer, String[]> map = new HashMap<>();
-        String[] p1 = {"Alice", "Alice's public key."};
-        String[] p2 = {"Bob", "Bob's pulbic key."};
-        map.put(firstId, p1);
-        map.put(localId, p2);
-        networkActions.add(new PlayersJoined(map));
+		// player's joined
+		Map<Integer, String[]> map1 = new HashMap<>();
+		map1.put(firstId, p1);
+		map1.put(localId, p2);
+		String[] p3 = { "Charly", "Charly's public key." };
+		map1.put(thirdId, p3);
+		networkActions.add(new PlayersJoined(map1));
 
-        // player's joined
-        Map<Integer, String[]> map1 = new HashMap<>();
-        map1.put(firstId, p1);
-        map1.put(localId, p2);
-        String[] p3 = {"Charly", "Charly's public key."};
-        map1.put(thirdId, p3);
-        networkActions.add(new PlayersJoined(map1));
+		// server ping
+		networkActions.add(new Ping(3, hostId));
 
-        // server ping
-        networkActions.add(new Ping(3, hostId));
+		// client pings
+		networkActions.add(new Ping(3, firstId));
+		networkActions.add(new Ping(3, thirdId));
 
-        // client pings
-        networkActions.add(new Ping(3, firstId));
-        networkActions.add(new Ping(3, thirdId));
+		// ready
+		networkActions.add(new Ready(-1, 0));
 
-        // ready
-        networkActions.add(new Ready(-1, 0));
+		// acknowledge ready
+		networkActions.add(new Acknowledgement(0, firstId));
+		networkActions.add(new Acknowledgement(0, thirdId));
 
-        // acknowledge ready
-        networkActions.add(new Acknowledgement(0, firstId));
-        networkActions.add(new Acknowledgement(0, thirdId));
+		// initialise game
+		networkActions.add(new InitialiseGame(1, new String[0]));
 
-        // initialise game
-        networkActions.add(new InitialiseGame(1, new String[0]));
+		// find first player
+		// TODO hashes
+		networkActions.add(new RollHash(firstId, "hash1"));
+		networkActions.add(new RollHash(thirdId, "hash3"));
 
-        // find first player
-        // TODO hashes
-        networkActions.add(new RollHash(firstId, "hash1"));
-        networkActions.add(new RollHash(thirdId, "hash3"));
+		// numbers
+		networkActions.add(new RollNumber(firstId, "number1"));
+		networkActions.add(new RollNumber(thirdId, "number3"));
 
-        // numbers
-        networkActions.add(new RollNumber(firstId, "number1"));
-        networkActions.add(new RollNumber(thirdId, "number3"));
+		// card shuffling
 
-        // card shuffling
+		// TODO hashes
+		networkActions.add(new RollHash(firstId, "hashshuffle1"));
+		networkActions.add(new RollHash(thirdId, "hashshuffle3"));
 
-        // TODO hashes
-        networkActions.add(new RollHash(firstId, "hashshuffle1"));
-        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+		// numbers
+		networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+		networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
 
-        // numbers
-        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
-        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
+		// TODO locally calculate the number of cards
 
-        // TODO locally calculate the number of cards
-
-        // setup
-        // TODO check parameters and fill out till completeness
-        networkActions.add(new Setup(thirdId, 10, 1));
-        networkActions.add(new Acknowledgement(1, firstId));
+		// setup
+		// TODO check parameters and fill out till completeness
+		networkActions.add(new Setup(thirdId, 10, 1));
+		networkActions.add(new Acknowledgement(1, firstId));
 
         networkActions.add(new Setup(firstId, 2, 2));
         networkActions.add(new Acknowledgement(2, thirdId));
@@ -406,9 +406,9 @@ public class ClientControllerTest {
 
         networkActions.add(new Acknowledgement(105, thirdId));
         networkActions.add(new Acknowledgement(105, firstId));
-
+        
         // Turns
-
+        
         // third player
         networkActions.add(new PlayCards(0, new int[0][0], 0, thirdId, 106));
         networkActions.add(new Acknowledgement(106, firstId));
@@ -467,6 +467,12 @@ public class ClientControllerTest {
         
         networkActions.add(new Defend(2, firstId, 119));
         networkActions.add(new Acknowledgement(119, thirdId));
+        
+        networkActions.add(new RollHash(firstId, "hashshuffle1"));
+        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+
+        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
 
         networkActions.add(new Acknowledgement(120, thirdId));
         networkActions.add(new Acknowledgement(120, firstId));
@@ -474,16 +480,22 @@ public class ClientControllerTest {
         networkActions.add(new Defend(1, thirdId, 121));
         networkActions.add(new Acknowledgement(121, firstId));
         
+        networkActions.add(new RollHash(firstId, "hashshuffle1"));
+        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+
+        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
+        
         networkActions.add(new Acknowledgement(122, thirdId));
         networkActions.add(new Acknowledgement(122, firstId));
 
         // third player
-        networkActions.add(new PlayCards(0, new int[0][0], 0, firstId, 123));
-        networkActions.add(new Acknowledgement(123, thirdId));
+        networkActions.add(new PlayCards(0, new int[0][0], 0, thirdId, 123));
+        networkActions.add(new Acknowledgement(123,firstId));
 
-        int[][] deploy3 = {{12, 3}};
-        networkActions.add(new Deploy(deploy2, firstId, 124));
-        networkActions.add(new Acknowledgement(124, thirdId));
+        int[][] deploy3 = {{10, 3}};
+        networkActions.add(new Deploy(deploy3, thirdId, 124));
+        networkActions.add(new Acknowledgement(124, firstId));
 
     }
 

@@ -4,8 +4,8 @@ package worlddomination.server.program;
 public class Constants {
     // TODO to be replaced with a configuration file
 
-    public static float[] getSupportedVersions() {
-        float[] versions = {1f};
+    public static Float[] getSupportedVersions() {
+        Float[] versions = {1f};
         return versions;
     }
 

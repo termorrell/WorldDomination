@@ -4,15 +4,24 @@ import worlddomination.server.view.ControllerApiInterface;
 
 public class ControllerManager {
 	
-	private static ClientController instance = null;
+	private static ClientController clientInstance = null;
+	private static ServerController serverInstance = null;
 	
 	protected ControllerManager() {}
 	
-	public static ClientController sharedManager(ControllerApiInterface view) {
+	public static ClientController sharedClientController(ControllerApiInterface view, String ipAddress, int port) {
 		
-		if(instance == null) {
-			instance = new ClientController(view);
+		if(clientInstance == null) {
+			clientInstance = new ClientController(view, ipAddress, port);
 	    }
-		return instance;
+		return clientInstance;
+	}
+
+	public static ServerController sharedServerController(ControllerApiInterface view) {
+		
+		if(serverInstance == null) {
+			serverInstance = new ServerController(view);
+	    }
+		return serverInstance;
 	}
 }
