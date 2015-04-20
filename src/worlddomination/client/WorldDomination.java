@@ -75,8 +75,8 @@ public class WorldDomination implements EntryPoint {
 		mainPanel.add(namesFlexTable);
 		if (namePrompt) {
 			mainPanel.add(addNamePanel);
-			mainPanel.add(continueButtonPanel);
 		}
+		mainPanel.add(continueButtonPanel);
 		mainPanel.addStyleName("borderless");
 
 		// Associate the Main panel with the HTML host page.
@@ -244,14 +244,9 @@ public class WorldDomination implements EntryPoint {
 	
 	private static void readyEvent() {
 
-		if (isHost && !shouldJoin) {
-
-			configureGameForPlayState();
-		} else {
-			waitForContinue();
-			continueButton.setEnabled(true);
-			continueButton.setVisible(true);
-		}
+		waitForContinue();
+		continueButton.setEnabled(true);
+		continueButton.setVisible(true);
 	}
 	
 	private static void readyEventResponse() {
@@ -644,6 +639,8 @@ public class WorldDomination implements EntryPoint {
 	}
 	
 	public static void hostGame(boolean join) {
+
+		logger.log(Level.SEVERE, "TRYING TO HOST GAME");
 		
 		isHost = true;
 		shouldJoin = join;
