@@ -23,4 +23,4 @@ gwt-unitCache/
 
 *.nocache.js
 
-config.codekit
+war/config.codekit
