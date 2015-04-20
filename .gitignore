@@ -22,3 +22,5 @@ hs_err_pid*
 gwt-unitCache/
 
 *.nocache.js
+
+codekit.config
