@@ -49,7 +49,7 @@ public class ClientController implements Runnable {
 
 	int numberOfArmiesForTradedCards = 4;
 
-	public ClientController(ControllerApiInterface view) {
+	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
 		// this.client = new RiskClient();
