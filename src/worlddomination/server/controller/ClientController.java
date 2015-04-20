@@ -1,29 +1,60 @@
 package worlddomination.server.controller;
 
-import worlddomination.server.actions.*;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Queue;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import worlddomination.server.actions.AcceptJoinGame;
+import worlddomination.server.actions.Acknowledgement;
+import worlddomination.server.actions.Action;
+import worlddomination.server.actions.Attack;
+import worlddomination.server.actions.AttackCapture;
+import worlddomination.server.actions.Defend;
+import worlddomination.server.actions.Deploy;
+import worlddomination.server.actions.Fortify;
+import worlddomination.server.actions.InitialiseGame;
+import worlddomination.server.actions.Ping;
+import worlddomination.server.actions.PlayCards;
+import worlddomination.server.actions.PlayersJoined;
+import worlddomination.server.actions.Ready;
+import worlddomination.server.actions.RejectJoinGame;
+import worlddomination.server.actions.Roll;
+import worlddomination.server.actions.RollHash;
+import worlddomination.server.actions.RollNumber;
+import worlddomination.server.actions.Setup;
 import worlddomination.server.exceptions.BoardException;
 import worlddomination.server.exceptions.IllegalMoveException;
 import worlddomination.server.model.Card;
 import worlddomination.server.model.GameState;
-import worlddomination.server.model.Move;
 import worlddomination.server.model.Player;
 import worlddomination.server.network.ClientResponseGenerator;
 import worlddomination.server.network.RiskClient;
-
-import org.apache.jasper.tagplugins.jstl.ForEach;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import worlddomination.server.program.Constants;
-import worlddomination.shared.updates.*;
 import worlddomination.server.view.ControllerApiInterface;
-import worlddomination.server.view.IView;
-import worlddomination.server.view.Input;
-
-import java.io.BufferedReader;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
-import java.util.Map.Entry;
+import worlddomination.shared.updates.AllocateArmies;
+import worlddomination.shared.updates.ClaimTerritory;
+import worlddomination.shared.updates.CurrentPlayer;
+import worlddomination.shared.updates.DefendTerritory;
+import worlddomination.shared.updates.DistributeArmy;
+import worlddomination.shared.updates.Lobby;
+import worlddomination.shared.updates.LobbyPlayer;
+import worlddomination.shared.updates.LocalPlayerName;
+import worlddomination.shared.updates.MakeTurn;
+import worlddomination.shared.updates.MapUpdate;
+import worlddomination.shared.updates.PingReady;
+import worlddomination.shared.updates.Reinforce;
+import worlddomination.shared.updates.Rejection;
+import worlddomination.shared.updates.Update;
 
 public class ClientController implements Runnable {
 
@@ -76,7 +107,7 @@ public class ClientController implements Runnable {
 	 */
 	public void addLocalPlayerInfo() {
 		LocalPlayerName response = (LocalPlayerName) view
-				.addUpdateAndWaitForResponse(new LocalPlayerName());
+				.addUpdateAndWaitForResponse(new LocalPlayerName("Please enter your name"));
 		String name = response.getName();
 		gameStateManager.addLocalPlayerInfo(name);
 	}
@@ -230,8 +261,7 @@ public class ClientController implements Runnable {
 
 		if (dieRolls.length == 1) {
 			currentPlayer = dieRolls[0];
-			// TODO take out
-			currentPlayer = 3;
+			sendNextPlayer();
 		} else {
 			// TODO errorhandling
 			shutDown();
@@ -242,6 +272,19 @@ public class ClientController implements Runnable {
 				.size();
 		roll(new Roll(numOfCards, numOfCards,
 				gameStateManager.getLocalPlayerId()));
+	}
+	
+	private void sendNextPlayer() {
+		String message;
+		CurrentPlayer player = null;
+		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
+			message = "It's your turn.";
+			player = new CurrentPlayer(message, currentPlayer, true);
+		} else {
+			message = "It's " + gameStateManager.getModel().getGameState().getPlayerById(currentPlayer).getName() + "'s turn";
+			player = new CurrentPlayer(message, currentPlayer, false);
+		}
+		view.addUpdate(player);
 	}
 
 	private void shuffle() {
@@ -282,7 +325,7 @@ public class ClientController implements Runnable {
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				executeAllCurrentAcknowledgements();
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
-						.addUpdateAndWaitForResponse(new ClaimTerritory("Please claim a territory"));
+						.addUpdateAndWaitForResponse(new ClaimTerritory("Please select a territory to claim"));
 				localSetupTurn(claimTerritory);
 			} else {
 				executeActionsUntilIncludingType(new Setup(0, 0, 0));
@@ -301,7 +344,7 @@ public class ClientController implements Runnable {
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				executeAllCurrentAcknowledgements();
 				DistributeArmy distributeArmy = (DistributeArmy) view
-						.addUpdateAndWaitForResponse(new DistributeArmy("Please select a territory"));
+						.addUpdateAndWaitForResponse(new DistributeArmy("Please select a territory to reinforce"));
 				localSetupTurn(distributeArmy);
 			} else {
 				executeActionsUntilIncludingType(new Setup(0, 0, 0));
@@ -325,9 +368,6 @@ public class ClientController implements Runnable {
 	private void localMakeTurn() {
     	// trade in cards
         boolean canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager.getModel().getGameState().getPlayerById(currentPlayer), gameStateManager.model);
-        String logMessage = "It's your turn.";
-        CurrentPlayer currentPlayerUpdate = new CurrentPlayer(logMessage, currentPlayer, true);
-        view.addUpdate(currentPlayerUpdate);
         
         int numberOfArmies = 0;
         
@@ -347,7 +387,7 @@ public class ClientController implements Runnable {
         numberOfArmies += calculateNumberOfArmies(gameStateManager.model.getGameState().getPlayerById(currentPlayer), gameStateManager.model.getGameState());
         
         // reinforce
-        Reinforce reinforce = new Reinforce("Please select territories to reinforce.", numberOfArmies);
+        Reinforce reinforce = new Reinforce("Please select territories to reinforce - " + numberOfArmies + " armies", numberOfArmies);
         reinforce = (Reinforce) view.addUpdateAndWaitForResponse(reinforce);
         int[] territories = reinforce.getAllocationOfArmies();
         reinforceTerritories(territories);
@@ -449,8 +489,7 @@ public class ClientController implements Runnable {
 
 		if (tradeIn.getType().equalsIgnoreCase("tradein")) {
 
-			// TODO actual: int[] cardIds = tradeIn1.getCards();
-			int[] cardIds = { 1, 2, 3 };
+			int[] cardIds = tradeIn.getArrayOfCardIds();
 			Card[] cards = new Card[cardIds.length];
 			for (int i = 0; i < cards.length; i++) {
 				cards[i] = gameStateManager.model.getGameState().getCardsById(
@@ -483,16 +522,7 @@ public class ClientController implements Runnable {
 				break;
 			}
 		}
-		String message;
-		CurrentPlayer player = null;
-		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
-			message = "It's your turn.";
-			player = new CurrentPlayer(message, currentPlayer, true);
-		} else {
-			message = "It's " + gameStateManager.getModel().getGameState().getPlayerById(currentPlayer).getName() + "'s turn";
-			player = new CurrentPlayer(message, currentPlayer, false);
-		}
-		view.addUpdate(player);
+		sendNextPlayer();
 	}
 
 	private void rejectJoinGame(RejectJoinGame action) {
@@ -511,7 +541,6 @@ public class ClientController implements Runnable {
 	private void playersJoined(PlayersJoined action) {
 		Map<Integer, String[]> players = action.getPlayers();
 		Lobby lobby = new Lobby();
-		// TODO: Needs to send an array list of players
 		for (Map.Entry<Integer, String[]> player : players.entrySet()) {
 			lobby.addPlayerToListOfPlayers(new LobbyPlayer(player.getKey(),
 					player.getValue()[0], player.getValue()[1]));
@@ -520,7 +549,6 @@ public class ClientController implements Runnable {
 					gameStateManager.addPlayer(player.getKey(),
 							player.getValue()[0], player.getValue()[1]);
 				} else {
-					// TODO proper error handling
 					shutDown();
 				}
 			}
@@ -553,7 +581,6 @@ public class ClientController implements Runnable {
 				clientPing(ping);
 			}
 		} else {
-			// TODO error handling
 			shutDown();
 		}
 	}
@@ -759,7 +786,6 @@ public class ClientController implements Runnable {
 				}
 			}
 		} else {
-			// TODO error handling
 			shutDown();
 		}
 
@@ -807,7 +833,7 @@ public class ClientController implements Runnable {
 	}
 
 	private void localDefend(Attack attack) {
-		String message = "You are under attack.";
+		String message = "You are under attack";
 		// make defence
 		int maxArmies = 2;
 		try {
