@@ -117,15 +117,11 @@ public class ArtificialIntelligence {
 		// Choose a territory which is already owned by the AI, for this we want to inspect the model
 
 		// Create an ArrayList of owned territories
-		ArrayList<Territory> ownedTerritories = getOwnedTerritories();
+		int armiesToDistribute = 1;
+		ArrayList<Territory> ownedTerritories = getOwnedFocusTerritories(armiesToDistribute);
 
-		// Select a random index to use
-		int max = ownedTerritories.size();	// Exclusive value
-		int min = 0; 						// Inclusive value
-		int index = random.nextInt(max - min) + min;
-
-		// TODO: Add some sort of weighting to choose territories where it neighbours with itself
-		Territory chosenTerritory = ownedTerritories.get(index);
+		// Get the territory with the highest priority
+		Territory chosenTerritory = ownedTerritories.get(0);
 
 		// Set the territory ID and return the update
 		distribute.setTerritoryID(chosenTerritory.getId());
@@ -324,7 +320,7 @@ public class ArtificialIntelligence {
 		return availableTerritories;
 	}
 	
-	private ArrayList<Territory> getOwnedFocusTerritores(int numberOfArmies) {
+	private ArrayList<Territory> getOwnedFocusTerritories(int numberOfArmies) {
 		
 
 		// Create a list of all territories on the board
