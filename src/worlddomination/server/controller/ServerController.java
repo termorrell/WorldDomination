@@ -64,7 +64,8 @@ public class ServerController implements Runnable{
     		port = server.port;
     		view.addUpdate(portChange);
     	}
-
+        PingThread a = new PingThread();
+        a.run();
         while (true) {
             executeActions();
         }
@@ -185,10 +186,7 @@ public class ServerController implements Runnable{
             server.sendToOne(player_id,response);
             beginGame=true;
         }
-        if(connections.size()==3){
-            PingThread a = new PingThread();
-            a.run();
-        }
+
         if(beginGame || connections.size()==6) {
             response = responseGenerator.pingGenerator(playersJoined.size(), -1);
             server.sendMessageToAll(response);
