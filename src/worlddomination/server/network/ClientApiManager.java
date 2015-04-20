@@ -113,6 +113,7 @@ public class ClientApiManager implements ApiMethods {
         Acknowledgement ack = new Acknowledgement(ack_id,player_id);
         controller.handleAction(ack);
     }
+    
     private void rejectJoinGameReceived(JSONObject json) {
         String payload = json.getString("payload");
         RejectJoinGame reject = new RejectJoinGame(payload);
@@ -191,7 +192,7 @@ public class ClientApiManager implements ApiMethods {
         if(!json.isNull("payload")){
             numberPlayers = json.getInt("payload");
         }
-        int player_id = 0;
+        int player_id = -1;
         if (!json.isNull("player_id")) {
             player_id = json.getInt("player_id");
         }
