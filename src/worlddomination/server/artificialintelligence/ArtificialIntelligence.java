@@ -187,6 +187,8 @@ public class ArtificialIntelligence {
 	}
 
 	private MakeTurn configureMakeTurnResponse(MakeTurn makeTurn) {
+		
+		
 
 		// Need to choose whether or not to quit
 		if (numberOfTurnsPlayed < 5) {
@@ -439,6 +441,7 @@ public class ArtificialIntelligence {
 	private interface Predicate<T> { 
 		boolean sufficientArmies(T type); 
 		boolean recommendedArmies(T type, int distributionDensity);
+		boolean sufficientRecommendedArmies(T type, int distributionDensity);
 	}
 
 	Predicate<Territory> territoriesPredicate = new Predicate<Territory>() {
@@ -446,6 +449,9 @@ public class ArtificialIntelligence {
 			return (territory.getOccupyingArmies().size() > 1);
 		}
 		public boolean recommendedArmies(Territory territory, int distributionDensity) {
+			return (territory.getOccupyingArmies().size() > distributionDensity);
+		}
+		public boolean sufficientRecommendedArmies(Territory territory, int distributionDensity) {
 			return (territory.getOccupyingArmies().size() > distributionDensity);
 		}
 	};
@@ -464,6 +470,16 @@ public class ArtificialIntelligence {
 		ArrayList<T> result = new ArrayList<T>();
 		for (T element: col) {
 			if (predicate.recommendedArmies(element, distributionDensity)) {
+				result.add(element);
+			}
+		}
+		return result;
+	}
+	
+	private static <T> ArrayList<T> filterSufficientRecommendedArmies(Collection<T> col, Predicate<T> predicate, int distributionDensity) {
+		ArrayList<T> result = new ArrayList<T>();
+		for (T element: col) {
+			if (predicate.sufficientRecommendedArmies(element, distributionDensity)) {
 				result.add(element);
 			}
 		}
