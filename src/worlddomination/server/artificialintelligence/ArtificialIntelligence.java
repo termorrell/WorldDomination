@@ -136,6 +136,8 @@ public class ArtificialIntelligence {
 		// Create an ArrayList of ownedTerritories and selectedTerritories
 		ArrayList<Territory> ownedTerritories = getOwnedTerritories();
 		ArrayList<Integer> selectedTerritoryIds = new ArrayList<Integer> ();
+		
+		int distributionRatio = getGlobalDistributionDensityRatio();
 
 		for (int i = 0; i < numberOfArmiesToAllocate; i++) {
 
@@ -255,6 +257,26 @@ public class ArtificialIntelligence {
 		return ownedTerritories;
 	}
 
+	private ArrayList<Territory> getOwnedTerritoriesForContinent(Continent continent) {
+		
+		// Create a list of all available territories
+		ArrayList<Territory> availableTerritories = new ArrayList<Territory> ();
+
+		// Iterate through all territories in a continent
+		Territory[] continentTerritoriesArray = continent.getTerritories();
+		ArrayList<Territory> continentTerritories = new ArrayList<Territory> (Arrays.asList(continentTerritoriesArray));
+		for (Territory territory: continentTerritories) {
+			if (territory.getOwner() != null) {
+
+				// Check if the Id is the same as the ai, if it is add it to the list
+				if (territory.getOwner().getId() == aiPlayerId) {
+					continentTerritories.add(territory);
+				}
+			}
+		}
+		return availableTerritories;
+	}
+
 	private ArrayList<Territory> getAvailableTerritories() {
 
 		// Create a list of all territories on the board
@@ -332,11 +354,17 @@ public class ArtificialIntelligence {
 
 		// Iterate through all territories and prioritise territories in South America or Australia
 		Continent australia = allContinents.get(5);
+		availableTerritories.addAll(getOwnedTerritoriesForContinent(australia));
 		Continent southAmerica = allContinents.get(1);
+		availableTerritories.addAll(getOwnedTerritoriesForContinent(southAmerica));
 		Continent northAmerica = allContinents.get(0);
+		availableTerritories.addAll(getOwnedTerritoriesForContinent(northAmerica));
 		Continent africa = allContinents.get(3);
+		availableTerritories.addAll(getOwnedTerritoriesForContinent(africa));
 		Continent europe = allContinents.get(2);
+		availableTerritories.addAll(getOwnedTerritoriesForContinent(europe));
 		Continent asia = allContinents.get(4);
+		availableTerritories.addAll(getOwnedTerritoriesForContinent(asia));
 
 		// Return the ArrayList which has had empty territories added
 		return availableTerritories;
@@ -427,7 +455,7 @@ public class ArtificialIntelligence {
 		return false;
 	}
 
-	private int getGlobalDistributionDenstityRatio() {
+	private int getGlobalDistributionDensityRatio() {
 		
 		int totalArmies = 0;
 		int totalTerritoriesOccupied = 0;
@@ -439,13 +467,16 @@ public class ArtificialIntelligence {
 		// Iterate through all territories to find empty ones
 		for (Territory territory: allTerritories) {
 			if (territory.getOwner() != null) {
-				
-				totalArmies
+
+				if (territory.getOwner().getId() != aiPlayerId) {
+					totalArmies += territory.getOccupyingArmies().size();
+					totalTerritoriesOccupied ++;
+				}
 			}
 		}
 
 		// Return the ArrayList which has had empty territories added
-		return availableTerritories;
+		return totalArmies/totalTerritoriesOccupied;
 	}
 
 	private ArrayList<Territory> reinforceContinent(Continent continent, int numberOfArmies) {
