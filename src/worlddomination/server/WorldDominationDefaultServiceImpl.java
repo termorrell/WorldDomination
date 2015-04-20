@@ -41,14 +41,9 @@ public class WorldDominationDefaultServiceImpl extends RemoteServiceServlet impl
 
 	public void initialiseController(String ipAddress, int port) {
 
-		initNetworkActions();
 		ClientController controller = ControllerManager.sharedClientController(this, ipAddress, port);
 
 		Thread thread = new Thread(controller);
-		
-		for (Action action : networkActions) {
-			controller.handleAction(action);
-		}
 
 		thread.start();
 	}
