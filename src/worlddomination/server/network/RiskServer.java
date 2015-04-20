@@ -39,7 +39,7 @@ public class RiskServer implements Runnable{
 
 		try {
 			locateAvailablePort();
-			int i=0;
+			int i=1;
 			ssocket = new ServerSocket(port);
 			System.out.println("listening");
 			while(true){

@@ -2,6 +2,7 @@ package worlddomination.server.network;
 
 import worlddomination.server.actions.*;
 import worlddomination.server.controller.ClientController;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -76,8 +77,8 @@ public class ClientApiManager implements ApiMethods {
                 fortifyReceived(json);
                 break;
             case "acknowledgement":
-                //todo ask caroline
-                break;
+                acknowledgementReceived(json);
+            	break;
             case "roll_hash":
                 rollHashReceived(json);
                 break;
@@ -104,10 +105,14 @@ public class ClientApiManager implements ApiMethods {
         }
         Ready ready = new Ready(player_id, ack_id);
         controller.handleAction(ready);
-        //TODO: Nothing happens
-        
     }
 
+    private void acknowledgementReceived(JSONObject json) {
+        int player_id = json.getInt("player_id");
+        int ack_id = json.getInt("payload");
+        Acknowledgement ack = new Acknowledgement(ack_id,player_id);
+        controller.handleAction(ack);
+    }
     private void rejectJoinGameReceived(JSONObject json) {
         String payload = json.getString("payload");
         RejectJoinGame reject = new RejectJoinGame(payload);
