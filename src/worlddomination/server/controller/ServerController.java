@@ -173,7 +173,7 @@ public class ServerController implements Runnable{
         JSONObject response;
         HashMap<Integer,String> playersJoined = new HashMap<>();
         if(connections.size()<=6){
-            response= responseGenerator.acceptJoinGameGenerator(connections.size() - 1, 20, 30);
+            response= responseGenerator.acceptJoinGameGenerator(connections.size(), 20, 30);
             server.sendToOne(player_id,response);
             for(int i =0;i<connections.size();i++){
                 playersJoined.put(connections.get(i).getPlayer_id(),connections.get(i).getName());

@@ -482,7 +482,6 @@ public class ClientController implements Runnable {
 				}
 				break;
 			}
-
 		}
 		String message;
 		CurrentPlayer player = null;

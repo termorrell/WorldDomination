@@ -183,16 +183,14 @@ public class ClientApiManager implements ApiMethods {
 
     private void pingReceived(JSONObject json) {
         int numberPlayers = 0;
-        if(json.optInt("payload")!=0){
+        if(!json.isNull("payload")){
             numberPlayers = json.getInt("payload");
-        }else{
-            numberPlayers = -1;
         }
-        int player_id = -1;
+        int player_id = 0;
         if (!json.isNull("player_id")) {
-
             player_id = json.getInt("player_id");
         }
+        System.out.println("Ping sent with:" +numberPlayers +"   " + player_id);
         Ping ping = new Ping(numberPlayers,player_id);
         controller.handleAction(ping);
     }

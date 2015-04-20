@@ -52,6 +52,7 @@ public class RiskClient implements Runnable{
                 if(serverMessages.ready()) {
                     if(serverMessages.ready() && (serverMessage = serverMessages.readLine())!=null) {
                         JSONObject request  = api.parseResponse(serverMessage);
+                        System.out.println("Received: " + serverMessage.toString());
                         api.checkCommandRequest(0,request);
                     }
                 }
