@@ -11,9 +11,9 @@ import java.util.ArrayList;
 /**
  * Created by 120011588 on 18/02/15.
  */
-public class RiskServer {
+public class RiskServer implements Runnable{
 
-    public static ArrayList<ServerClientThread> clientThreads =  new ArrayList<ServerClientThread>();
+    private static ArrayList<ServerConnection> connections = new ArrayList<>();
     private int port;
     private ServerSocket ssocket;
     private int ackTimeout;
@@ -25,9 +25,9 @@ public class RiskServer {
         this.ackTimeout = ackTimeout;
         this.moveTimeout = moveTimeout;
         this.controller = controller;
-        runServer();
+
     }
-    private void runServer(){
+    public void run(){
         try {
             int i=0;
             ssocket = new ServerSocket(port);
@@ -35,7 +35,8 @@ public class RiskServer {
             while(true){
                 Socket socket = ssocket.accept();
                 ServerClientThread client = new ServerClientThread(i,socket, ackTimeout,moveTimeout, controller);
-                clientThreads.add(client);
+                ServerConnection connection = new ServerConnection(i,client);
+                connections.add(connection);
                 Thread t = new Thread(client);
                 t.start();
                 System.out.println("connected");
@@ -53,24 +54,28 @@ public class RiskServer {
         }
     }
 
-    public static void sendMessageToAll(JSONObject message){
-        System.out.println(clientThreads.size());
-        for (ServerClientThread clientThread : clientThreads) {
-            clientThread.sendServerMessage(message);
+    public void sendMessageToAll(JSONObject message){
+        for (ServerConnection client : connections) {
+            client.getConnection().sendServerMessage(message);
         }
     }
-    public static void sendMessageToAllExceptSender(int playerId, JSONObject message){
-        for (ServerClientThread clientThread : clientThreads) {
-            if (clientThread.getPlayerId() != playerId) {
-                clientThread.sendServerMessage(message);
+    public void sendMessageToAllExceptSender(int playerId, JSONObject message){
+        for (ServerConnection client : connections) {
+            if (client.getPlayer_id() != playerId) {
+                client.getConnection().sendServerMessage(message);
             }
         }
     }
     public void sendToOne(int playerId, JSONObject message){
-        for (ServerClientThread clientThread : clientThreads) {
-            if (clientThread.getPlayerId() == playerId) {
-                clientThread.sendServerMessage(message);
+        for (ServerConnection client : connections) {
+            if (client.getPlayer_id() == playerId) {
+                client.getConnection().sendServerMessage(message);
             }
         }
     }
+    public ArrayList<ServerConnection> getConnections() {
+        return connections;
+    }
+
+
 }

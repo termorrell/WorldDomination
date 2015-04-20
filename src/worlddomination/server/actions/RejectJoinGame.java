@@ -1,6 +1,6 @@
 package worlddomination.server.actions;
 
-public class RejectJoinGame extends Action {
+public class RejectJoinGame extends Action{
     String errorMessage;
 
     public RejectJoinGame(String errorMessage) {

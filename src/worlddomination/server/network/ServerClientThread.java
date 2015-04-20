@@ -43,7 +43,9 @@ public class ServerClientThread implements Runnable {
             long timer = 0;
             while (true) {
                 if (!messages.isEmpty()) {
-                    serverMessages.write(messages.remove().toString());
+                    String mess = messages.remove().toString();
+                    mess += '\n';
+                    serverMessages.write(mess);
                     serverMessages.flush();
                     timer = System.nanoTime();
                 }
@@ -56,7 +58,7 @@ public class ServerClientThread implements Runnable {
                 }
                 //while (System.nanoTime() - timer < timeout) {
                         if(clientMessages.ready() && (clientMessage=clientMessages.readLine())!=null) {
-                            System.out.println(clientMessage.toString());
+                            System.out.println("Received: " + clientMessage.toString());
                             JSONObject request = api.parseResponse(clientMessage.toString());
                             api.checkCommandRequest(this.player_id,request);
                     }

@@ -100,13 +100,13 @@ var RiskGame = {
     showArtificialIntelligenceModal: function(callback) {
         $(".artificialIntelligenceModal").fadeIn();
         $("#selectAI").on('click', function() {
-            $("#selectAI").off('click');
+            $(".artificialIntelligenceModal button").off('click');
             window.setShouldUseAI(true);
             RiskGame.hideArtificialIntelligenceModal();
             callback();
         });
         $("#selectPerson").on('click', function() {
-            $("#selectPerson").off('click');
+            $(".artificialIntelligenceModal button").off('click');
             window.setShouldUseAI(false);
             RiskGame.hideArtificialIntelligenceModal();
             callback();
@@ -115,6 +115,23 @@ var RiskGame = {
 
     hideArtificialIntelligenceModal: function() {
         $(".artificialIntelligenceModal").fadeOut();
+        $(".artificialIntelligenceModal button").off('click');
+    },
+
+    showTradeInModal: function(callback) {
+        $(".tradeInModal").fadeIn();
+        $("#cancel").on('click', function() {
+            $(".tradeInModal button").off('click');
+            callback();
+        });
+        $("#makeTurn").on('click', function() {
+            $(".tradeInModal button").off('click');
+            RiskGame.hideTradeInModal();
+        });
+    },
+
+    hideTradeInModal: function() {
+        $(".tradeInModal").fadeOut();
     },
 
     removeLoader: function() {
@@ -252,7 +269,10 @@ var RiskGame = {
         if (!shouldTradeIn) {
             $('.cards-close .close').fadeIn();
             $('.cards-close .close').on('click', function () {
-                RiskGame.minimiseCards(allowTradeIn, callback);
+                RiskGame.showTradeInModal(function() {
+
+                    RiskGame.minimiseCards(false, callback);
+                });
             });
         }
         $('.cards').addClass('display');

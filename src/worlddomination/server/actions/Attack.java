@@ -1,7 +1,7 @@
 package worlddomination.server.actions;
 
 
-public class Attack extends Action {
+public class Attack extends Action{
     int originTerritory;
     int destinationTerritory;
     int numberOfArmies;

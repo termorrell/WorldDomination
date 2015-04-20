@@ -37,7 +37,9 @@ public class RiskClient {
             serverMessages = new BufferedReader(new InputStreamReader(client.getInputStream()));
             while(true) {
                 if (!messages.isEmpty()) {
-                    clientMessages.write(messages.take().toString());
+                    String mess = messages.remove().toString();
+                    mess += '\n';
+                    clientMessages.write(mess);
                     clientMessages.flush();
                 }
                 if(serverMessages.ready()) {
@@ -48,8 +50,6 @@ public class RiskClient {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
