@@ -8,11 +8,14 @@ import worlddomination.server.model.Player;
 
 import java.util.LinkedList;
 
-/**
- * Created by 120011588 on 18/04/15.
- */
 public class ClientCardMethod {
 
+	/**
+	 * Updates the amount of cards a player holds
+	 * Assumes card array is shuffled
+	 * @param activePlayer current player
+	 * @param model 
+	 */
     public static void collectCard(Player activePlayer, Model model) {
         for (int i = 0; i < model.getGameState().getCards().size(); i++) {
             if (!model.getGameState().getCards().get(i).isAssigned()) {
@@ -75,6 +78,11 @@ public class ClientCardMethod {
         return false;
     }
 
+    /**
+     * Check if the cards selected are a valid trade
+     * @param selectedCards cards trying to be traded
+     * @return true if valid
+     */
     public static boolean verifyCardTrade(Card[] selectedCards) {
         if (selectedCards.length == 3) {
             if (checkOneWildCard(selectedCards)) {
@@ -86,6 +94,11 @@ public class ClientCardMethod {
         return false;
     }
 
+    /**
+     * Checks if the selected cards have one wild card
+     * @param selectedCards cards to be checked
+     * @return true if wild card present
+     */
     public static boolean checkOneWildCard(Card[] selectedCards) {
         int wildCardNo = 0;
         for (Card selectedCard : selectedCards) {
@@ -96,11 +109,21 @@ public class ClientCardMethod {
         return wildCardNo == 1;
     }
 
+    /**
+     * Checks that all the cards are the same type
+     * @param selectedCards cards to be checked
+     * @return true if all same type
+     */
     public static boolean checkAllSameType(Card[] selectedCards) {
 
         return selectedCards[0].getType().equals(selectedCards[1].getType()) && selectedCards[0].getType().equals(selectedCards[2].getType());
     }
 
+    /**
+     * Checks if cards are all different types
+     * @param selectedCards cards to be checked
+     * @return true if cards are all different type
+     */
     public static boolean checkAllDifferentType(Card[] selectedCards) {
         String cardType = selectedCards[0].getType();
         if (checkOneWildCard(selectedCards)) {
@@ -114,6 +137,11 @@ public class ClientCardMethod {
         return false;
     }
 
+    /**
+     * Calculates amount of armies awarded for a card trade
+     * @param model current gamestate of program
+     * @return amount of armies
+     */
     public static int calculateArmiesAwarded(Model model) {
         int armiesAwarded = 2;
         int cardsTraded = model.getGameState().getCardsTradedIn();

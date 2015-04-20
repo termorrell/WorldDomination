@@ -3,10 +3,6 @@ package worlddomination.server.network;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-/**
- * Created by ${mm280} on 04/03/15.
- */
 public class ClientResponseGenerator {
 
     RiskClient connection;
@@ -27,7 +23,6 @@ public class ClientResponseGenerator {
      * @param supported_features an array of strings representing extension features supported by the client.
      *                           Extra features are optional, and an empty array may be passed.
      * @param name               optional, string specifying the real name of the player.
-     * @return json object for join_game command
      */
     public void joinGameGenerator(Float[] supported_versions, String[] supported_features, String name) {
         JSONObject response = new JSONObject();
@@ -43,9 +38,8 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        System.out.println(message);
+        connection.sendClientMessage(message);
     }
-//{"message":"{\"payload\":{\"supported_versions\":[1.0],\"supported_features\":[],\"name\":\"angussmells\"},\"command\":\"join_game\"}\n"}
 
     /**
      * Sent by a host at the start of a game, and by all clients in response to this initial ping.
@@ -55,7 +49,7 @@ public class ClientResponseGenerator {
      * @param players_joined the total number of players who have joined the game, when sent by the host.
      * @param player_id      May be null in the case of a non-player host.
      */
-    public JSONObject pingGenerator(int players_joined, int player_id) {
+    public void pingGenerator(int players_joined, int player_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "ping");
@@ -64,7 +58,8 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
+
     }
 
     /**
@@ -74,9 +69,8 @@ public class ClientResponseGenerator {
      * @param player_id    id of player sending message
      * @param territory_id territory ID being claimed/reinforced
      * @param ack_id       id of acknowledgement
-     * @return setup command jsonObject
      */
-    public JSONObject setupGenerator(int player_id, int territory_id, int ack_id) {
+    public void setupGenerator(int player_id, int territory_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "setup");
@@ -90,7 +84,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -102,9 +96,8 @@ public class ClientResponseGenerator {
      * @param armies    integer number of armies the player expects to receive from this trade
      * @param player_id id of player sending message
      * @param ack_id    id of the acknowledgment message
-     * @return JSONOBject for play cards command
      */
-    public JSONObject playCardsGenerator(int[][] card_ids, int armies, int player_id, int ack_id) {
+    public void playCardsGenerator(int[][] card_ids, int armies, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "play_cards");
@@ -122,7 +115,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -132,9 +125,8 @@ public class ClientResponseGenerator {
      * @param card_id   the ID of the card being drawn
      * @param player_id id of the player
      * @param ack_id    id of the acknowledgment
-     * @return JSONObject for draw cards command
      */
-    public JSONObject drawCardsGenerator(int card_id, int player_id, int ack_id) {
+    public void drawCardsGenerator(int card_id, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "draw_card");
@@ -144,7 +136,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -154,9 +146,8 @@ public class ClientResponseGenerator {
      * @param armies    2D int array of territory ID/army count pairs
      * @param player_id id of player
      * @param ack_id    id of acknowledgment
-     * @return JSONObject for deploy
      */
-    public JSONObject deployGenerator(int[][] armies, int player_id, int ack_id) {
+    public void deployGenerator(int[][] armies, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "deploy");
@@ -167,7 +158,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -179,9 +170,8 @@ public class ClientResponseGenerator {
      * @param attack    int array, source territory ID/destination territory ID/army count triple
      * @param player_id id of the player
      * @param ack_id    id of the acknowledgement
-     * @return attack command JSONObject
      */
-    public JSONObject attackGenerator(int[] attack, int player_id, int ack_id) {
+    public void attackGenerator(int[] attack, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(attack);
@@ -192,7 +182,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -203,9 +193,8 @@ public class ClientResponseGenerator {
      * @param armies_no number of armies being used to defend the territory
      * @param player_id player id
      * @param ack_id    id of the acknowledgement
-     * @return JSONObject for defend command
      */
-    public JSONObject defendGenerator(int armies_no, int player_id, int ack_id) {
+    public void defendGenerator(int armies_no, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "defend");
@@ -215,7 +204,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -225,9 +214,8 @@ public class ClientResponseGenerator {
      * @param attack    int array, source territory ID/destination territory ID/army count triple
      * @param player_id the id of the player sending the message
      * @param ack_id    the id of the acknowledgement
-     * @return JSONObject for the attack capture command
      */
-    public JSONObject attackCaptureGenerator(int[] attack, int player_id, int ack_id) {
+    public void attackCaptureGenerator(int[] attack, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         JSONArray payload = new JSONArray(attack);
@@ -238,7 +226,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -249,9 +237,8 @@ public class ClientResponseGenerator {
      *                  null (when ending the turn without fortifying)
      * @param player_id the id of the player sending the message
      * @param ack_id    the id of the acknowledgement
-     * @return JSONObject for the fortify command
      */
-    public JSONObject fortifyGenerator(int[] armies, int player_id, int ack_id) {
+    public void fortifyGenerator(int[] armies, int player_id, int ack_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "fortify");
@@ -266,7 +253,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -274,9 +261,8 @@ public class ClientResponseGenerator {
      *
      * @param ack_id    the id of the acknowledgement
      * @param player_id the id of the player sending the message
-     * @return JSONObject for the acknowledgement command
      */
-    public JSONObject ackGenerator(int ack_id, int player_id) {
+    public void ackGenerator(int ack_id, int player_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "acknowledgement");
@@ -285,7 +271,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -294,9 +280,8 @@ public class ClientResponseGenerator {
      *
      * @param sha       SHA-256 hash as a hexadecimal string
      * @param player_id the id of the player sending the message
-     * @return JSONObject for the roll hash command
      */
-    public JSONObject rollHashGenerator(String sha, int player_id) {
+    public void rollHashGenerator(String sha, int player_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "roll_hash");
@@ -305,7 +290,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -314,9 +299,8 @@ public class ClientResponseGenerator {
      *
      * @param sha       256-bit random number as a hexadecimal string
      * @param player_id the id of the player sending the message
-     * @return JSONObject for the roll number command
      */
-    public JSONObject rollNumberGenerator(String sha, int player_id) {
+    public void rollNumberGenerator(String sha, int player_id) {
         JSONObject message = new JSONObject();
         JSONObject response = new JSONObject();
         response.put("command", "roll_number");
@@ -325,6 +309,6 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        return message;
+        connection.sendClientMessage(message);
     }
 }

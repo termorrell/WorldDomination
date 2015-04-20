@@ -453,7 +453,6 @@ public class ClientController implements Runnable {
 				}
 			}
 		}
-
 		view.addUpdate(lobby);
 	}
 
