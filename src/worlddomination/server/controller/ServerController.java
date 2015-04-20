@@ -223,7 +223,7 @@ public class ServerController implements Runnable{
     }
     
     private synchronized Action pollAction() {
-		return pollAction();
+		return actions.poll();
 	}
 	
 	private synchronized boolean isActionEmpty() {
