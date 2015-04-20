@@ -104,6 +104,8 @@ public class ClientApiManager implements ApiMethods {
         }
         Ready ready = new Ready(player_id, ack_id);
         controller.handleAction(ready);
+        //TODO: Nothing happens
+        
     }
 
     private void rejectJoinGameReceived(JSONObject json) {
@@ -113,13 +115,14 @@ public class ClientApiManager implements ApiMethods {
     }
 
     private void playersJoinedReceived(JSONObject json) {
+    	System.out.println(json.toString());
         JSONArray players = json.getJSONArray("payload");
         Map<Integer, String[]> playersJoined = new HashMap<>();
         for (int i = 0; i < players.length(); i++) {
             String[] playerInfo = new String[2];
-            playerInfo[0] = players.getString(1);
+            playerInfo[0] = players.getJSONArray(i).getString(1);
             playerInfo[1] = "";
-            playersJoined.put(players.getInt(0), playerInfo);
+            playersJoined.put(players.getJSONArray(i).getInt(0), playerInfo);
         }
         PlayersJoined joined = new PlayersJoined(playersJoined);
         controller.handleAction(joined);
@@ -185,7 +188,11 @@ public class ClientApiManager implements ApiMethods {
         }else{
             numberPlayers = -1;
         }
-        int player_id = json.getInt("player_id");
+        int player_id = -1;
+        if (!json.isNull("player_id")) {
+
+            player_id = json.getInt("player_id");
+        }
         Ping ping = new Ping(numberPlayers,player_id);
         controller.handleAction(ping);
     }

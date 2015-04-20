@@ -38,7 +38,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        //connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-       // connection.sendClientMessage(message);
+       connection.sendClientMessage(message);
 
     }
 
@@ -84,7 +84,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        //connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -115,7 +115,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        //connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -136,7 +136,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-       // connection.sendClientMessage(message);
+       connection.sendClientMessage(message);
     }
 
     /**
@@ -158,7 +158,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        //connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -182,7 +182,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        // connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -204,7 +204,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        // connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -226,7 +226,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        //connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -253,7 +253,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-       // connection.sendClientMessage(message);
+       connection.sendClientMessage(message);
     }
 
     /**
@@ -271,7 +271,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-       // connection.sendClientMessage(message);
+       connection.sendClientMessage(message);
     }
 
     /**
@@ -290,7 +290,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-       // connection.sendClientMessage(message);
+        connection.sendClientMessage(message);
     }
 
     /**
@@ -309,6 +309,6 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-       // connection.sendClientMessage(message);
+       connection.sendClientMessage(message);
     }
 }

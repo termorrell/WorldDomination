@@ -29,7 +29,6 @@ public class ClientController implements Runnable {
 
 	ControllerApiInterface view;
 	GameStateManager gameStateManager;
-	RiskClient client;
 	ClientResponseGenerator responseGenerator;
 	static Logger log = LogManager.getLogger(ClientController.class.getName());
 
@@ -51,10 +50,15 @@ public class ClientController implements Runnable {
 
 	int numberOfArmiesForTradedCards = 4;
 
+	Thread clientThread;
+	RiskClient client;
+	
 	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
 		this.client = new RiskClient(port, ipAddress, this);
+		this.clientThread = new Thread(this.client);
+		this.clientThread.start();
 		this.responseGenerator = new ClientResponseGenerator(client);
 		this.acknowledgementManager = new AcknowledgementManager();
 	}
@@ -90,15 +94,15 @@ public class ClientController implements Runnable {
 	}
 
 	private void executeActions() {
-		while (!actions.isEmpty()) {
-			Action nextAction = actions.poll();
+		while (!isActionEmpty()) {
+			Action nextAction = pollAction();
 			executeAction(nextAction);
 		}
 	}
 
 	private void executeActionsUntilIncludingType(Action type) {
-		while (!actions.isEmpty()) {
-			Action nextAction = actions.poll();
+		while (!isActionEmpty()) {
+			Action nextAction = pollAction();
 			executeAction(nextAction);
 			if (type.getClass().equals(nextAction.getClass())) {
 				break;
@@ -108,13 +112,13 @@ public class ClientController implements Runnable {
 
 	private void executeAllCurrentAcknowledgements() {
 		boolean checked = false;
-		while (!actions.isEmpty()) {
-			Action nextAction = actions.peek();
+		while (!isActionEmpty()) {
+			Action nextAction = peekAction();
 			if (nextAction instanceof Acknowledgement) {
 				if (((Acknowledgement) nextAction).getAcknowledgementId() == acknowledgementManager
 						.getAcknowledgementId()) {
 					checked = true;
-					nextAction = actions.poll();
+					nextAction = pollAction();
 					executeAction(nextAction);
 				} else {
 					break;
@@ -197,18 +201,18 @@ public class ClientController implements Runnable {
 	private void processDieRolls() {
 		boolean dieRollStarted = false;
 		while (true) {
-			if (!actions.isEmpty()) {
-				Action nextAction = actions.peek();
+			if (!isActionEmpty()) {
+				Action nextAction = peekAction();
 				if (!dieRollStarted) {
 					if (nextAction instanceof RollHash) {
 						dieRollStarted = true;
-						nextAction = actions.poll();
+						nextAction = pollAction();
 						executeAction(nextAction);
 					}
 				} else {
 					if ((nextAction instanceof RollHash)
 							|| (nextAction instanceof RollNumber)) {
-						nextAction = actions.poll();
+						nextAction = pollAction();
 						executeAction(nextAction);
 					} else {
 						break;
@@ -1037,6 +1041,19 @@ public class ClientController implements Runnable {
 	 */
 	public synchronized void handleAction(Action action) {
 		actions.add(action);
+	}
+	
+	private synchronized Action pollAction() {
+		return actions.poll();
+	}
+	
+	private synchronized Action peekAction() {
+		return actions.peek();
+	}
+	
+	private synchronized boolean isActionEmpty() {
+		return actions.isEmpty();
+		
 	}
 
 	public GameStateManager getGameStateManager() {

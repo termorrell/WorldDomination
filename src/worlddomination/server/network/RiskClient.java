@@ -9,7 +9,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 
-public class RiskClient {
+public class RiskClient implements Runnable{
 
     private static BufferedReader serverMessages;
     private static BufferedWriter clientMessages;
@@ -25,18 +25,17 @@ public class RiskClient {
      * @param host ip of host to connect to
      * @param controller controller for handling messages
      */
-    public RiskClient(int port, String host, ClientController controller){
+    public RiskClient(int port, String host, ClientController controller) {
         this.port = port;
         this.host = host;
         messages =  new ArrayBlockingQueue<JSONObject>(10);
         api =  new ClientApiManager(controller);
-        runClient();
     }
     
     /**
      * Runs the main loop within the client, for checking for messages to be sent or read
      */
-    public void runClient(){
+    public void run(){
         //todo make sure controller assigns playerid
         try {
             client = new Socket(host,port);
