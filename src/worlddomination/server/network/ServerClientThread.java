@@ -53,6 +53,7 @@ public class ServerClientThread implements Runnable {
                 if (!messages.isEmpty()) {
                     String mess = messages.remove().toString();
                     mess += '\n';
+                    System.out.println("Sending: " + mess);
                     serverMessages.write(mess);
                     serverMessages.flush();
                     timer = System.nanoTime();
