@@ -28,6 +28,7 @@ public class ServerApiManager implements ApiMethods{
     public void checkCommandRequest(int player_id, JSONObject request) {
         String command = request.getString("command");
         int ack_id;
+        JSONObject forwardResponse;
         switch (command) {
             case "join_game":
                 joinGameReceived(request);
@@ -39,49 +40,63 @@ public class ServerApiManager implements ApiMethods{
                 acknowledgementReceived(request);
                 break;
             case "roll":
+            	forwardResponse = revertToMessage(request);
                 ack_id = request.getInt("ack_id");
                 controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 break;
             case "roll_hash":
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+            	forwardResponse = revertToMessage(request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 break;
             case "roll_number":
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+            	forwardResponse = revertToMessage(request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 break;
             case "leave_game":
                 leaveGameReceived(request);
                 break;
             case "setup":
-                setUpReceived(request);
-                break;
+            	forwardResponse = revertToMessage(request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
+            	break;
             case "play_cards":
                 ack_id = request.getInt("ack_id");
+            	forwardResponse = revertToMessage(request);
                 controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 break;
             case "deploy":
                 ack_id = request.getInt("ack_id");
+            	forwardResponse = revertToMessage(request);
                 controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 break;
             case "attack":
                 ack_id = request.getInt("ack_id");
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+            	forwardResponse = revertToMessage(request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
                 break;
             case "defend":
                 ack_id = request.getInt("ack_id");
+            	forwardResponse = revertToMessage(request);
                 controller.server.sendToOne(player_id,ackGen.ackGenerator(ack_id,player_id));
-                controller.server.sendMessageToAllExceptSender(player_id,request);
+                controller.server.sendMessageToAllExceptSender(player_id,forwardResponse);
                 break;
             default:
-                forwardCommand(request);
-                controller.server.sendMessageToAllExceptSender(player_id, request);
+            	forwardResponse = revertToMessage(request);
+                controller.server.sendMessageToAllExceptSender(player_id, forwardResponse);
                 break;
         }
     }
 
+    private JSONObject revertToMessage(JSONObject json){
+    	JSONObject message = new JSONObject();
+    	String messageString = json.toString();
+    	message.put("message",messageString);
+    	return message;
+    }
 
     private void joinGameReceived(JSONObject json) {
         JSONObject payload = json.getJSONObject("payload");
@@ -100,15 +115,6 @@ public class ServerApiManager implements ApiMethods{
         controller.handleAction(join);
     }
 
-
-
-    private void setUpReceived(JSONObject JSON){
-        int territory_id = JSON.getInt("payload");
-        int player_id = JSON.getInt("player_id");
-        int ack_id = JSON.getInt("ack_id");
-        Setup setup = new Setup(player_id,territory_id,ack_id);
-        controller.handleAction(setup);
-    }
     private void leaveGameReceived(JSONObject json) {
         JSONObject payload = json.getJSONObject("payload");
         int response_code = payload.getInt("response");
@@ -138,7 +144,4 @@ public class ServerApiManager implements ApiMethods{
         controller.handleAction(ack);
     }
 
-    private void forwardCommand(JSONObject json) {
-        // TODO forward message to all connected clients
-    }
 }
