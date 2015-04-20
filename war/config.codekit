@@ -11,6 +11,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/css\/risk.css": {
+		"fileType": 16,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/css\/risk.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/css\/skeleton.css": {
 		"fileType": 16,
 		"ignore": 0,
@@ -405,6 +414,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/js\/min\/RiskGame-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/js\/min\/RiskGame-min.js",
+		"outputAbbreviatedPath": "\/js\/min\/min\/RiskGame-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/js\/min\/RiskLog-min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -449,12 +469,23 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/js\/RiskGame.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/js\/RiskGame.js",
+		"outputAbbreviatedPath": "\/js\/min\/RiskGame-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/js\/RiskGameData.js": {
 		"fileType": 64,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/RiskGameData.js",
-		"outputAbbreviatedPath": "\/js\/min\/gameData-min.js",
+		"outputAbbreviatedPath": "\/js\/min\/RiskGameData-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
@@ -481,6 +512,31 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
+		},
+	"\/scss\/risk.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 10,
+		"fileType": 4,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/scss\/risk.scss",
+		"outputAbbreviatedPath": "\/css\/risk.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/WorldDomination.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/WorldDomination.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
 		},
 	"\/worlddomination\/003B2A4CFCD5379E8ED0B350EE368E3B.cache.js": {
 		"fileType": 64,

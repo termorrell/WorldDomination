@@ -7,6 +7,7 @@ import worlddomination.client.WorldDominationAIService;
 import worlddomination.server.artificialintelligence.ArtificialIntelligence;
 import worlddomination.server.controller.ClientController;
 import worlddomination.server.controller.ControllerManager;
+import worlddomination.server.controller.ServerController;
 import worlddomination.server.model.Model;
 import worlddomination.server.view.ControllerApiInterface;
 import worlddomination.shared.updates.Update;
@@ -22,13 +23,12 @@ public class WorldDominationAIServiceImpl extends RemoteServiceServlet implement
 
 	public void initialiseController(String ipAddress, int port) {
 
-		// TODO: Should play as an AI
-		ClientController controller = ControllerManager.sharedManager(this);
+		ClientController controller = ControllerManager.sharedClientController(this, ipAddress, port);
 
 		Thread thread = new Thread(controller);
-
-		thread.start();
 		
+		thread.start();
+
 		Model model = controller.getGameStateManager().getModel();
 		
 		artificialIntelligence = ArtificialIntelligence.getInstance(model);
@@ -36,17 +36,25 @@ public class WorldDominationAIServiceImpl extends RemoteServiceServlet implement
 
 	public void initialiseControllerAsHost(boolean shouldJoin) {
 
+		ServerController serverController = ControllerManager.sharedServerController(this);
 		
-		// TODO: Should play as an AI
-		ClientController controller = ControllerManager.sharedManager(this);
-
-		Thread thread = new Thread(controller);
-
-		thread.start();
-
-		Model model = controller.getGameStateManager().getModel();
+		Thread serverThread = new Thread(serverController);
 		
-		artificialIntelligence = ArtificialIntelligence.getInstance(model);
+		serverThread.start();
+		
+		if (shouldJoin) {
+
+			// TODO: This needs changing to pass in the ip and port
+			ClientController clientController = ControllerManager.sharedClientController(this, "", 0);
+
+			Thread clientThread = new Thread(clientController);
+
+			clientThread.start();
+
+			Model model = clientController.getGameStateManager().getModel();
+			
+			artificialIntelligence = ArtificialIntelligence.getInstance(model);
+		}
 	}
 
 	/**
