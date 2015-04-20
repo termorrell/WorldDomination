@@ -8,9 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Created by 120011588 on 18/02/15.
- */
+
 public class RiskClient {
 
     private static BufferedReader serverMessages;
@@ -21,6 +19,12 @@ public class RiskClient {
     private Socket client;
     private ClientApiManager api;
 
+    /**
+     * Constructor for creating a new client
+     * @param port port to connect to
+     * @param host ip of host to connect to
+     * @param controller controller for handling messages
+     */
     public RiskClient(int port, String host, ClientController controller){
         this.port = port;
         this.host = host;
@@ -28,6 +32,10 @@ public class RiskClient {
         api =  new ClientApiManager(controller);
         runClient();
     }
+    
+    /**
+     * Runs the main loop within the client, for checking for messages to be sent or read
+     */
     public void runClient(){
         //todo make sure controller assigns playerid
         try {
@@ -54,16 +62,14 @@ public class RiskClient {
         }
     }
 
+    /**
+     * Adds a message to the queue to be sent
+     * @param message message to be sent
+     */
     public void sendClientMessage(JSONObject message){
         messages.add(message);
     }
 
-    public void closeClient(){
-        try {
-            client.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 }
