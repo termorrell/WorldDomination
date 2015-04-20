@@ -389,11 +389,8 @@ var RiskGame = {
     },
 
     hostGameOnly: function() {
-        this.showArtificialIntelligenceModal(function() {
-
-            this.waitForReadyState();
-            window.hostGame(false);
-        });
+        this.waitForReadyState();
+        window.hostGame(false);
         this.hideHostAndPlayModal();
     },
 

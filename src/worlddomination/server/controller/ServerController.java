@@ -34,10 +34,9 @@ public class ServerController implements Runnable{
     ArrayList<ServerConnection> connections;
     Queue<Action> actions = new LinkedList<>();
     public RiskServer server;
-    boolean beginGame;
+    boolean beginGame, gameStarted;
     String host;
-    int port;
-
+    int port, acknowCount;
     /**
      * Creates the server controller and initializes all the variables, also runs a server on a new thread
      * @param view view for updating the GUI
@@ -47,6 +46,8 @@ public class ServerController implements Runnable{
         this.responseGenerator = new ServerResponseGenerator();
         this.acknowledgementManager = new AcknowledgementManager();
         this.view = view;
+        gameStarted=false;
+        acknowCount =0;
         server = new RiskServer(port,2,3,this);
         Thread t = new Thread(server);
         t.start();
@@ -106,8 +107,13 @@ public class ServerController implements Runnable{
         }else if(action instanceof LeaveGame){
             leaveGame((LeaveGame) action);
         }else if(action instanceof Acknowledgement){
-            acknowledgement((Acknowledgement) action);
-        }
+            if(!gameStarted) {
+                acknowledgement((Acknowledgement) action);
+            }else{
+                JSONObject resp = responseGenerator.ackGenerator(((Acknowledgement) action).getAcknowledgementId(),((Acknowledgement) action).getPlayerId());
+                server.sendMessageToAllExceptSender(((Acknowledgement) action).getPlayerId(), resp);
+            }
+       }
 
     }
 
@@ -132,13 +138,18 @@ public class ServerController implements Runnable{
         boolean complete = false;
         if(collectingAcknowledgements) {
             int responseCode = acknowledgementManager.addAcknowledgement(acknowledgement.getPlayerId(), acknowledgement.getAcknowledgementId());
-            complete = acknowledgementManager.isAcknowledgedByAllPlayers(connections.size()-1);
+            complete = acknowledgementManager.isAcknowledgedByAllPlayers(connections.size()+1);
+            JSONObject resp = responseGenerator.ackGenerator(acknowledgement.getAcknowledgementId(),acknowledgement.getPlayerId());
+            server.sendMessageToAllExceptSender(acknowledgement.getPlayerId(), resp);
         }
         if(complete){
             JSONObject response = responseGenerator.initGameGenerated(1.0,Constants.getSupportedFeatures());
             server.sendMessageToAll(response);
+            collectingAcknowledgements =false;
+            gameStarted = true;
+
         }
-    }
+	}
     
 	/**
 	 * Called when a leave game action is received, removes player from connections and forwards message to 
@@ -158,16 +169,6 @@ public class ServerController implements Runnable{
 	 */
 	private void joinGame(JoinGame join){
         int player_id = connections.get(connections.size()-1).getPlayer_id();
-        versions = new Float[join.getSupported_versions().length];
-        for(int i=0;i<versions.length;i++){
-            versions[i] =join.getSupported_versions()[i];
-        }
-        allVersions.add(versions);
-        features = new String[join.getSupported_features().length];
-        for(int i=0;i<features.length;i++){
-            features[i] =join.getSupported_features()[i];
-        }
-        allFeatures.add(features);
         connections.get(connections.size()-1).setName(join.getPlayer_name());
         JSONObject response;
         HashMap<Integer,String> playersJoined = new HashMap<>();
@@ -205,9 +206,11 @@ public class ServerController implements Runnable{
         JSONObject pings = responseGenerator.pingGenerator(ping.getNumberOfPlayers(),ping.getPlayerId());
         server.sendMessageToAllExceptSender(ping.getPlayerId(),pings);
         if((pingsRecevied.size()==connections.size()&&connections.size()>=3) ||connections.size()==6) {
-            JSONObject response = responseGenerator.readyGenerator(-1, 1);
+            JSONObject response = responseGenerator.readyGenerator(-1, acknowCount);
             server.sendMessageToAll(response);
+            acknowCount++;
             collectingAcknowledgements = true;
+            acknowledgementManager.expectAcknowledgement();
         }
     }
 	
