@@ -88,8 +88,8 @@ public class ServerController implements Runnable{
      * Continuously executes actions sent to controller
      */
     private void executeActions() {
-        while (!actions.isEmpty()) {
-            Action nextAction = actions.poll();
+        while (!isActionEmpty()) {
+            Action nextAction = pollAction();
             executeAction(nextAction);
         }
     }
@@ -221,4 +221,14 @@ public class ServerController implements Runnable{
     public synchronized void handleAction(Action action) {
         actions.add(action);
     }
+    
+    private synchronized Action pollAction() {
+		return pollAction();
+	}
+	
+	private synchronized boolean isActionEmpty() {
+		return actions.isEmpty();
+		
+	}
+
 }
