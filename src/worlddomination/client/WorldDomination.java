@@ -317,8 +317,8 @@ public class WorldDomination implements EntryPoint {
 	}
 	
 	private static native void makeTurnEvent(String timeOut, boolean allowTradeIn) /*-{
-	 	var callback = $entry(function(type, sourceTerritory, destinationTerritory, numberOfArmies) {
-	    	@worlddomination.client.WorldDomination::makeTurnEventResponse(Ljava/lang/String;III)(type, sourceTerritory, destinationTerritory, numberOfArmies);
+	 	var callback = $entry(function(type, sourceTerritory, destinationTerritory, numberOfArmies, arrayOfCards) {
+	    	@worlddomination.client.WorldDomination::makeTurnEventResponse(Ljava/lang/String;IIILcom/google/gwt/core/client/JsArrayNumber;)(type, sourceTerritory, destinationTerritory, numberOfArmies, arrayOfCards);
 	 	});
 		$wnd.RiskGame.makeTurnEvent(timeOut, allowTradeIn, callback);
 	}-*/;
@@ -327,15 +327,21 @@ public class WorldDomination implements EntryPoint {
 		$wnd.RiskGame.allocateCardEvent(territoryID, type);
 	}-*/;
 
-	private static void makeTurnEventResponse(String result, int sourceTerritory, int destinationTerritory, int numberOfArmies) {
+	private static void makeTurnEventResponse(String result, int sourceTerritory, int destinationTerritory, int numberOfArmies, JsArrayNumber arrayOfCards) {
     	
 		MakeTurn makeTurn = (MakeTurn)currentUpdate;
 		makeTurn.setType(result);
 		
-		if (makeTurn.getType().equals("Attack") || makeTurn.getType().equals("Fortify")) {
+		if (makeTurn.getType().equalsIgnoreCase("Attack") || makeTurn.getType().equalsIgnoreCase("Fortify")) {
 			makeTurn.setSourceTerritory(sourceTerritory);
 			makeTurn.setDestinationTerritory(destinationTerritory);
 			makeTurn.setNumberOfArmies(numberOfArmies);
+		} else if (makeTurn.getType().equalsIgnoreCase("TradeIn")) {
+			int[] arrayOfCardIds = new int[arrayOfCards.length()];
+			for (int i=0; i < arrayOfCards.length(); i++) {
+				arrayOfCardIds[i] = (int)arrayOfCards.get(i);
+			}
+			makeTurn.setArrayOfCardIds(arrayOfCardIds);
 		}
 		
 		sendUpdateResponse(makeTurn);
