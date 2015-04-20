@@ -137,7 +137,7 @@ public class ArtificialIntelligence {
 		ArrayList<Territory> ownedTerritories = getOwnedTerritories();
 		ArrayList<Integer> selectedTerritoryIds = new ArrayList<Integer> ();
 		
-		int distributionRatio = getGlobalDistributionDensityRatio();
+		int distributionRatio = getGlobalDistributionDensity();
 
 		for (int i = 0; i < numberOfArmiesToAllocate; i++) {
 
@@ -175,7 +175,7 @@ public class ArtificialIntelligence {
 
 				// Create an ArrayList of owned territories
 				ArrayList<Territory> ownedTerritories = getOwnedTerritories();
-				ArrayList<Territory> filteredTerritories = filter(ownedTerritories, sufficientArmiesPredicate);
+				ArrayList<Territory> filteredTerritories = filterSufficientArmies(ownedTerritories, territoriesPredicate);
 
 				// Select a random index to use
 				int max = ownedTerritories.size();	// Exclusive value
@@ -418,44 +418,7 @@ public class ArtificialIntelligence {
 		return ownTerritories;
 	}
 
-	private boolean shouldReinforceContinent(Continent continent) {
-
-		int totalArmiesInContinent = 0;
-		int totalTerritoriesOccupied = 0;
-
-		// Iterate through all territories in a continent
-		Territory[] continentTerritoriesArray = continent.getTerritories();
-		ArrayList<Territory> continentTerritories = new ArrayList<Territory> (Arrays.asList(continentTerritoriesArray));
-		for (Territory territory: continentTerritories) {
-			if (territory.getOwner() != null) {
-
-				// Check if the territory is owned by the AI
-				if (territory.getOwner().getId() == aiPlayerId) {
-
-					totalArmiesInContinent += territory.getOccupyingArmies().size();
-					totalTerritoriesOccupied ++;
-				}
-			}
-		}
-
-		// Check if any territories are owned in the continent
-		if (totalTerritoriesOccupied > 0) {
-
-			// Ensure the continent has a high distribution of armies
-			double distributionRatio = totalArmiesInContinent/totalTerritoriesOccupied;
-			if (distributionRatio < DISTRIBUTION_DENSITY_RATIO) {
-
-				return true;
-			} else {
-
-				return false;
-			}
-		}
-
-		return false;
-	}
-
-	private int getGlobalDistributionDensityRatio() {
+	private int getGlobalDistributionDensity() {
 		
 		int totalArmies = 0;
 		int totalTerritoriesOccupied = 0;
@@ -478,8 +441,13 @@ public class ArtificialIntelligence {
 		// Return the ArrayList which has had empty territories added
 		return totalArmies/totalTerritoriesOccupied;
 	}
+	
+	private int getRecommendedDistributionDensity() {
 
-	private ArrayList<Territory> reinforceContinent(Continent continent, int numberOfArmies) {
+		return getGlobalDistributionDensity() * 2;
+	}
+
+	private ArrayList<Territory> reinforceContinentTerritories(Continent continent) {
 
 		// Iterate through all territories in a continent
 		Territory[] continentTerritoriesArray = continent.getTerritories();
@@ -487,6 +455,8 @@ public class ArtificialIntelligence {
 
 		// Create a list of all neighbouring own territories
 		ArrayList<Territory> territoriesToArm = new ArrayList<Territory> ();
+		
+		int distributionDensity = getRecommendedDistributionDensity();
 
 		for (Territory territory: continentTerritories) {
 			if (territory.getOwner() != null) {
@@ -494,8 +464,8 @@ public class ArtificialIntelligence {
 				// Check if the territory is owned by the AI
 				if (territory.getOwner().getId() == aiPlayerId) {
 
-					//TODO: Ratio should be relative to the number of armies on the board
-					if (territory.getOccupyingArmies().size() < DISTRIBUTION_DENSITY_RATIO) {
+					// Check if the territory meets the recommended distributionDensity
+					if (territory.getOccupyingArmies().size() < distributionDensity) {
 
 						territoriesToArm.add(territory);
 					}
@@ -508,18 +478,32 @@ public class ArtificialIntelligence {
 
 	private interface Predicate<T> { 
 		boolean sufficientArmies(T type); 
+		boolean recommendedArmies(T type);
 	}
 
-	Predicate<Territory> sufficientArmiesPredicate = new Predicate<Territory>() {
+	Predicate<Territory> territoriesPredicate = new Predicate<Territory>() {
 		public boolean sufficientArmies(Territory territory) {
 			return (territory.getOccupyingArmies().size() > 1);
 		}
+		public boolean recommendedArmies(Territory territory) {
+			return (territory.getOccupyingArmies().size() > getRecommendedDistributionDensity());
+		}
 	};
 
-	private static <T> ArrayList<T> filter(Collection<T> col, Predicate<T> predicate) {
+	private static <T> ArrayList<T> filterSufficientArmies(Collection<T> col, Predicate<T> predicate) {
 		ArrayList<T> result = new ArrayList<T>();
 		for (T element: col) {
 			if (predicate.sufficientArmies(element)) {
+				result.add(element);
+			}
+		}
+		return result;
+	}
+	
+	private static <T> ArrayList<T> filterRecommendedArmies(Collection<T> col, Predicate<T> predicate) {
+		ArrayList<T> result = new ArrayList<T>();
+		for (T element: col) {
+			if (predicate.recommendedArmies(element)) {
 				result.add(element);
 			}
 		}
