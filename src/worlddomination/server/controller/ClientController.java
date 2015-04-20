@@ -54,7 +54,7 @@ public class ClientController implements Runnable {
 	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
-		// this.client = new RiskClient();
+		this.client = new RiskClient(port, ipAddress, this);
 		this.responseGenerator = new ClientResponseGenerator(client);
 		this.acknowledgementManager = new AcknowledgementManager();
 	}
