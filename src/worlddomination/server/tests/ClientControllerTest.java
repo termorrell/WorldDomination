@@ -464,13 +464,26 @@ public class ClientControllerTest {
 
         networkActions.add(new Acknowledgement(118, thirdId));
         networkActions.add(new Acknowledgement(118, firstId));
-
+        
+        networkActions.add(new Defend(2, firstId, 119));
         networkActions.add(new Acknowledgement(119, thirdId));
-        networkActions.add(new Acknowledgement(119, firstId));
 
-        networkActions.add(new Acknowledgement(105, thirdId));
-        networkActions.add(new Acknowledgement(105, firstId));
+        networkActions.add(new Acknowledgement(120, thirdId));
+        networkActions.add(new Acknowledgement(120, firstId));
 
+        networkActions.add(new Defend(1, thirdId, 121));
+        networkActions.add(new Acknowledgement(121, firstId));
+        
+        networkActions.add(new Acknowledgement(122, thirdId));
+        networkActions.add(new Acknowledgement(122, firstId));
+
+        // third player
+        networkActions.add(new PlayCards(0, new int[0][0], 0, firstId, 123));
+        networkActions.add(new Acknowledgement(123, thirdId));
+
+        int[][] deploy3 = {{12, 3}};
+        networkActions.add(new Deploy(deploy2, firstId, 124));
+        networkActions.add(new Acknowledgement(124, thirdId));
 
     }
 

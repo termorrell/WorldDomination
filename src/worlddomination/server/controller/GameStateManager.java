@@ -108,6 +108,10 @@ public class GameStateManager {
     }
 
     public String serializeMap() {
+    	// TODO take out one day
+    	model.getGameState().getBoard().printAvailableTerritories();
+    	
+    	
     	JSONObject object = new JSONObject();
 		JSONArray territories = new JSONArray();
 		Territory[] territoriesArray = model.getGameState().getBoard().getTerritories();
@@ -151,6 +155,10 @@ public class GameStateManager {
         return playerId;
     }
 
+    public void attack(int attackingPlayer, int sourceTerritory, int destinationTerritory, int numberOfArmies) throws BoardException, IllegalMoveException {
+    	Moves.attack(model.getGameState().getPlayerById(attackingPlayer), model.getGameState(), sourceTerritory, destinationTerritory, numberOfArmies);
+    }
+    
     public boolean defend(int attackingPlayer, int attackingTerritory, int defendingTerritory, int numberOfAttackingArmies, int numberOfDefendingArmies, int[] dieRolls) throws BoardException, IllegalMoveException {
 
             return Moves.defendTerritory(model.getGameState().getPlayerById(attackingPlayer),model.getGameState(), attackingTerritory,defendingTerritory,numberOfAttackingArmies, numberOfDefendingArmies, dieRolls );
