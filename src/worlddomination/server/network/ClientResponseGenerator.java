@@ -38,7 +38,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        //connection.sendClientMessage(message);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+       // connection.sendClientMessage(message);
 
     }
 
@@ -84,7 +84,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        //connection.sendClientMessage(message);
     }
 
     /**
@@ -115,11 +115,11 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        //connection.sendClientMessage(message);
     }
 
     /**
-     * Sent by a player during a turn after their final “attack” has been completed, if any territories have been claimed.
+     * Sent by a player during a turn after their final attack has been completed, if any territories have been claimed.
      * Generates a JSONObject for the draw cards command
      *
      * @param card_id   the ID of the card being drawn
@@ -136,11 +136,11 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+       // connection.sendClientMessage(message);
     }
 
     /**
-     * Sent by a player at the start of their turn after the “play_cards” command.
+     * Sent by a player at the start of their turn after the play_cards command.
      * Generates the deploy JSONObject
      *
      * @param armies    2D int array of territory ID/army count pairs
@@ -158,7 +158,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        //connection.sendClientMessage(message);
     }
 
     /**
@@ -182,11 +182,11 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        // connection.sendClientMessage(message);
     }
 
     /**
-     * Sent by the defending player immediately following an “attack” command.
+     * Sent by the defending player immediately following an attack command.
      * Specifies the number of armies being used to defend with.
      * Army count must be 1 or 2, and the territory must contain at least the same number of armies as is being used to defend.
      *
@@ -204,7 +204,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        // connection.sendClientMessage(message);
     }
 
     /**
@@ -226,7 +226,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+        //connection.sendClientMessage(message);
     }
 
     /**
@@ -253,11 +253,11 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+       // connection.sendClientMessage(message);
     }
 
     /**
-     * Sent by each player in response to any command specifying an “ack_id” being received.
+     * Sent by each player in response to any command specifying an ack_id being received.
      *
      * @param ack_id    the id of the acknowledgement
      * @param player_id the id of the player sending the message
@@ -271,11 +271,11 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+       // connection.sendClientMessage(message);
     }
 
     /**
-     * Sent by each player in receipt of a “roll” command being received.
+     * Sent by each player in receipt of a roll command being received.
      * The hash should be a string representation of the SHA-256 hash in hexadecimal.
      *
      * @param sha       SHA-256 hash as a hexadecimal string
@@ -290,11 +290,11 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+       // connection.sendClientMessage(message);
     }
 
     /**
-     * Sent by each player following the receipt of a “roll_hash” being received from all other players.
+     * Sent by each player following the receipt of a roll_hash being received from all other players.
      * The payload should correspond to the previously sent hash.
      *
      * @param sha       256-bit random number as a hexadecimal string
@@ -309,6 +309,6 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
-        connection.sendClientMessage(message);
+       // connection.sendClientMessage(message);
     }
 }

@@ -10,6 +10,7 @@ import worlddomination.server.model.Player;
 import worlddomination.server.network.ClientResponseGenerator;
 import worlddomination.server.network.RiskClient;
 
+import org.apache.jasper.tagplugins.jstl.ForEach;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +23,7 @@ import worlddomination.server.view.Input;
 import java.io.BufferedReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class ClientController implements Runnable {
 
@@ -347,37 +349,94 @@ public class ClientController implements Runnable {
         reinforceTerritories(territories);
         view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
         
-        boolean claimedTerritory =  true;
-        
         // attack or fortify loop
         boolean wantToTurn = true;
         
         while(wantToTurn) {
         	MakeTurn turn = new MakeTurn("Please make a turn", "", false);
-        	view.addUpdateAndWaitForResponse(turn);
-        	if(makeTurn(turn)) {
-        		claimedTerritory = true;
-        	}
+        	turn = (MakeTurn) view.addUpdateAndWaitForResponse(turn);
+        	
+        	makeLocalTurn(turn);
+        		
         	view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
         	if(turn.getType().equalsIgnoreCase("quit") || turn.getType().equalsIgnoreCase("fortify")) {
         		wantToTurn = false;
+        		if(turn.getType().equalsIgnoreCase("quit")) {
+        			acknowledgementManager.expectAcknowledgement();
+        			collectingAcknowledgements = true;
+        			responseGenerator.fortifyGenerator(new int[0],currentPlayer, acknowledgementManager.id );
+        			executeAllCurrentAcknowledgements();
+        		}
         	}
         }
         
-        if(claimedTerritory) {
+        
             drawCards();
-        }
+        
     }
 	
-	private boolean makeTurn(MakeTurn turn) {
-		return false;
+	private void makeLocalTurn(MakeTurn turn) {
+		if(turn.getType().equalsIgnoreCase("Attack")) {
+			localAttack(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
+		} else if(turn.getType().equalsIgnoreCase("Fortify")) {
+			localFortify(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
+		}
+	}
+	
+	private void localAttack(int sourceTerritory, int destinationTerritory, int numberOfArmies) {
+		try {
+			gameStateManager.attack(currentPlayer, sourceTerritory, destinationTerritory, numberOfArmies);
+		} catch (BoardException | IllegalMoveException e) {
+			e.printStackTrace();
+			shutDown();
+		}
+		
+		acknowledgementManager.expectAcknowledgement();
+		int[] attackInfo = {sourceTerritory, destinationTerritory, numberOfArmies};
+		responseGenerator.attackGenerator(attackInfo, currentPlayer, acknowledgementManager.id);
+		executeAllCurrentAcknowledgements();
+		checkAcknowledgement();
+		
+		cachedAction = new Attack(sourceTerritory, destinationTerritory, numberOfArmies, currentPlayer, 0);
+		
+		executeActionsUntilIncludingType(new Defend(0, 0, 0));
+	}
+	
+	private void localFortify(int sourceTerritory, int destinationTerritory, int numberOfArmies) {
+		try {
+			gameStateManager.fortify(currentPlayer, sourceTerritory, destinationTerritory, numberOfArmies);
+		} catch (BoardException | IllegalMoveException e) {
+			e.printStackTrace();
+			shutDown();
+		}
+		acknowledgementManager.expectAcknowledgement();
+		int[] fortifyInfo = {sourceTerritory, destinationTerritory, numberOfArmies};
+		responseGenerator.fortifyGenerator(fortifyInfo, currentPlayer, acknowledgementManager.id);
+		executeAllCurrentAcknowledgements();
+		checkAcknowledgement();
 	}
 	
 	
-	private void reinforceTerritories(int[] array) {
-		int[][] array1 = null;
-		// TODO translate and loop through to reinforce
-		
+	private void reinforceTerritories(int[] territories) {
+		Map<Integer, Integer> armiesPerTerritory = new HashMap<> ();
+		for (int i : territories) {
+			if(armiesPerTerritory.containsKey(i)) {
+				armiesPerTerritory.put(i, armiesPerTerritory.get(i));
+			} else {
+				armiesPerTerritory.put(i, 1);
+			}
+		}
+		int[][] reinforcements =  new int[armiesPerTerritory.size()][2];
+		int i = 0;
+		for (Entry<Integer, Integer> entry : armiesPerTerritory.entrySet()) {
+			reinforcements[i][0] = entry.getKey();
+			reinforcements[i][1] = entry.getValue();
+			i++;
+		}		
+		acknowledgementManager.expectAcknowledgement();
+		responseGenerator.deployGenerator(reinforcements, currentPlayer, acknowledgementManager.id );
+		executeAllCurrentAcknowledgements();
+		checkAcknowledgement();
 	}
 
 	private int tradeInCards() {
@@ -421,6 +480,16 @@ public class ClientController implements Runnable {
 			}
 
 		}
+		String message;
+		CurrentPlayer player = null;
+		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
+			message = "It's your turn.";
+			player = new CurrentPlayer(message, currentPlayer, true);
+		} else {
+			message = "It's " + gameStateManager.getModel().getGameState().getPlayerById(currentPlayer).getName() + "'s turn";
+			player = new CurrentPlayer(message, currentPlayer, false);
+		}
+		view.addUpdate(player);
 	}
 
 	private void rejectJoinGame(RejectJoinGame action) {

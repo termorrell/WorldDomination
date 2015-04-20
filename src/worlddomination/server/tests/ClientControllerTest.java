@@ -13,9 +13,10 @@ public class ClientControllerTest {
 	static LinkedList<Action> networkActions = new LinkedList<>();
 
 	public static void main(String[] args) {
+		System.out.println("Test program started");
 		initNetworkActions();
 		ControllerApiInterface view = new MockControllerApiImpl();
-		ClientController controller = new ClientController(view);
+		ClientController controller = new ClientController(view, null, 0);
 
 		for (Action action : networkActions) {
 			controller.handleAction(action);
@@ -364,7 +365,7 @@ public class ClientControllerTest {
         networkActions.add(new Setup(thirdId, 27, 91));
         networkActions.add(new Acknowledgement(91, firstId));
 
-        networkActions.add(new Setup(firstId, 18, 92));
+        networkActions.add(new Setup(firstId, 8, 92));
         networkActions.add(new Acknowledgement(92, thirdId));
 
         networkActions.add(new Acknowledgement(93, thirdId));
@@ -405,9 +406,97 @@ public class ClientControllerTest {
 
         networkActions.add(new Acknowledgement(105, thirdId));
         networkActions.add(new Acknowledgement(105, firstId));
+        
+        // Turns
+        
+        // third player
+        networkActions.add(new PlayCards(0, new int[0][0], 0, thirdId, 106));
+        networkActions.add(new Acknowledgement(106, firstId));
 
-		// turn
-		// TODO playerid, ack id
-		networkActions.add(new PlayCards(0, new int[0][0], 0, firstId, 60));
-	}
+        int[][] deploy1 = {{16, 2},{25,1}};
+        networkActions.add(new Deploy(deploy1, thirdId, 107));
+        networkActions.add(new Acknowledgement(107, firstId));
+
+        networkActions.add(new Attack(25,23,1,thirdId,108));
+        networkActions.add(new Acknowledgement(108, firstId));
+
+        networkActions.add(new Defend(2, firstId, 109));
+        networkActions.add(new Acknowledgement(109, thirdId));
+
+        networkActions.add(new RollHash(firstId, "hashshuffle1"));
+        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+
+        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
+
+        networkActions.add(new Attack(16,13,3,thirdId,110));
+        networkActions.add(new Acknowledgement(110, firstId));
+
+        networkActions.add(new Acknowledgement(111, firstId));
+        networkActions.add(new Acknowledgement(111, thirdId));
+
+        networkActions.add(new RollHash(firstId, "hashshuffle1"));
+        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+
+        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
+
+        networkActions.add(new AttackCapture(16,13,3,thirdId, 112 ));
+        networkActions.add(new Acknowledgement(112, firstId));
+
+        networkActions.add(new Fortify(30, 27,1,thirdId, 113));
+        networkActions.add(new Acknowledgement(113, firstId));
+
+        // first player
+        networkActions.add(new PlayCards(0, new int[0][0], 0, firstId, 114));
+        networkActions.add(new Acknowledgement(114, thirdId));
+
+        int[][] deploy2 = {{12, 3}};
+        networkActions.add(new Deploy(deploy2, firstId, 115));
+        networkActions.add(new Acknowledgement(115, thirdId));
+
+        networkActions.add(new Fortify(-1, -1, -1,firstId, 116));
+        networkActions.add(new Acknowledgement(116, thirdId));
+
+        // local Player
+        networkActions.add(new Acknowledgement(117, thirdId));
+        networkActions.add(new Acknowledgement(117, firstId));
+
+        networkActions.add(new Acknowledgement(118, thirdId));
+        networkActions.add(new Acknowledgement(118, firstId));
+        
+        networkActions.add(new Defend(2, firstId, 119));
+        networkActions.add(new Acknowledgement(119, thirdId));
+        
+        networkActions.add(new RollHash(firstId, "hashshuffle1"));
+        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+
+        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
+
+        networkActions.add(new Acknowledgement(120, thirdId));
+        networkActions.add(new Acknowledgement(120, firstId));
+
+        networkActions.add(new Defend(1, thirdId, 121));
+        networkActions.add(new Acknowledgement(121, firstId));
+        
+        networkActions.add(new RollHash(firstId, "hashshuffle1"));
+        networkActions.add(new RollHash(thirdId, "hashshuffle3"));
+
+        networkActions.add(new RollNumber(firstId, "numbershuffle1"));
+        networkActions.add(new RollNumber(thirdId, "numbershuffle3"));
+        
+        networkActions.add(new Acknowledgement(122, thirdId));
+        networkActions.add(new Acknowledgement(122, firstId));
+
+        // third player
+        networkActions.add(new PlayCards(0, new int[0][0], 0, thirdId, 123));
+        networkActions.add(new Acknowledgement(123,firstId));
+
+        int[][] deploy3 = {{10, 3}};
+        networkActions.add(new Deploy(deploy3, thirdId, 124));
+        networkActions.add(new Acknowledgement(124, firstId));
+
+    }
+
 }

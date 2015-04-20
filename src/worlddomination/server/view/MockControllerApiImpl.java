@@ -20,6 +20,7 @@ public class MockControllerApiImpl implements ControllerApiInterface, GuiApiServ
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        initMakeTurn();
     }
 
     @Override
@@ -42,6 +43,8 @@ public class MockControllerApiImpl implements ControllerApiInterface, GuiApiServ
             return defendTerritory((DefendTerritory) update);
         } else if (update instanceof MakeTurn) {
             return makeTurn((MakeTurn) update);
+        } else if (update instanceof Reinforce) {
+        	return reinforce((Reinforce)update);
         }
         return null;
     }
@@ -73,8 +76,39 @@ public class MockControllerApiImpl implements ControllerApiInterface, GuiApiServ
         return defendTerritory;
     }
 
+    MakeTurn[] turnArray;
+    private void initMakeTurn() {
+    	turnArray = new MakeTurn[4];
+    	
+        turnArray[0] = new MakeTurn("", "", false);
+        turnArray[0].setType("Attack");
+        turnArray[0].setSourceTerritory(9);
+        turnArray[0].setDestinationTerritory(8);
+        turnArray[0].setNumberOfArmies(1);
+        
+        turnArray[1] = new MakeTurn("", "", false);
+        turnArray[1].setType("Attack");
+        turnArray[1].setSourceTerritory(26);
+        turnArray[1].setDestinationTerritory(15);
+        turnArray[1].setNumberOfArmies(3);
+        
+        turnArray[2] = new MakeTurn("","",false);
+        turnArray[2].setType("Quit");
+        turnArray[2].setSourceTerritory(40);
+        turnArray[2].setDestinationTerritory(39);
+        turnArray[2].setNumberOfArmies(2);
+    }
+    
+    static int i = -1;
     MakeTurn makeTurn(MakeTurn makeTurn) {
-        return makeTurn;
+    	i++;
+        return turnArray[i];
+    }
+    
+    Reinforce reinforce(Reinforce reinforce) {
+    	int[] allocationOfArmies =  {9,9,8};
+    	reinforce.setAllocationOfArmies(allocationOfArmies);
+    	return reinforce;
     }
 
     private int getInt() {
@@ -88,9 +122,15 @@ public class MockControllerApiImpl implements ControllerApiInterface, GuiApiServ
             }
 
             if (!manual) {
-                System.out.print(line);
+                System.out.print(line+"\n");
             }
-            return Integer.parseInt(line);
+            String s = "";
+            for (int i = 0; i < line.length(); i++) {
+				if(Character.isDigit(line.charAt(i))) {
+					s += line.charAt(i);
+				}
+			}
+            return Integer.parseInt(s);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
