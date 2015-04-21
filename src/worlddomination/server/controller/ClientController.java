@@ -334,11 +334,11 @@ public class ClientController implements Runnable {
 					numberOfArmies.get(currentPlayer) - 1);
 			
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
+				acknowledgementManager.expectAcknowledgement();
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
 						.addUpdateAndWaitForResponse(new ClaimTerritory("Please select a territory to claim"));
 				localSetupTurn(claimTerritory);
 			
-				acknowledgementManager.expectAcknowledgement();
 				collectingAcknowledgements = true;
 				executeAllCurrentAcknowledgements();
 
@@ -726,8 +726,10 @@ public class ClientController implements Runnable {
 	}
 
 	private void localClaimTurn(ClaimTerritory claimTerritory) {
+		
+		//TODO: CHECK EVERY LINE OF CAROLINES CODE :P
 		responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(),
-				claimTerritory.getTerritoryID(), 1);
+				claimTerritory.getTerritoryID(), acknowledgementManager.getAcknowledgementId());
 		claim(gameStateManager.getLocalPlayerId(),
 				claimTerritory.getTerritoryID());
 	}
