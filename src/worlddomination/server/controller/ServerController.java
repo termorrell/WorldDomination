@@ -210,7 +210,7 @@ public class ServerController implements Runnable{
             server.sendMessageToAll(response);
             acknowCount++;
             collectingAcknowledgements = true;
-            acknowledgementManager.expectAcknowledgement();
+            acknowledgementManager.incrementAcknowledgementIdAndExpectAcknowledgment();
         }
     }
 	
