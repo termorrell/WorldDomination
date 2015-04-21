@@ -39,8 +39,8 @@ public class NetworkDieManager {
 		localNumber = gen.generateNumber();
 		localHash = gen.hashByteArr(localNumber);
 		try {
-			gen.addHash(localPlayerId, convertByteToHex(localHash));
-			gen.addNumber(localPlayerId, convertByteToHex(localNumber));
+			gen.addHash(localPlayerId, SeedGenerator.byteToHex(localHash));
+			gen.addNumber(localPlayerId, SeedGenerator.byteToHex(localNumber));
 		} catch (HashMismatchException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,7 @@ public class NetworkDieManager {
 	}
 
 	public String getNumber() {
-		return convertByteToHex(localNumber.toByteArray());
+		return SeedGenerator.byteToHex(localNumber);
 	}
 
 }
