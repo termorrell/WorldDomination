@@ -5,6 +5,12 @@ public class Roll extends Action{
     int nubmerOfFaces;
     int playerId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'roll' command
+     * @param numberOfRolls
+     * @param nubmerOfFaces
+     * @param playerId
+     */
     public Roll(int numberOfRolls, int nubmerOfFaces, int playerId) {
         this.numberOfRolls = numberOfRolls;
         this.nubmerOfFaces = nubmerOfFaces;

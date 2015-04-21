@@ -6,6 +6,12 @@ public class DrawCard extends Action{
     int playerId;
     int acknowledgementId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'draw_card' command
+     * @param cardId id of the card drawn
+     * @param playerId id of the player who sent the message
+     * @param acknowledgementId id of the acknowledgement
+     */
     public DrawCard(int cardId, int playerId, int acknowledgementId) {
         this.cardId = cardId;
         this.playerId = playerId;

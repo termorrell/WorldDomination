@@ -7,6 +7,14 @@ public class Fortify extends Action{
     int playerId;
     int acknowledgementId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'fortify' command
+     * @param originTerritory origin territory
+     * @param destinationTerritory territory armies move to
+     * @param numberOfArmies number of armies being moved
+     * @param playerId id of the player who sent the command
+     * @param acknowledgementId id of the acknowledgement
+     */
     public Fortify(int originTerritory, int destinationTerritory, int numberOfArmies, int playerId, int acknowledgementId) {
         this.originTerritory = originTerritory;
         this.destinationTerritory = destinationTerritory;

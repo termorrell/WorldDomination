@@ -5,6 +5,12 @@ public class Deploy extends Action{
     int playerId;
     int acknowledgementId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'deploy' command
+     * @param armies armies being moved
+     * @param playerId id of the player who sent the command
+     * @param acknowledgementId id of the acknowledgement
+     */
     public Deploy(int[][] armies, int playerId, int acknowledgementId) {
         this.armies = armies;
         this.playerId = playerId;

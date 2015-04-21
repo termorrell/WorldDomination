@@ -9,9 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import worlddomination.server.view.IView;
 
-/**
- * Created by ${mm280} on 03/02/15.
- */
+
 public class CardMethods {
 
     static Logger log = LogManager.getLogger(CardMethods.class.getName());    // Called at end of each turn if territory gained

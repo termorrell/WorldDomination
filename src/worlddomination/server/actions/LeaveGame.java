@@ -7,6 +7,13 @@ public class LeaveGame extends Action{
     String message;
     boolean receiveUpdates;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'leave_game' command
+     * @param playerId id of the player who sent the request
+     * @param responseCode code to say why
+     * @param message  message to say why left
+     * @param receiveUpdates would the user like to receive more updates
+     */
     public LeaveGame(int playerId, int responseCode, String message, boolean receiveUpdates) {
         this.playerId = playerId;
         this.responseCode = responseCode;

@@ -62,30 +62,27 @@ public class ClientController implements Runnable {
 	GameStateManager gameStateManager;
 	ClientResponseGenerator responseGenerator;
 	static Logger log = LogManager.getLogger(ClientController.class.getName());
-
 	Queue<Action> actions = new LinkedList<>();
-
 	boolean won = false;
-
 	AcknowledgementManager acknowledgementManager = null;
 	NetworkDieManager networkDieManager = null;
-
-	Action cachedAction; // Action will be saved in here while the die roll is
-							// completed
+	Action cachedAction; // Action will be saved in here while the die roll is completed
 	State state = State.INITIALISE;
-
 	int currentPlayer;
 	int[] dieRolls;
-
 	boolean capturedTerritory = false;
-
 	int numberOfArmiesForTradedCards = 4;
-
 	Thread clientThread;
 	public RiskClient client;
 	int port;
 	String ipAddress;
 	
+	/**
+	 * Constructor for client controller
+	 * @param view view for updating the GUI
+	 * @param ipAddress ipaddress of the server
+	 * @param port port to contact the server on
+	 */
 	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
@@ -96,6 +93,9 @@ public class ClientController implements Runnable {
 
 	boolean collectingAcknowledgements = false;
 
+	/**
+	 * Begin the client program
+	 */
 	public void run() {
 		addLocalPlayerInfo();
 		initClient();
@@ -103,6 +103,9 @@ public class ClientController implements Runnable {
 		gameLoop();
 	}
 	
+	/**
+	 * Connnect to the server
+	 */
 	private void initClient() {
 		this.client = new RiskClient(port, ipAddress, this);
 		this.clientThread = new Thread(this.client);
@@ -120,18 +123,27 @@ public class ClientController implements Runnable {
 		gameStateManager.addLocalPlayerInfo(name);
 	}
 
+	/**
+	 * Generates the join game command 
+	 */
 	private void join() {
 		responseGenerator.joinGameGenerator(Constants.getSupportedVersions(),
 				Constants.getSupportedFeatures(), gameStateManager.model
 						.getPlayerInfo().getUserName());
 	}
 
+	/**
+	 * Keeps checking whether actions are available to complete
+	 */
 	public void gameLoop() {
 		while (!won) {
 			executeActions();
 		}
 	}
 
+	/**
+	 * Keep checking for actions
+	 */
 	private void executeActions() {
 		while (!isActionEmpty()) {
 			Action nextAction = pollAction();
@@ -159,6 +171,9 @@ public class ClientController implements Runnable {
 		}
 	}
 
+	/**
+	 * Execute any acknowledgements available in the action queue
+	 */
 	private void executeAllCurrentAcknowledgements() {
 		boolean checked = false;
 		while (!isActionEmpty()) {
@@ -181,6 +196,10 @@ public class ClientController implements Runnable {
 		}
 	}
 
+	/**
+	 * Execute an action to be sent to GUI and network
+	 * @param action
+	 */
 	private void executeAction(Action action) {
 		
 		System.out.println("EXECUTING ACTION: " + action.toString());
@@ -249,6 +268,9 @@ public class ClientController implements Runnable {
 		}
 	}
 
+	/**
+	 * Process all the die rolls within the program
+	 */
 	private void processDieRolls() {
 		boolean dieRollStarted = false;
 		while (true) {
@@ -294,6 +316,9 @@ public class ClientController implements Runnable {
 				gameStateManager.getLocalPlayerId()));
 	}
 	
+	/**
+	 * Tell the GUI which player to ask for a move from next
+	 */
 	private void sendNextPlayer() {
 		String message;
 		CurrentPlayer player = null;
@@ -307,6 +332,9 @@ public class ClientController implements Runnable {
 		view.addUpdate(player);
 	}
 
+	/**
+	 * SHuffle the order of the cards
+	 */
 	private void shuffle() {
 		int numberOfCards = gameStateManager.model.getGameState().getCards()
 				.size();
@@ -317,7 +345,6 @@ public class ClientController implements Runnable {
 			}
 			state = State.CLAIM;
 		} else {
-			// TODO error handling
 			shutDown();
 		}
 		play();
@@ -335,6 +362,10 @@ public class ClientController implements Runnable {
 		makeTurns();
 	}
 
+	/**
+	 * Executes the GUI updates for attacking
+	 * @param numberOfArmies number of armies attacking with
+	 */
 	private void claimTerritory(Map<Integer, Integer> numberOfArmies) {
 		boolean allTerritoriesClaimed = false;
 
@@ -361,6 +392,10 @@ public class ClientController implements Runnable {
 		state = State.DISTRIBUTE;
 	}
 
+	/**
+	 * Send armies to various territories
+	 * @param numberOfArmies
+	 */
 	private void distributeTerritory(Map<Integer, Integer> numberOfArmies) {
 		while (numberOfArmies.get(currentPlayer) > 0) {
 			view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
@@ -378,6 +413,9 @@ public class ClientController implements Runnable {
 		System.out.print("start with the real stuff");
 	}
 
+	/**
+	 * In charge of controlling turns within the program
+	 */
 	private void makeTurns() {
 		while (!won) {
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
@@ -390,6 +428,9 @@ public class ClientController implements Runnable {
 		}
 	}
 
+	/**
+	 * Makes a turn through the game engine
+	 */
 	private void localMakeTurn() {
     	// trade in cards
         boolean canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager.getModel().getGameState().getPlayerById(currentPlayer), gameStateManager.model);
@@ -451,7 +492,12 @@ public class ClientController implements Runnable {
 			localFortify(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
 		}
 	}
-	
+	/**
+	 * Makes an attack through the game engine
+	 * @param sourceTerritory territory attacking from
+	 * @param destinationTerritory territory attacking
+	 * @param numberOfArmies armies attacking
+	 */
 	private void localAttack(int sourceTerritory, int destinationTerritory, int numberOfArmies) {
 		try {
 			gameStateManager.attack(currentPlayer, sourceTerritory, destinationTerritory, numberOfArmies);

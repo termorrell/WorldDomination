@@ -31,11 +31,20 @@ public class ArtificialIntelligence {
 	
 	protected ArtificialIntelligence() {}
 
+	/**
+	 * Constructor for the AI
+	 * @param gameModel model with all of the game state stored within it
+	 */
 	protected ArtificialIntelligence(Model gameModel) {
 		this.gameModel = gameModel;
 		this.aiPlayerId = gameModel.getPlayerInfo().getId();
 	}
 
+	/**
+	 * Checks if an AI is already instantiated
+	 * @param gameModel model with all of the game state stored within it
+	 * @return a new AI instance
+	 */
 	public static ArtificialIntelligence getInstance(Model gameModel) {
 		
 		if(instance == null) {
@@ -44,6 +53,11 @@ public class ArtificialIntelligence {
 		return instance;
 	}
 
+	/**
+	 * Get the update
+	 * @param update the update from the GUI
+	 * @return a new update
+	 */
 	public Update getUpdateResponse(Update update) {
 
 		if (update instanceof LocalPlayerName) {
@@ -83,6 +97,11 @@ public class ArtificialIntelligence {
 		return update;
 	}
 
+	/**
+	 * Create a local player name for the GUI
+	 * @param localPlayerName name to be given
+	 * @return new local player name
+	 */
 	private LocalPlayerName configureLocalPlayerNameResponse(LocalPlayerName localPlayerName) {
 
 		// Only response is the name the player wants to use.
@@ -90,6 +109,11 @@ public class ArtificialIntelligence {
 		return localPlayerName;
 	}
 
+	/**
+	 * Create the ping response
+	 * @param pingReady confirm the user is ready to play the game
+	 * @return 
+	 */
 	private PingReady configurePingReadyResponse(PingReady pingReady) {
 
 		// Confirm the user is ready to play the game, this should always be true.
@@ -97,6 +121,11 @@ public class ArtificialIntelligence {
 		return pingReady;
 	}
 
+	/**
+	 * Tries to find an appropriate territory to claim
+	 * @param claim territory to claim
+	 * @return territory that has been claimed
+	 */
 	private ClaimTerritory configureClaimTerritoryResponse(ClaimTerritory claim) {
 
 		// Choose a territory which has not yet been selected
@@ -112,6 +141,11 @@ public class ArtificialIntelligence {
 		return claim;
 	}
 
+	/**
+	 * Trying to find a good place to distribute an army
+	 * @param distribute
+	 * @return good place
+	 */
 	private DistributeArmy configureDistributeArmyResponse(DistributeArmy distribute) {
 
 		// Choose a territory which is already owned by the AI, for this we want to inspect the model
@@ -132,6 +166,11 @@ public class ArtificialIntelligence {
 		return distribute;
 	}
 
+	/**
+	 * Trying to find an appropriate move
+	 * @param reinforce
+	 * @return the appropriate reinforce move
+	 */
 	private Reinforce configureReinforceResponse(Reinforce reinforce) {
 
 		// Choose the number of territories requested which are owned by the AI, for this we want to inspect the model
@@ -160,6 +199,11 @@ public class ArtificialIntelligence {
 		return reinforce;
 	}
 
+	/**
+	 * Trying to figure out the best move to make
+	 * @param makeTurn
+	 * @return best move
+	 */
 	private MakeTurn configureMakeTurnResponse(MakeTurn makeTurn) {
 
 		// Need to choose whether or not to quit
@@ -217,6 +261,11 @@ public class ArtificialIntelligence {
 		return makeTurn;
 	}
 
+	/**
+	 * Trying to figure out how many armies to defend
+	 * @param defendTerritory 
+	 * @return best defend move
+	 */
 	private DefendTerritory configureDefendTerritoryResponse(DefendTerritory defendTerritory) {
 
 		// Choose the maximum number of territories which are allowed, no need to inspect the model
@@ -225,7 +274,11 @@ public class ArtificialIntelligence {
 		defendTerritory.setArmiesUsed(armiesUsed);
 		return defendTerritory;
 	}
-
+	/**
+	 * Figure out the best response for placing armies
+	 * @param allocateArmies
+	 * @return best response for army placement
+	 */
 	private AllocateArmies configureAllocateArmiesResponse(AllocateArmies allocateArmies) {
 
 		// Choose the maximum number of territories which are allowed, no need to inspect the model
@@ -235,6 +288,10 @@ public class ArtificialIntelligence {
 		return allocateArmies;
 	}
 
+	/**
+	 * Get all the territories it currently owns
+	 * @return arraylist of territories
+	 */
 	private ArrayList<Territory> getOwnedTerritories() {
 
 		// Create a list of all territories on the board
@@ -259,6 +316,10 @@ public class ArtificialIntelligence {
 		return ownedTerritories;
 	}
 
+	/**
+	 * Get all the available territories the AI can claim
+	 * @return list of available territories
+	 */
 	private ArrayList<Territory> getAvailableTerritories() {
 
 		// Create a list of all territories on the board
@@ -279,6 +340,11 @@ public class ArtificialIntelligence {
 		return availableTerritories;
 	}
 	
+	/**
+	 * Get available territories within a continent
+	 * @param continent continent to check
+	 * @return list of available territories
+	 */
 	private ArrayList<Territory> getAvailableTerritoriesForContinent(Continent continent) {
 
 		// Create a list of all available territories
@@ -297,6 +363,10 @@ public class ArtificialIntelligence {
 		return availableTerritories;
 	}
 	
+	/**
+	 * Get all the territories available
+	 * @return list of territories
+	 */
 	private ArrayList<Territory> getAvailableFocusTerritories() {
 		
 		// Create a list of all territories on the board
@@ -324,6 +394,11 @@ public class ArtificialIntelligence {
 		return availableTerritories;
 	}
 	
+	/**
+	 * Get focus territories currently owned by AI
+	 * @param numberOfArmies number of armies in territories
+	 * @return list of territories
+	 */
 	private ArrayList<Territory> getOwnedFocusTerritores(int numberOfArmies) {
 		
 
@@ -346,6 +421,11 @@ public class ArtificialIntelligence {
 		return availableTerritories;
 	}
 
+	/**
+	 * NUmber of territories neighbouring a territory
+	 * @param territory territory to check
+	 * @return list of territories
+	 */
 	private ArrayList<Territory> getNeighbouringOpponentsTerritories(Territory territory) {
 
 		// Create a list of all neighbouring territories
@@ -370,6 +450,11 @@ public class ArtificialIntelligence {
 		return opponentsTerritories;
 	}
 
+	/**
+	 * Number of territories owned by AI surrounding a specific territory
+	 * @param territory territory to check
+	 * @return list of territories
+	 */
 	private ArrayList<Territory> getNeighbouringOwnTerritories(Territory territory) {
 
 		// Create a list of all neighbouring territories
@@ -394,6 +479,11 @@ public class ArtificialIntelligence {
 		return ownTerritories;
 	}
 	
+	/**
+	 * Check whether it is a good move to add armies to continent
+	 * @param continent continent to check
+	 * @return true or false
+	 */
 	public boolean shouldReinforceContinent(Continent continent) {
 		
 		int totalArmiesInContinent = 0;
@@ -431,6 +521,12 @@ public class ArtificialIntelligence {
 		return false;
 	}
 	
+	/**
+	 * Reinforce a continent by deciding which territory to reinforce within it
+	 * @param continent continent to reinforce
+	 * @param numberOfArmies armies available to place
+	 * @return arraylist of territories
+	 */
 	public ArrayList<Territory> reinforceContinent(Continent continent, int numberOfArmies) {
 		
 		// Iterate through all territories in a continent

@@ -8,6 +8,14 @@ public class Attack extends Action{
     int playerId;
     int acknowledgementId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'attack' command
+     * @param originTerritory territory from attack
+     * @param destinationTerritory territory being attacked
+     * @param numberOfArmies armies attacking with
+     * @param playerId id of the player who sent the command
+     * @param acknowledgementId id of the acknowledgement
+     */
     public Attack(int originTerritory, int destinationTerritory, int numberOfArmies, int playerId, int acknowledgementId) {
         this.originTerritory = originTerritory;
         this.destinationTerritory = destinationTerritory;

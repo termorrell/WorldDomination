@@ -7,6 +7,14 @@ public class AttackCapture extends Action{
     int playerId;
     int acknowledgementId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'attack_capture' command
+     * @param originTerritory origin territory
+     * @param destinationTerritory territory being attacked
+     * @param numberOfArmies number of armies attacking with
+     * @param playerId id of the player who sent the command
+     * @param acknowledgementId id of the acknowledgement 
+     */
     public AttackCapture(int originTerritory, int destinationTerritory, int numberOfArmies, int playerId, int acknowledgementId) {
         this.originTerritory = originTerritory;
         this.destinationTerritory = destinationTerritory;

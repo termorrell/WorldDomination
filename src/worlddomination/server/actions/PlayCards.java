@@ -8,6 +8,14 @@ public class PlayCards extends Action {
     int playerId;
     int acknowledgementId;
 
+    /**
+     * Stores the attributes necessary for sending and receiving an 'play_cards' command
+     * @param numberOfSetsTraded number of sets being traded
+     * @param setsTradedIn ids of the cards being traded
+     * @param numberOfArmiesForCards number of armies awarded
+     * @param playerId id of play who sent the command
+     * @param acknowledgementId id of the acknowledgement
+     */
     public PlayCards(int numberOfSetsTraded, int[][] setsTradedIn, int numberOfArmiesForCards, int playerId, int acknowledgementId) {
         this.numberOfSetsTraded = numberOfSetsTraded;
         this.setsTradedIn = setsTradedIn;
