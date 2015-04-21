@@ -731,7 +731,7 @@ public class ClientController implements Runnable {
 				rollHash.getHash(), gameStateManager.model.getGameState()
 						.getNumberOfPlayers());
 		if (allHashes) {
-			responseGenerator.rollNumberGenerator("This is my number",
+			responseGenerator.rollNumberGenerator(networkDieManager.getNumber(),
 					gameStateManager.getLocalPlayerId());
 		}
 	}
