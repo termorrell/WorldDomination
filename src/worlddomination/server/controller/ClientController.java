@@ -174,6 +174,8 @@ public class ClientController implements Runnable {
 	}
 
 	private void executeAction(Action action) {
+		
+		System.out.println("EXECUTING ACTION: " + action.toString());
 		if (action instanceof Acknowledgement) {
 			acknowledgement((Acknowledgement) action);
 		} else if (action instanceof Ping) {
@@ -334,7 +336,7 @@ public class ClientController implements Runnable {
 					numberOfArmies.get(currentPlayer) - 1);
 			
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
-				acknowledgementManager.expectAcknowledgement();
+				expectAcknowledgement();
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
 						.addUpdateAndWaitForResponse(new ClaimTerritory("Please select a territory to claim"));
 				localSetupTurn(claimTerritory);
@@ -421,7 +423,7 @@ public class ClientController implements Runnable {
         	if(turn.getType().equalsIgnoreCase("quit") || turn.getType().equalsIgnoreCase("fortify")) {
         		wantToTurn = false;
         		if(turn.getType().equalsIgnoreCase("quit")) {
-        			acknowledgementManager.expectAcknowledgement();
+        			expectAcknowledgement();
         			collectingAcknowledgements = true;
         			responseGenerator.fortifyGenerator(new int[0],currentPlayer, acknowledgementManager.id );
         			executeAllCurrentAcknowledgements();
@@ -450,7 +452,7 @@ public class ClientController implements Runnable {
 			shutDown();
 		}
 		
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		int[] attackInfo = {sourceTerritory, destinationTerritory, numberOfArmies};
 		responseGenerator.attackGenerator(attackInfo, currentPlayer, acknowledgementManager.id);
 		executeAllCurrentAcknowledgements();
@@ -468,7 +470,7 @@ public class ClientController implements Runnable {
 			e.printStackTrace();
 			shutDown();
 		}
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		int[] fortifyInfo = {sourceTerritory, destinationTerritory, numberOfArmies};
 		responseGenerator.fortifyGenerator(fortifyInfo, currentPlayer, acknowledgementManager.id);
 		executeAllCurrentAcknowledgements();
@@ -492,7 +494,7 @@ public class ClientController implements Runnable {
 			reinforcements[i][1] = entry.getValue();
 			i++;
 		}		
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		responseGenerator.deployGenerator(reinforcements, currentPlayer, acknowledgementManager.id );
 		executeAllCurrentAcknowledgements();
 		checkAcknowledgement();
@@ -617,7 +619,7 @@ public class ClientController implements Runnable {
 		}
 
 		// prepare for receiving acknowledgements
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		collectingAcknowledgements = true;
 
 		// if the host is a player, his message counts towards the
@@ -711,7 +713,7 @@ public class ClientController implements Runnable {
 		}
 
 		// prepare for receiving acknowledgements
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		collectingAcknowledgements = true;
 
 		sendAcknowledgement();
@@ -780,7 +782,7 @@ public class ClientController implements Runnable {
 			}
 		}
 		// prepare for receiving acknowledgements
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		collectingAcknowledgements = true;
 		sendAcknowledgement();
 		state = State.REINFORCE;
@@ -805,7 +807,7 @@ public class ClientController implements Runnable {
 
 		view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
 		// prepare for receiving acknowledgements
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		collectingAcknowledgements = true;
 		sendAcknowledgement();
 		state = State.ATTACK;
@@ -825,7 +827,7 @@ public class ClientController implements Runnable {
 				shutDown();
 			}
 			cachedAction = attack;
-			acknowledgementManager.expectAcknowledgement();
+			expectAcknowledgement();
 			collectingAcknowledgements = true;
 			sendAcknowledgement();
 			executeAllCurrentAcknowledgements();
@@ -871,7 +873,7 @@ public class ClientController implements Runnable {
 				acknowledgementManager.getAcknowledgementId());
 
 		// acknowledge defence
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		collectingAcknowledgements = true;
 		executeAllCurrentAcknowledgements();
 
@@ -906,7 +908,7 @@ public class ClientController implements Runnable {
 						.getOwner().getId()) {
 					try {
 						// acknowledge defend
-						acknowledgementManager.expectAcknowledgement();
+						expectAcknowledgement();
 						collectingAcknowledgements = true;
 						sendAcknowledgement();
 						executeAllCurrentAcknowledgements();
@@ -964,7 +966,7 @@ public class ClientController implements Runnable {
 			int[] captureArray = { attack.getOriginTerritory(),
 					attack.getDestinationTerritory(),
 					allocateArmies.getArmiesMoved() };
-			acknowledgementManager.expectAcknowledgement();
+			expectAcknowledgement();
 			collectingAcknowledgements = true;
 			responseGenerator.attackCaptureGenerator(captureArray,
 					gameStateManager.getLocalPlayerId(),
@@ -992,7 +994,7 @@ public class ClientController implements Runnable {
 						e.printStackTrace();
 						shutDown();
 					}
-					acknowledgementManager.expectAcknowledgement();
+					expectAcknowledgement();
 					collectingAcknowledgements = true;
 					sendAcknowledgement();
 					executeAllCurrentAcknowledgements();
@@ -1013,13 +1015,19 @@ public class ClientController implements Runnable {
 			}
 		}
 
-		acknowledgementManager.expectAcknowledgement();
+		expectAcknowledgement();
 		collectingAcknowledgements = true;
 		sendAcknowledgement();
 		executeAllCurrentAcknowledgements();
 
 		drawCards();
 		state = State.CARDS;
+	}
+
+	private void expectAcknowledgement() {
+		executeAllCurrentAcknowledgements();
+		acknowledgementManager.incrementAcknowledgementIdAndExpectAcknowledgment();
+		
 	}
 
 	private void drawCards() {

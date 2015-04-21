@@ -42,7 +42,7 @@ public class AcknowledgementManager {
         return id;
     }
 
-    public void expectAcknowledgement() {
+    public void incrementAcknowledgementIdAndExpectAcknowledgment() {
         acknowledgedByAllPlayers = false;
         players.clear();
         id++;
