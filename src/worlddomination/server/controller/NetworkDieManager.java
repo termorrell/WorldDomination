@@ -6,89 +6,92 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+import worlddomination.server.exceptions.HashMismatchException;
+
 public class NetworkDieManager {
 
     // TODO hash string vs hash bytes must be clarified with reps
-
+	
+	int[] dieRoll;
+	
+	
     int localPlayerId;
     int numberOfRolls;
     int numberOfFaces;
-    Map<Integer, String> hashes = new HashMap<>();
-    Map<Integer, BigInteger> numbers = new HashMap<>();
+    
+    byte[] localHash;
+    BigInteger localNumber;
+    
     MessageDigest messageDigest;
-    byte[] seed;
+    
+    int numberOfPlayers = 0;
+ 
+    SeedGenerator gen;
 
 
     public NetworkDieManager(int localPlayerId, int numberOfRolls, int numberOfFaces) {
         this.localPlayerId = localPlayerId;
         this.numberOfRolls = numberOfRolls;
         this.numberOfFaces = numberOfFaces;
+        gen = new SeedGenerator();
     }
 
     public String generateLocalHash() throws NoSuchAlgorithmException {
+    	numberOfPlayers ++;
         messageDigest = MessageDigest.getInstance("SHA-256");
-        numbers.put(localPlayerId, new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis())));
-        hashes.put(localPlayerId, String.valueOf(messageDigest.digest(numbers.get(localPlayerId).toByteArray())));
-        // TODO find out what exactly is hashed
-        return hashes.get(localPlayerId);
+        localNumber = new BigInteger(256, new Random(Calendar.getInstance().getTimeInMillis()));
+        localHash = messageDigest.digest(localNumber.toByteArray());
+        try {
+			gen.addHash(localPlayerId, convertByteToHex(localHash));
+			gen.addNumber(localPlayerId, convertByteToHex(localNumber.toByteArray()));
+		} catch (HashMismatchException e) {
+			e.printStackTrace();
+		}
+        return convertByteToHex(localHash);
     }
 
-    public boolean addHash(int playerId, String hash, int numberOfPlayers) {
-        hashes.put(playerId, hash);
-        if (hashes.size() == numberOfPlayers) {
+    public boolean addHash(int playerId, String hash, int playersInGame) {
+       try {
+		gen.addHash(playerId, hash);
+       } catch (HashMismatchException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+       }
+       numberOfPlayers++;
+        if (numberOfPlayers == playersInGame) {
+        	numberOfPlayers = 1;
             return true;
         }
         return false;
     }
 
-    public int addNumber(int playerId, String hexNumber) {
-        byte[] numberInBytes = convertHexToByte(hexNumber);
-        numbers.put(playerId, new BigInteger(numberInBytes));
-// TODO verfication
-
-//        byte[] numberInBytes = convertHexToByte(hexNumber);
-//        byte[] hash = messageDigest.digest(numberInBytes);
-//        String hashInHex = convertByteToHex(hash);
-//        if(hashes.get(playerId).equalsIgnoreCase(hashInHex)) {
-//            numbers.put(playerId, new BigInteger(numberInBytes));
-//            return 0;
-//        } else {
-//            return -1;
-//        }
-        return 0;
-    }
-
-    public boolean isDieRollPossible(int numberOfPlayers) {
-        if (numbers.size() == numberOfPlayers) {
-            return true;
+    public boolean addNumber(int playerId, String hexNumber,int playersInGame) {
+    	try {
+			gen.addNumber(playerId, hexNumber);
+		} catch (HashMismatchException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        if(numberOfPlayers == playersInGame) {
+        	try {
+				gen.finalise();
+				dieRoll = new int[numberOfFaces];
+				for (int i = 0; i < dieRoll.length; i++) {
+					long l = gen.nextInt() % numberOfFaces;
+					dieRoll[i] = (int) l;
+				}
+			} catch (HashMismatchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	return true;
+        } else {
+        	return false;
         }
-        return false;
-    }
-
-    public void generateSeed() {
-        // TODO once other things work
-//        seed = new byte[32];
-//        Collection<BigInteger> nums = numbers.values();
-//        for(int i = 0;i< seed.length; i++ ) {
-//            seed[i] = 0;
-//            for(BigInteger num : nums) {
-//                seed[i] = (byte) (seed[i] ^ num.toByteArray()[i]);
-//            }
-//        }
     }
 
     public int[] getDieRolls() {
-
-        int[] rolls = new int[numberOfRolls];
-        generateSeed();
-
-        // TODO once the protocol is more stable
-        Random random = new Random(100);
-        for (int i = 0; i < rolls.length; i++) {
-            rolls[i] = random.nextInt(numberOfFaces);
-        }
-
-        return rolls;
+    	return dieRoll;
     }
 
     public String convertByteToHex(byte[] bytes) {

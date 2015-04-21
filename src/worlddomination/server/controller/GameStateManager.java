@@ -160,7 +160,7 @@ public class GameStateManager {
     }
     
     public boolean defend(int attackingPlayer, int attackingTerritory, int defendingTerritory, int numberOfAttackingArmies, int numberOfDefendingArmies, int[] dieRolls) throws BoardException, IllegalMoveException {
-
+  
             return Moves.defendTerritory(model.getGameState().getPlayerById(attackingPlayer),model.getGameState(), attackingTerritory,defendingTerritory,numberOfAttackingArmies, numberOfDefendingArmies, dieRolls );
 
     }

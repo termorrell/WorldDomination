@@ -85,8 +85,9 @@ public class ClientController implements Runnable {
 	public RiskClient client;
 	int port;
 	String ipAddress;
-	
-	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
+
+	public ClientController(ControllerApiInterface view, String ipAddress,
+			int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
 		this.port = port;
@@ -102,7 +103,7 @@ public class ClientController implements Runnable {
 		join();
 		gameLoop();
 	}
-	
+
 	private void initClient() {
 		this.client = new RiskClient(port, ipAddress, this);
 		this.clientThread = new Thread(this.client);
@@ -115,7 +116,8 @@ public class ClientController implements Runnable {
 	 */
 	public void addLocalPlayerInfo() {
 		LocalPlayerName response = (LocalPlayerName) view
-				.addUpdateAndWaitForResponse(new LocalPlayerName("Please enter your name"));
+				.addUpdateAndWaitForResponse(new LocalPlayerName(
+						"Please enter your name"));
 		String name = response.getName();
 		gameStateManager.addLocalPlayerInfo(name);
 	}
@@ -142,7 +144,7 @@ public class ClientController implements Runnable {
 	private void executeActionsUntilIncludingType(Action type) {
 		boolean found = false;
 		while (!found) {
-			if(!isActionEmpty()) {
+			if (!isActionEmpty()) {
 				Action nextAction = pollAction();
 				executeAction(nextAction);
 				if (type.getClass().equals(nextAction.getClass())) {
@@ -182,7 +184,7 @@ public class ClientController implements Runnable {
 	}
 
 	private void executeAction(Action action) {
-		
+
 		System.out.println("EXECUTING ACTION: " + action.toString());
 		if (action instanceof Acknowledgement) {
 			acknowledgement((Acknowledgement) action);
@@ -280,7 +282,11 @@ public class ClientController implements Runnable {
 				Player.PlayerComparator);
 
 		if (dieRolls.length == 1) {
-			currentPlayer = dieRolls[0];
+			if(gameStateManager.model.getGameState().getPlayers().get(0).getId() == 0) {
+				currentPlayer = (int) dieRolls[0];
+			} else {
+				currentPlayer = (int) dieRolls[0] + 1;
+			}
 			sendNextPlayer();
 		} else {
 			// TODO errorhandling
@@ -293,15 +299,17 @@ public class ClientController implements Runnable {
 		roll(new Roll(numOfCards, numOfCards,
 				gameStateManager.getLocalPlayerId()));
 	}
-	
+
 	private void sendNextPlayer() {
 		String message;
 		CurrentPlayer player = null;
-		if(currentPlayer == gameStateManager.getLocalPlayerId()) {
+		if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 			message = "It's your turn.";
 			player = new CurrentPlayer(message, currentPlayer, true);
 		} else {
-			message = "It's " + gameStateManager.getModel().getGameState().getPlayerById(currentPlayer).getName() + "'s turn";
+			message = "It's "
+					+ gameStateManager.getModel().getGameState()
+							.getPlayerById(currentPlayer).getName() + "'s turn";
 			player = new CurrentPlayer(message, currentPlayer, false);
 		}
 		view.addUpdate(player);
@@ -313,7 +321,7 @@ public class ClientController implements Runnable {
 		if (dieRolls.length == numberOfCards) {
 			for (int i = 0; i < numberOfCards; i++) {
 				Collections.swap(gameStateManager.model.getGameState()
-						.getCards(), i, dieRolls[i]);
+						.getCards(), i, (int)dieRolls[i]);
 			}
 			state = State.CLAIM;
 		} else {
@@ -342,13 +350,14 @@ public class ClientController implements Runnable {
 			view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
 			numberOfArmies.put(currentPlayer,
 					numberOfArmies.get(currentPlayer) - 1);
-			
+
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				expectAcknowledgement();
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
-						.addUpdateAndWaitForResponse(new ClaimTerritory("Please select a territory to claim"));
+						.addUpdateAndWaitForResponse(new ClaimTerritory(
+								"Please select a territory to claim"));
 				localSetupTurn(claimTerritory);
-			
+
 				collectingAcknowledgements = true;
 				executeAllCurrentAcknowledgements();
 
@@ -369,7 +378,8 @@ public class ClientController implements Runnable {
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				executeAllCurrentAcknowledgements();
 				DistributeArmy distributeArmy = (DistributeArmy) view
-						.addUpdateAndWaitForResponse(new DistributeArmy("Please select a territory to reinforce"));
+						.addUpdateAndWaitForResponse(new DistributeArmy(
+								"Please select a territory to reinforce"));
 				localSetupTurn(distributeArmy);
 			} else {
 				executeActionsUntilIncludingType(new Setup(0, 0, 0));
@@ -391,118 +401,138 @@ public class ClientController implements Runnable {
 	}
 
 	private void localMakeTurn() {
-    	// trade in cards
-        boolean canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager.getModel().getGameState().getPlayerById(currentPlayer), gameStateManager.model);
-        
-        int numberOfArmies = 0;
-        
-        int index =0;
-        while(canTradeInCards && index < 2) {
-        	int returnValue = tradeInCards();
-            canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager.getModel().getGameState().getPlayerById(currentPlayer), gameStateManager.model);
-            index++;
-            if(returnValue == -1) {
-            	break;
-            } else {
-            	numberOfArmies += returnValue;
-            }
-        }
-        
-        // calculate armies
-        numberOfArmies += calculateNumberOfArmies(gameStateManager.model.getGameState().getPlayerById(currentPlayer), gameStateManager.model.getGameState());
-        
-        // reinforce
-        Reinforce reinforce = new Reinforce("Please select territories to reinforce - " + numberOfArmies + " armies", numberOfArmies);
-        reinforce = (Reinforce) view.addUpdateAndWaitForResponse(reinforce);
-        int[] territories = reinforce.getAllocationOfArmies();
-        reinforceTerritories(territories);
-        view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
-        
-        // attack or fortify loop
-        boolean wantToTurn = true;
-        
-        while(wantToTurn) {
-        	MakeTurn turn = new MakeTurn("Please make a turn", "", false);
-        	turn = (MakeTurn) view.addUpdateAndWaitForResponse(turn);
-        	
-        	makeLocalTurn(turn);
-        		
-        	view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
-        	if(turn.getType().equalsIgnoreCase("quit") || turn.getType().equalsIgnoreCase("fortify")) {
-        		wantToTurn = false;
-        		if(turn.getType().equalsIgnoreCase("quit")) {
-        			expectAcknowledgement();
-        			collectingAcknowledgements = true;
-        			responseGenerator.fortifyGenerator(new int[0],currentPlayer, acknowledgementManager.id );
-        			executeAllCurrentAcknowledgements();
-        		}
-        	}
-        }
-        
-        
-            drawCards();
-        
-    }
-	
+		// trade in cards
+		boolean canTradeInCards = ClientCardMethod.canTradeInCards(
+				gameStateManager.getModel().getGameState()
+						.getPlayerById(currentPlayer), gameStateManager.model);
+
+		int numberOfArmies = 0;
+
+		int index = 0;
+		while (canTradeInCards && index < 2) {
+			int returnValue = tradeInCards();
+			canTradeInCards = ClientCardMethod.canTradeInCards(gameStateManager
+					.getModel().getGameState().getPlayerById(currentPlayer),
+					gameStateManager.model);
+			index++;
+			if (returnValue == -1) {
+				break;
+			} else {
+				numberOfArmies += returnValue;
+			}
+		}
+
+		// calculate armies
+		numberOfArmies += calculateNumberOfArmies(gameStateManager.model
+				.getGameState().getPlayerById(currentPlayer),
+				gameStateManager.model.getGameState());
+
+		// reinforce
+		Reinforce reinforce = new Reinforce(
+				"Please select territories to reinforce - " + numberOfArmies
+						+ " armies", numberOfArmies);
+		reinforce = (Reinforce) view.addUpdateAndWaitForResponse(reinforce);
+		int[] territories = reinforce.getAllocationOfArmies();
+		reinforceTerritories(territories);
+		view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
+
+		// attack or fortify loop
+		boolean wantToTurn = true;
+
+		while (wantToTurn) {
+			MakeTurn turn = new MakeTurn("Please make a turn", "", false);
+			turn = (MakeTurn) view.addUpdateAndWaitForResponse(turn);
+
+			makeLocalTurn(turn);
+
+			view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
+			if (turn.getType().equalsIgnoreCase("quit")
+					|| turn.getType().equalsIgnoreCase("fortify")) {
+				wantToTurn = false;
+				if (turn.getType().equalsIgnoreCase("quit")) {
+					expectAcknowledgement();
+					collectingAcknowledgements = true;
+					responseGenerator.fortifyGenerator(new int[0],
+							currentPlayer, acknowledgementManager.id);
+					executeAllCurrentAcknowledgements();
+				}
+			}
+		}
+
+		drawCards();
+
+	}
+
 	private void makeLocalTurn(MakeTurn turn) {
-		if(turn.getType().equalsIgnoreCase("Attack")) {
-			localAttack(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
-		} else if(turn.getType().equalsIgnoreCase("Fortify")) {
-			localFortify(turn.getSourceTerritory(), turn.getDestinationTerritory(), turn.getNumberOfArmies());
+		if (turn.getType().equalsIgnoreCase("Attack")) {
+			localAttack(turn.getSourceTerritory(),
+					turn.getDestinationTerritory(), turn.getNumberOfArmies());
+		} else if (turn.getType().equalsIgnoreCase("Fortify")) {
+			localFortify(turn.getSourceTerritory(),
+					turn.getDestinationTerritory(), turn.getNumberOfArmies());
 		}
 	}
-	
-	private void localAttack(int sourceTerritory, int destinationTerritory, int numberOfArmies) {
+
+	private void localAttack(int sourceTerritory, int destinationTerritory,
+			int numberOfArmies) {
 		try {
-			gameStateManager.attack(currentPlayer, sourceTerritory, destinationTerritory, numberOfArmies);
+			gameStateManager.attack(currentPlayer, sourceTerritory,
+					destinationTerritory, numberOfArmies);
 		} catch (BoardException | IllegalMoveException e) {
 			e.printStackTrace();
 			shutDown();
 		}
-		
+
 		expectAcknowledgement();
-		int[] attackInfo = {sourceTerritory, destinationTerritory, numberOfArmies};
-		responseGenerator.attackGenerator(attackInfo, currentPlayer, acknowledgementManager.id);
+		int[] attackInfo = { sourceTerritory, destinationTerritory,
+				numberOfArmies };
+		responseGenerator.attackGenerator(attackInfo, currentPlayer,
+				acknowledgementManager.id);
 		executeAllCurrentAcknowledgements();
 		checkAcknowledgement();
-		
-		cachedAction = new Attack(sourceTerritory, destinationTerritory, numberOfArmies, currentPlayer, 0);
-		
+
+		cachedAction = new Attack(sourceTerritory, destinationTerritory,
+				numberOfArmies, currentPlayer, 0);
+
 		executeActionsUntilIncludingType(new Defend(0, 0, 0));
 	}
-	
-	private void localFortify(int sourceTerritory, int destinationTerritory, int numberOfArmies) {
+
+	private void localFortify(int sourceTerritory, int destinationTerritory,
+			int numberOfArmies) {
 		try {
-			gameStateManager.fortify(currentPlayer, sourceTerritory, destinationTerritory, numberOfArmies);
+			gameStateManager.fortify(currentPlayer, sourceTerritory,
+					destinationTerritory, numberOfArmies);
 		} catch (BoardException | IllegalMoveException e) {
 			e.printStackTrace();
 			shutDown();
 		}
 		expectAcknowledgement();
-		int[] fortifyInfo = {sourceTerritory, destinationTerritory, numberOfArmies};
-		responseGenerator.fortifyGenerator(fortifyInfo, currentPlayer, acknowledgementManager.id);
+		int[] fortifyInfo = { sourceTerritory, destinationTerritory,
+				numberOfArmies };
+		responseGenerator.fortifyGenerator(fortifyInfo, currentPlayer,
+				acknowledgementManager.id);
 		executeAllCurrentAcknowledgements();
 		checkAcknowledgement();
 	}
-	
-	
+
 	private void reinforceTerritories(int[] territories) {
-		Map<Integer, Integer> armiesPerTerritory = new HashMap<> ();
+		Map<Integer, Integer> armiesPerTerritory = new HashMap<>();
 		for (int i : territories) {
-			if(armiesPerTerritory.containsKey(i)) {
+			if (armiesPerTerritory.containsKey(i)) {
 				armiesPerTerritory.put(i, armiesPerTerritory.get(i) + 1);
 			} else {
 				armiesPerTerritory.put(i, 1);
 			}
 		}
-		int[][] reinforcements =  new int[armiesPerTerritory.size()][2];
+		int[][] reinforcements = new int[armiesPerTerritory.size()][2];
 		int i = 0;
 		for (Entry<Integer, Integer> entry : armiesPerTerritory.entrySet()) {
 			reinforcements[i][0] = entry.getKey();
 			reinforcements[i][1] = entry.getValue();
 			i++;
 			try {
-				gameStateManager.reinforce(currentPlayer, entry.getKey(), entry.getValue());
+				gameStateManager.reinforce(currentPlayer, entry.getKey(),
+						entry.getValue());
 			} catch (BoardException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -512,13 +542,15 @@ public class ClientController implements Runnable {
 			}
 		}
 		expectAcknowledgement();
-		responseGenerator.deployGenerator(reinforcements, currentPlayer, acknowledgementManager.id );
+		responseGenerator.deployGenerator(reinforcements, currentPlayer,
+				acknowledgementManager.id);
 		executeAllCurrentAcknowledgements();
 		checkAcknowledgement();
 	}
 
 	private int tradeInCards() {
-		MakeTurn tradeIn = new MakeTurn("Would you like to trade in cards?", "", true);
+		MakeTurn tradeIn = new MakeTurn("Would you like to trade in cards?",
+				"", true);
 		tradeIn = (MakeTurn) view.addUpdateAndWaitForResponse(tradeIn);
 
 		if (tradeIn.getType().equalsIgnoreCase("tradein")) {
@@ -694,23 +726,19 @@ public class ClientController implements Runnable {
 	}
 
 	private void rollHash(RollHash rollHash) {
-		if (networkDieManager.addHash(rollHash.getPlayerId(), rollHash
-				.getHash(), gameStateManager.model.getGameState()
-				.getNumberOfPlayers())) {
+
+		boolean allHashes = networkDieManager.addHash(rollHash.getPlayerId(),
+				rollHash.getHash(), gameStateManager.model.getGameState()
+						.getNumberOfPlayers());
+		if (allHashes) {
 			responseGenerator.rollNumberGenerator("This is my number",
 					gameStateManager.getLocalPlayerId());
 		}
 	}
 
 	private void rollNumber(RollNumber number) {
-		int returnCode = networkDieManager.addNumber(number.getPlayerId(),
-				number.getNumber());
-		if (returnCode != 0) {
-			System.out.println("Wrong hash for number");
-			shutDown();
-		}
-		if (networkDieManager.isDieRollPossible(gameStateManager.model
-				.getGameState().getNumberOfPlayers())) {
+		boolean finished = networkDieManager.addNumber(number.getPlayerId(),number.getNumber(), gameStateManager.model.getGameState().getNumberOfPlayers());
+		if (finished) {
 			dieRolls = networkDieManager.getDieRolls();
 			if (state == State.INITIALISE) {
 				setFirstPlayerId();
@@ -745,10 +773,11 @@ public class ClientController implements Runnable {
 	}
 
 	private void localClaimTurn(ClaimTerritory claimTerritory) {
-		
-		//TODO: CHECK EVERY LINE OF CAROLINES CODE :P
+
+		// TODO: CHECK EVERY LINE OF CAROLINES CODE :P
 		responseGenerator.setupGenerator(gameStateManager.getLocalPlayerId(),
-				claimTerritory.getTerritoryID(), acknowledgementManager.getAcknowledgementId());
+				claimTerritory.getTerritoryID(),
+				acknowledgementManager.getAcknowledgementId());
 		claim(gameStateManager.getLocalPlayerId(),
 				claimTerritory.getTerritoryID());
 	}
@@ -782,7 +811,7 @@ public class ClientController implements Runnable {
 		setNextPlayer();
 	}
 
-	private void playCards(PlayCards playCards) {
+	private void playCards(PlayCards playCards) {currentPlayer = (int) dieRolls[0];
 		if (playCards.getPlayerId() != currentPlayer) {
 			// TODO error handling
 			shutDown();
@@ -898,7 +927,6 @@ public class ClientController implements Runnable {
 				+ defendTerritory.getArmiesUsed(), 6,
 				gameStateManager.getLocalPlayerId()));
 		processDieRolls();
-		int[] dieRolls = networkDieManager.getDieRolls();
 		boolean captured = false;
 		try {
 			captured = gameStateManager.defend(attack.getPlayerId(),
@@ -934,7 +962,6 @@ public class ClientController implements Runnable {
 								+ defend.getNumberOfArmies(), 6,
 								gameStateManager.getLocalPlayerId()));
 						processDieRolls();
-						int[] dieRolls = networkDieManager.getDieRolls();
 						boolean captured = gameStateManager.defend(
 								attack.getPlayerId(),
 								attack.getOriginTerritory(),
@@ -1043,8 +1070,9 @@ public class ClientController implements Runnable {
 
 	private void expectAcknowledgement() {
 		executeAllCurrentAcknowledgements();
-		acknowledgementManager.incrementAcknowledgementIdAndExpectAcknowledgment();
-		
+		acknowledgementManager
+				.incrementAcknowledgementIdAndExpectAcknowledgment();
+
 	}
 
 	private void drawCards() {
@@ -1106,18 +1134,18 @@ public class ClientController implements Runnable {
 	public synchronized void handleAction(Action action) {
 		actions.add(action);
 	}
-	
+
 	private synchronized Action pollAction() {
 		return actions.poll();
 	}
-	
+
 	private synchronized Action peekAction() {
 		return actions.peek();
 	}
-	
+
 	private synchronized boolean isActionEmpty() {
 		return actions.isEmpty();
-		
+
 	}
 
 	public GameStateManager getGameStateManager() {
@@ -1126,7 +1154,7 @@ public class ClientController implements Runnable {
 
 	private void shutDown() {
 		// TODO close resources etc
-		///System.exit(0);
+		// /System.exit(0);
 		System.err.println("A fatal error has occured.");
 	}
 }
