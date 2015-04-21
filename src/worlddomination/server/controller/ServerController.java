@@ -174,9 +174,8 @@ public class ServerController implements Runnable{
 			response= responseGenerator.acceptJoinGameGenerator(connections.size(), 20, 30);
 			server.sendToOne(player_id,response);
 			for(int i =0;i<connections.size();i++){
-				if(connections.get(i).getName()!=null){
 					playersJoined.put(connections.get(i).getPlayer_id(),connections.get(i).getName());
-				}
+				
 			}
 			response = responseGenerator.playersJoined(playersJoined);
 			sendPlayersToGui(playersJoined);

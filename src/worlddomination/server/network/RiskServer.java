@@ -1,6 +1,7 @@
 package worlddomination.server.network;
 
 import worlddomination.server.controller.ServerController;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -43,10 +44,14 @@ public class RiskServer implements Runnable{
 			ssocket = new ServerSocket(port);
 			System.out.println("listening");
 			while(true){
-				Socket socket = ssocket.accept();
-				RiskServerThread worker = new RiskServerThread(i, socket, ackTimeout, moveTimeout, controller, connections);
-				Thread connectionThread = new Thread(worker);
-				connectionThread.start();
+				Socket socket = ssocket.accept();	
+				ServerClientThread client = new ServerClientThread(i ,socket, ackTimeout,moveTimeout, controller);
+				ServerConnection connection = new ServerConnection(i ,client);
+				connections.add(connection);
+				Thread t = new Thread(client);
+				t.start();
+				System.out.println("connected");
+				i++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
