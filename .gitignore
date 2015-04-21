@@ -24,3 +24,4 @@ gwt-unitCache/
 *.nocache.js
 
 war/config.codekit
+war/WEB_INF/classes/.gitignore
