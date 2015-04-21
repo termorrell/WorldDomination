@@ -482,7 +482,7 @@ public class ClientController implements Runnable {
 		Map<Integer, Integer> armiesPerTerritory = new HashMap<> ();
 		for (int i : territories) {
 			if(armiesPerTerritory.containsKey(i)) {
-				armiesPerTerritory.put(i, armiesPerTerritory.get(i));
+				armiesPerTerritory.put(i, armiesPerTerritory.get(i) + 1);
 			} else {
 				armiesPerTerritory.put(i, 1);
 			}
