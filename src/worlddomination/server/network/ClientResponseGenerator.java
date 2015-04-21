@@ -158,6 +158,7 @@ public class ClientResponseGenerator {
         String object = response.toString();
         object = object.replaceAll("\"", "\\\"");
         message.put("message", object);
+        System.out.println(message.toString());
         connection.sendClientMessage(message);
     }
 

@@ -17,6 +17,7 @@ public class RiskServer implements Runnable{
 	private int moveTimeout;
 	private ServerController controller;
 	private boolean portLocated;
+	private static int i = 1;
 
 	/**
 	 * Constructor for server
@@ -39,18 +40,13 @@ public class RiskServer implements Runnable{
 
 		try {
 			locateAvailablePort();
-			int i=1;
 			ssocket = new ServerSocket(port);
 			System.out.println("listening");
 			while(true){
 				Socket socket = ssocket.accept();
-				ServerClientThread client = new ServerClientThread(i,socket, ackTimeout,moveTimeout, controller);
-				ServerConnection connection = new ServerConnection(i,client);
-				connections.add(connection);
-				Thread t = new Thread(client);
-				t.start();
-				System.out.println("connected");
-				i++;
+				RiskServerThread worker = new RiskServerThread(i, socket, ackTimeout, moveTimeout, controller, connections);
+				Thread connectionThread = new Thread(worker);
+				connectionThread.start();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

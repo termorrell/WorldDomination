@@ -245,7 +245,7 @@ public class ClientApiManager implements ApiMethods {
     private void deployReceived(JSONObject json) {
         JSONArray payload = json.getJSONArray("payload");
         int[][] deployMove;
-        deployMove = new int[payload.length()][payload.length()];
+        deployMove = new int[payload.length()][2];
         for (int i = 0; i < payload.length(); i++) {
             JSONArray innerArray = payload.getJSONArray(i);
             for (int y = 0; y < innerArray.length(); y++) {

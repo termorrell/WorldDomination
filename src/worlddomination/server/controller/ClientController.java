@@ -82,7 +82,7 @@ public class ClientController implements Runnable {
 	int numberOfArmiesForTradedCards = 4;
 
 	Thread clientThread;
-	RiskClient client;
+	public RiskClient client;
 	
 	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
