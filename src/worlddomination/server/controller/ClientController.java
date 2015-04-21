@@ -1101,6 +1101,7 @@ public class ClientController implements Runnable {
 
 	private void shutDown() {
 		// TODO close resources etc
-		System.exit(0);
+		///System.exit(0);
+		System.err.println("A fatal error has occured.");
 	}
 }
