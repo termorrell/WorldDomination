@@ -332,12 +332,16 @@ public class ClientController implements Runnable {
 			view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
 			numberOfArmies.put(currentPlayer,
 					numberOfArmies.get(currentPlayer) - 1);
-			executeAllCurrentAcknowledgements();
-			acknowledgementManager.expectAcknowledgement();
+			
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
 						.addUpdateAndWaitForResponse(new ClaimTerritory("Please select a territory to claim"));
 				localSetupTurn(claimTerritory);
+			
+				acknowledgementManager.expectAcknowledgement();
+				collectingAcknowledgements = true;
+				executeAllCurrentAcknowledgements();
+
 			} else {
 				executeActionsUntilIncludingType(new Setup(0, 0, 0));
 			}
@@ -719,9 +723,6 @@ public class ClientController implements Runnable {
 		} else if (update instanceof DistributeArmy) {
 			localDistributeTurn((DistributeArmy) update);
 		}
-
-		acknowledgementManager.expectAcknowledgement();
-		collectingAcknowledgements = true;
 	}
 
 	private void localClaimTurn(ClaimTerritory claimTerritory) {
