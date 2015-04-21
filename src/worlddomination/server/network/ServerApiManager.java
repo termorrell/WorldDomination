@@ -127,7 +127,7 @@ public class ServerApiManager implements ApiMethods{
 
     private void pingReceived(JSONObject json) {
         int numberPlayers;
-        if(json.optInt("payload")!=0){
+        if(!json.isNull("payload")){
             numberPlayers = json.getInt("payload");
         }else{
             numberPlayers = -1;
