@@ -83,14 +83,14 @@ public class ClientController implements Runnable {
 
 	Thread clientThread;
 	public RiskClient client;
+	int port;
+	String ipAddress;
 	
 	public ClientController(ControllerApiInterface view, String ipAddress, int port) {
 		this.view = view;
 		this.gameStateManager = new GameStateManager();
-		this.client = new RiskClient(port, ipAddress, this);
-		this.clientThread = new Thread(this.client);
-		this.clientThread.start();
-		this.responseGenerator = new ClientResponseGenerator(client);
+		this.port = port;
+		this.ipAddress = ipAddress;
 		this.acknowledgementManager = new AcknowledgementManager();
 	}
 
@@ -98,8 +98,16 @@ public class ClientController implements Runnable {
 
 	public void run() {
 		addLocalPlayerInfo();
+		initClient();
 		join();
 		gameLoop();
+	}
+	
+	private void initClient() {
+		this.client = new RiskClient(port, ipAddress, this);
+		this.clientThread = new Thread(this.client);
+		this.clientThread.start();
+		this.responseGenerator = new ClientResponseGenerator(client);
 	}
 
 	/*
