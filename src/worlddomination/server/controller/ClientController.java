@@ -332,8 +332,9 @@ public class ClientController implements Runnable {
 			view.addUpdate(new MapUpdate("", gameStateManager.serializeMap()));
 			numberOfArmies.put(currentPlayer,
 					numberOfArmies.get(currentPlayer) - 1);
+			executeAllCurrentAcknowledgements();
+			acknowledgementManager.expectAcknowledgement();
 			if (currentPlayer == gameStateManager.getLocalPlayerId()) {
-				executeAllCurrentAcknowledgements();
 				ClaimTerritory claimTerritory = (ClaimTerritory) view
 						.addUpdateAndWaitForResponse(new ClaimTerritory("Please select a territory to claim"));
 				localSetupTurn(claimTerritory);
