@@ -697,7 +697,7 @@ public class ClientController implements Runnable {
 		if (networkDieManager.addHash(rollHash.getPlayerId(), rollHash
 				.getHash(), gameStateManager.model.getGameState()
 				.getNumberOfPlayers())) {
-			responseGenerator.rollNumberGenerator("This is my number",
+			responseGenerator.rollNumberGenerator(networkDieManager.getLocalNumber(),
 					gameStateManager.getLocalPlayerId());
 		}
 	}
@@ -898,7 +898,7 @@ public class ClientController implements Runnable {
 				+ defendTerritory.getArmiesUsed(), 6,
 				gameStateManager.getLocalPlayerId()));
 		processDieRolls();
-		int[] dieRolls = networkDieManager.getDieRolls();
+		dieRolls = networkDieManager.getDieRolls();
 		boolean captured = false;
 		try {
 			captured = gameStateManager.defend(attack.getPlayerId(),
@@ -934,7 +934,7 @@ public class ClientController implements Runnable {
 								+ defend.getNumberOfArmies(), 6,
 								gameStateManager.getLocalPlayerId()));
 						processDieRolls();
-						int[] dieRolls = networkDieManager.getDieRolls();
+						dieRolls = networkDieManager.getDieRolls();
 						boolean captured = gameStateManager.defend(
 								attack.getPlayerId(),
 								attack.getOriginTerritory(),

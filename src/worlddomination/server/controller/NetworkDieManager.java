@@ -44,6 +44,7 @@ public class NetworkDieManager {
     public int addNumber(int playerId, String hexNumber) {
         byte[] numberInBytes = convertHexToByte(hexNumber);
         numbers.put(playerId, new BigInteger(numberInBytes));
+        
 // TODO verfication
 
 //        byte[] numberInBytes = convertHexToByte(hexNumber);
@@ -87,7 +88,6 @@ public class NetworkDieManager {
         for (int i = 0; i < rolls.length; i++) {
             rolls[i] = random.nextInt(numberOfFaces);
         }
-
         return rolls;
     }
 
@@ -108,5 +108,9 @@ public class NetworkDieManager {
         }
         return bytes;
     }
+
+	public String getLocalNumber() {
+		return convertByteToHex(numbers.get(localPlayerId).toByteArray());
+	}
 
 }
