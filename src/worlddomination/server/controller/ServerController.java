@@ -35,7 +35,6 @@ public class ServerController implements Runnable{
 	boolean beginGame, gameStarted;
 	String host;
 	int port, acknowCount;
-	HashMap<Integer,String> playersJoined = new HashMap<>();
 	/**
 	 * Creates the server controller and initializes all the variables, also runs a server on a new thread
 	 * @param view view for updating the GUI
@@ -170,13 +169,13 @@ public class ServerController implements Runnable{
 		int player_id = connections.get(connections.size()-1).getPlayer_id();
 		connections.get(connections.size()-1).setName(join.getPlayer_name());
 		JSONObject response;
+		HashMap<Integer,String> playersJoined = new HashMap<>();
 		if(connections.size()<=6){
 			response= responseGenerator.acceptJoinGameGenerator(connections.size(), 20, 30);
 			server.sendToOne(player_id,response);
 			for(int i =0;i<connections.size();i++){
-				if(connections.get(i).getName()!=null){
 					playersJoined.put(connections.get(i).getPlayer_id(),connections.get(i).getName());
-				}
+				
 			}
 			response = responseGenerator.playersJoined(playersJoined);
 			sendPlayersToGui(playersJoined);
