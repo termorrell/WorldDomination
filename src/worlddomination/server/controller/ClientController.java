@@ -132,11 +132,21 @@ public class ClientController implements Runnable {
 	}
 
 	private void executeActionsUntilIncludingType(Action type) {
-		while (!isActionEmpty()) {
-			Action nextAction = pollAction();
-			executeAction(nextAction);
-			if (type.getClass().equals(nextAction.getClass())) {
-				break;
+		boolean found = false;
+		while (!found) {
+			if(!isActionEmpty()) {
+				Action nextAction = pollAction();
+				executeAction(nextAction);
+				if (type.getClass().equals(nextAction.getClass())) {
+					break;
+				}
+			} else {
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
