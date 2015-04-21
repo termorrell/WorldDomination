@@ -493,7 +493,16 @@ public class ClientController implements Runnable {
 			reinforcements[i][0] = entry.getKey();
 			reinforcements[i][1] = entry.getValue();
 			i++;
-		}		
+			try {
+				gameStateManager.reinforce(currentPlayer, entry.getKey(), entry.getValue());
+			} catch (BoardException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalMoveException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		expectAcknowledgement();
 		responseGenerator.deployGenerator(reinforcements, currentPlayer, acknowledgementManager.id );
 		executeAllCurrentAcknowledgements();
